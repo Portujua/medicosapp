@@ -1,5 +1,5 @@
 angular.module('app')
-  .config(($logProvider, $locationProvider, $provide, toastrConfig) => {
+  .config(($logProvider, $locationProvider, $provide, toastrConfig, ngTableFilterConfigProvider) => {
     // Log configuration
     $logProvider.debugEnabled(true);
 
@@ -32,4 +32,12 @@ angular.module('app')
         window.scrollTo(0, 0);
       };
     });
+
+    // ngTable filter settings
+    ngTableFilterConfigProvider.setConfig({
+      aliasUrls: {
+        date: 'app/settings/ngTableFilters/date.tpl.html'
+      },
+    });
+
   });

@@ -6,3 +6,5 @@ node_modules
 dist
 .temp
 src/app/_includes.scss
+.vscode
+.idea

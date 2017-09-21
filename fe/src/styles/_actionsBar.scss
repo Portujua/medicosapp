@@ -1,7 +1,19 @@
 .actions-bar {
-  margin-bottom: $line-height-computed / 2;
-  // border: solid 1px #ddd;
-  background-color: #f5f5f5;
-  padding: $padding-base-vertical $padding-base-horizontal;
+  border-bottom: solid 1px #ddd;
+  background-color: #fff;
+  padding: 12px 18px;
   @include clearfix();
+
+  .panel > & {
+    border: none;
+    border-bottom: solid 1px #ddd;
+    margin: 0;
+  }
+
+  h4 {
+    display: inline-block;
+    margin-bottom: 0;
+    margin-top: 9px;
+    color: $text-muted;
+  }
 }

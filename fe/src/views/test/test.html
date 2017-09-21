@@ -1,195 +1,103 @@
 <div class="row">
-  <div class="col-lg-12 col-xl-12">
-    <h2>Translation</h2>
-    <code>{{ $ctrl.translate | translate }}</code>
+  <div class="col-xl-4 col-lg-3">
+    <button class="btn btn-default" print-area="['area1', 'area2']">Print multiple areas</button>
+    <button class="btn btn-default" print-area="area1">Print single area</button>
 
-    <hr>
+    <div class="well" id="area1">
+      <h1>{{ $ctrl.greetings | available }}</h1>
+      <p class="lead">Kick-start your next web app with Scaffolar</p>
+      <code>{{ $ctrl.translate | translate }}</code>
 
-    <h2>New classes</h2>
-    <p>Code</p>
-    <p><code>btn-outline</code></p>
-    <p>Result:</p>
-    <button class="btn btn-danger btn-outline">Hello there!</button>
+      <div uib-datepicker ng-model="dt" ></div>
 
-    <hr>
 
-    <h2>Datepicker</h2>
-    <div uib-datepicker ng-model="dt" ></div>
 
-    <hr>
+      <input-switch ng-model="$ctrl.x" input-switch-class="danger">{{ $ctrl.x | json }}</input-switch>
 
-    <h2>Panels</h2>
-    <div class="panel panel-default">
-      <div class="panel-heading">Panel title</div>
-      <div class="panel-body">
-        <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="$ctrl.opened" ng-click="$ctrl.opened = true;"   show-button-bar="true" on-open-focus="true"/>
+      <input-switch ng-model="$ctrl.y"></input-switch>
 
-        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi aspernatur fuga culpa error iste doloribus, doloremque maiores nulla ipsa necessitatibus fugit dicta ducimus, quos odio quod similique animi cupiditate obcaecati?
+      <button class="btn btn-danger btn-outline">Hola mundo!</button>
 
-        <div class="alert alert-warning">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, excepturi hic unde eligendi obcaecati ullam sint porro a voluptatem ut natus, laboriosam accusantium dolor nisi sequi maiores at totam impedit.
+      <p>
+        <button class="btn btn-warning btn-circle" ng-click="$ctrl.remove()"><i class="fa fa-star"></i></button>
+        <button class="btn btn-warning btn-circle btn-lg"><i class="fa fa-star"></i></button>
+        <button class="btn btn-warning btn-circle btn-xl"><i class="fa fa-star"></i></button>
+      </p>
+    </div>
+
+    <div class="row">
+      <div class="col-xl-6"><div class="alert alert-danger">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia et, iste esse commodi. Quidem provident odit iste repellendus ex nihil veniam id aliquid animi, voluptates aperiam soluta voluptatum, quasi recusandae!</div></div>
+      <div class="col-xl-6">
+        <div class="row">
+          <div class="col-xl-5">
+            <div class="alert alert-danger" id="area2">Lorem ipsum dolor sit amet.</div>
+          </div>
+          <div class="col-xl-7">
+            <div class="alert alert-info">Lorem ipsum dolor sit amet.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-xl-4 col-lg-3 col-md-6">
+    <div class="box">
+      <div class="panel panel-default">
+        <div class="panel-heading">hello</div>
+        <div class="panel-body">
+          <input type="text" class="form-control" uib-datepicker-popup ng-model="dt" is-open="$ctrl.opened" ng-click="$ctrl.opened = true;"   show-button-bar="true" on-open-focus="true"/>
+
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eligendi aspernatur fuga culpa error iste doloribus, doloremque maiores nulla ipsa necessitatibus fugit dicta ducimus, quos odio quod similique animi cupiditate obcaecati?
+
+          <button class="btn btn-info">Button</button>
+
+          <div class="alert alert-warning">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, excepturi hic unde eligendi obcaecati ullam sint porro a voluptatem ut natus, laboriosam accusantium dolor nisi sequi maiores at totam impedit.
+          </div>
+
+          <div class="alert alert-success">
+            Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, excepturi hic unde eligendi obcaecati ullam sint porro a voluptatem ut natus, laboriosam accusantium dolor nisi sequi maiores at totam impedit.
+          </div>
         </div>
 
-        <div class="alert alert-success">
-          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur, excepturi hic unde eligendi obcaecati ullam sint porro a voluptatem ut natus, laboriosam accusantium dolor nisi sequi maiores at totam impedit.
+        <table ng-table="$ctrl.tableParams" class="table table-bordered table-striped" show-filter="true">
+          <colgroup>
+            <col width="70%">
+          </colgroup>
+          <tr ng-repeat="user in $data">
+            <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
+              <span editable-text="user.name" buttons="no" onaftersave="" onbeforesave="" e-required>
+                {{ user.name | available }}
+              </span>
+            </td>
+            <td title="'Age'" filter="{ age: 'number' }" sortable="'age'">
+              <span editable-number="user.age" e-step="any" e-min="0" e-max="999" buttons="no" onaftersave="" onbeforesave="" e-required>
+                {{ user.age | number | available }}
+              </span>
+            </td>
+          </tr>
+        </table>
+
+        <div class="panel-body bordered-top">
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ea sapiente magnam, velit praesentium non suscipit reiciendis nesciunt. Suscipit, repudiandae, eveniet odio quisquam maiores fugit expedita ducimus minima ratione, dignissimos blanditiis.
         </div>
       </div>
     </div>
+  </div>
 
-    <hr>
-
-    <h2>Tables</h2>
-    <p><small>* Click on any field to edit</small></p>
-    <table ng-table="$ctrl.tableParams" class="table table-bordered table-striped" show-filter="true">
-      <colgroup>
-        <col width="70%">
-      </colgroup>
-      <tr ng-repeat="user in $data">
-        <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
-          <span editable-text="user.name" buttons="no" onaftersave="" onbeforesave="" e-required>
-            {{ user.name | available }}
-          </span>
-        </td>
-        <td title="'Age'" filter="{ age: 'number' }" sortable="'age'">
-          <span editable-number="user.age" e-step="any" e-min="0" e-max="999" buttons="no" onaftersave="" onbeforesave="" e-required>
-            {{ user.age | number | available }}
-          </span>
-        </td>
-      </tr>
-    </table>
-
-    <hr>
-
-    <h2>Toastr</h2>
-    <button class="btn btn-primary" ng-click="$ctrl.something()" ui-sref="root.test">Show me some toastr's</button>
-
-    <hr>
-
-    <h2>Modals</h2>
-    <button class="btn btn-primary" ng-click="$ctrl.open()">Open modal</button>
-
-    <hr>
-
-    <h2>Angular Busy</h2>
-    <p>Angular Busy is used for loading states inside containers. Similar to <a href="http://chieffancypants.github.io/angular-loading-bar/" target="_blank">Angular Loading Bar</a></p>
-    <p>Example:</p>
-    <div class="panel panel-default" cg-busy="$ctrl.randomRequest">
-      <div class="panel-heading">cgBusy</div>
-      <div class="panel-body">
-        <p>We will simulate a web request to some website.</p>
-
-        <button class="btn btn-primary" ng-click="$ctrl.someRequest()">Simulate web request</button>
-      </div>
+  <div class="col-xl-4 col-lg-6">
+    <div class="jumbotron">
+      Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tenetur quasi architecto labore repudiandae quidem possimus fugiat nisi illo eaque molestias, enim facere autem a magnam, vel est culpa hic aliquam!
     </div>
+  </div>
+</div>
 
-    <hr>
+<div class="row">
+  <div class="col-xl-12">
+    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Facilis culpa provident sit nulla explicabo sed, impedit aut enim neque quam praesentium corporis voluptate dolores, voluptas totam deleniti, possimus magni! Similique.</p>
 
-    <h2>Angular Strap <small><a class="btn btn-link" href="http://mgcrea.github.io/angular-strap/#/page-one" target="_blank">[visit website]</a></small></h2>
-
-    <div class="subpanel">
-      <h3>Timepicker</h3>
-      <div class="form-group" ng-class="{'has-error': timepickerForm.time.$invalid}">
-        <label class="control-label"><i class="fa fa-clock-o"></i> Time <small>(as date)</small></label>
-        <input type="text" class="form-control" size="8" ng-model="time" name="time" bs-timepicker>
-      </div>
-
-      <hr>
-
-      <h3>Aside</h3>
-      <button type="button" class="btn btn-primary" bs-aside="{ title: 'Some title', content: 'Lorem ipsum dolor sit amet,consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam'}"">Click to toggle aside
-      </button>
-
-      <hr>
-
-      <h3>Buttons</h3>
-      <label>Toggle:</label>
-      <button type="button" class="btn btn-default" ng-model="button.toggle" bs-checkbox>Toggle</button>
-      <!-- You can also use custom values with the `data-true-value` & `data-false-value` attributes -->
-
-      <hr><label>Checkboxes:</label>
-      <div class="btn-group" ng-model="button.checkbox" bs-checkbox-group>
-        <label class="btn btn-default"><input type="checkbox" value="left"> Left</label>
-        <label class="btn btn-default"><input type="checkbox" value="middle"> Middle</label>
-        <label class="btn btn-default"><input type="checkbox" value="right"> Right</label>
-        <!-- Children get compiled by `bs-checkbox-group` to :
-        <label class="btn btn-default"><input type="checkbox" value="left" ng-model="button.checkbox.left" bs-checkbox> Left</label>
-        ...
-        -->
-      </div>
-
-      <hr><label>Radios:</label>
-      <div class="btn-group" ng-model="button.radio" bs-radio-group>
-        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="0"> First</label>
-        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="1"> Second</label>
-        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="2"> Third</label>
-        <!-- Children get compiled by `bs-radio-group` to :
-        <label class="btn btn-default"><input type="radio" class="btn btn-default" value="left" ng-model="button.radio" bs-radio> Left</label>
-        ...
-        -->
-      </div>
-
-      <hr>
-
-      <h3>Selects</h3>
-      <label>Single select:&nbsp;</label>
-      <button type="button" class="btn btn-default" ng-model="$ctrl.selectedIcon" data-html="1" data-toggle="true" bs-options="icon.value as icon.label for icon in $ctrl.icons" bs-select>
-        Action <span class="caret"></span>
-      </button>
-      <hr>
-      <label>Multiple select:&nbsp;</label>
-      <button type="button" class="btn btn-default" ng-model="$ctrl.selectedIcons" data-html="1" data-multiple="1" data-animation="am-flip-x" bs-options="icon.value as icon.label for icon in $ctrl.icons" bs-select>
-        Action <span class="caret"></span>
-      </button>
-    </div>
-
-    <hr>
-
-    <h2>ngEmbed</h2>
-    <p>An AngularJS filter/directive for converting text into emoticons, embedding videos (youtube/vimeo/mp4,ogg), audio, pdf, highlighting code syntax and embedding almost every service in an ordinary text string.</p>
-
-    <p>Works like this:</p>
-    <pre>ng-bind-html="$ctrl.embedText | embed"</pre>
-
-    <br>
-    <p>So that this plain text:</p>
-    <pre ng-bind-html="$ctrl.embedText"></pre>
-
-    <p>Becomes this:</p>
-    <pre ng-bind-html="$ctrl.embedText | embed"></pre>
-
-    <hr>
-
-    <h2>Autocomplete <small><a class="btn btn-link" href="https://github.com/ghiden/angucomplete-alt" target="_blank">(angucomplete-alt)</a></small></h2>
-
-    <p>Countries in the world</p>
-    <angucomplete-alt id="ex1"
-      placeholder="Search countries"
-      pause="100"
-      selected-object="$ctrl.selectedCountry"
-      local-data="$ctrl.countries"
-      search-fields="name"
-      title-field="name"
-      minlength="1"
-      input-class="form-control form-control-small"
-      match-class="autocomplete-highlight"/>
-
-      <p>Custom search with images</p>
-      <div angucomplete-alt id="ex2"
-        placeholder="Search people"
-        pause="300"
-        selected-object="$ctrl.selectedPerson"
-        local-data="$ctrl.people"
-        local-search="$ctrl.localSearch"
-        title-field="firstName,surname"
-        description-field="instagram"
-        image-field="pic"
-        minlength="1"
-        input-class="form-control form-control-small"
-        match-class="highlight">
-      </div>
-
-    <hr>
-
-    <small><a href="http://ngmodules.org/" target="_blank">More here</a></small>
+    <button class="btn btn-primary" ng-click="$ctrl.something()" ui-sref="root.test">Go test</button>
+    <button class="btn btn-primary" ng-click="$ctrl.open()">Modal</button>
+    <lithology-button path="lithology" ></lithology-button>
   </div>
 </div>

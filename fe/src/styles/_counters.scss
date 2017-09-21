@@ -1,0 +1,21 @@
+.counter:not([data-counter='0']):after {
+  position: absolute;
+  content: attr(data-counter);
+  margin-left: -4.8775px;
+  margin-top: -4.8775px;
+  padding: 0 2px;
+  min-width: 13.755px;
+  height: 13.755px;
+  line-height: 13.755px;
+  background: #E52325;
+  border-radius: 10px;
+  color: #fff;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 10.004px;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.counter[data-counter='0'] {
+  margin-right: 0;
+}

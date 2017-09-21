@@ -1,0 +1,80 @@
+<div id="uploader" class="modal-header">
+  <h3 class="modal-title">Attachments</h3>
+</div>
+
+<div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isUploading ? 'Uploading...' : 'Loading...' }">
+  <div class="row">
+    <div class="col-4">
+      <input type="text" class="form-control input-lg margin-sm-bottom" name="tag" id="tag" placeholder="Search..." ng-model="$ctrl.search.text">
+
+      <uib-tabset active="activePill" justified="true" type="pills">
+        <uib-tab index="0">
+          <uib-tab-heading>
+            <i class="fa fa-fw fa-tags"></i> Tags
+          </uib-tab-heading>
+          <div class="list-group margin-sm-top hug-bottom">
+            <a href="" class="list-group-item" ng-class="{ 'active': $ctrl.search.folder === undefined }" ng-click="$ctrl.search.folder = undefined">
+              <span class="badge">{{ $ctrl.files.length | number }}</span>
+              <i class="fa fa-fw" ng-class="{ 'fa-folder-open-o': $ctrl.search.folder === undefined, 'fa-folder-o': $ctrl.search.folder !== undefined }"></i>
+              All
+            </a>
+            <a href="" class="list-group-item" ng-class="{ 'active': $ctrl.search.folder === item.tag }" ng-repeat="item in $ctrl.folders" ng-click="$ctrl.search.folder = item.tag">
+              <span class="badge">{{ item.count | number }}</span>
+              <i class="fa fa-fw" ng-class="{ 'fa-folder-open-o': $ctrl.search.folder === item.tag, 'fa-folder-o': $ctrl.search.folder !== item.tag }"></i>
+              {{ item.tag | available:'Uncategorized' }}
+            </a>
+          </div>
+        </uib-tab>
+        <uib-tab index="1">
+          <uib-tab-heading>
+            <i class="fa fa-fw fa-upload"></i> Upload
+          </uib-tab-heading>
+
+          <form name="form" autocomplete="off" class="margin-sm-top">
+            <input type="file" class="form-control margin-sm-bottom" name="file" preview="$ctrl.preview" image="$ctrl.image" required ng-disabled="$ctrl.isUploading"  >
+
+            <input type="text" class="form-control margin-sm-bottom" name="newTag" id="newTag" placeholder="Add a tag" ng-model="$ctrl.tag" uib-typeahead="tag for tag in $ctrl.loadTags($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="true" typeahead-append-to-body="true">
+
+            <button class="btn btn-success btn-lg btn-block margin-sm-bottom" type="button" ng-click="$ctrl.upload($ctrl.preview)" ng-disabled="!$ctrl.preview.size || form.$invalid || $ctrl.isUploading">
+              <i class="fa fa-fw fa-paperclip"></i> Upload
+            </button>
+          </form>
+        </uib-tab>
+      </uib-tabset>
+    </div>
+
+    <div class="col-8">
+      <div class="row">
+        <div class="col-6" ng-repeat="file in $ctrl.files | filter:{ tag: $ctrl.search.folder, name: $ctrl.search.text }">
+          <div class="row">
+            <div class="col-3">
+              <a class="block padding-sm-tb" ng-href="{{ file.path }}" target="_self" download>
+                <i class="fa fa-fw fa-file{{ file.faType }} fa-4x" uib-tooltip="{{ file.name }}" tooltip-append-to-body="true"></i>
+              </a>
+            </div>
+            <div class="col">
+              <small class="text-muted block padding-sm-left">
+                <h5 class="margin-xs-bottom">
+                  <span editable-text="file.name" onbeforesave="$ctrl.save($data, 'name', file.id)" buttons="no">
+                    {{ file.name | s:'prune':[20] | available }}
+                  </span>
+                </h5>
+                <span editable-text="file.tag" e-uib-typeahead="tag for tag in $ctrl.loadTags($viewValue)" onbeforesave="$ctrl.save($data, 'tag',  file.id)" buttons="no" >
+                  {{ file.tag | lowercase | available }}
+                </span>
+              </small>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <not-found expression="!$ctrl.files.length" message="No attachments available for this entity."></not-found>
+    </div>
+  </div>
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isUploading">
+    Close
+  </button>
+</div>

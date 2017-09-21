@@ -1,5 +1,5 @@
 // http://jsfiddle.net/kQZw8/157/
-let regexIso8601 = /^\d{4}(-\d\d(-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?)?)?$/i;
+let regexIso8601 = /^\d{4}-\d\d-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?$/i;
 
 function convertDateStringsToDates(input) {
   // Ignore things that aren't objects.
@@ -8,17 +8,22 @@ function convertDateStringsToDates(input) {
   }
 
   for (let key in input) {
-    if (!input.hasOwnProperty(key)) continue;
+    if (!input.hasOwnProperty(key)) {
+      continue;
+    }
 
     let value = input[key];
     let match;
     // Check for string properties which look like dates.
     // TODO: Improve this regex to better match ISO 8601 date strings.
     if (typeof value === 'string' && (match = value.match(regexIso8601))) {
+      // match[1] = "THH:mm:ss:Z" or null if the date is "2017-12-25"
+      // We need to append the current time THH:mm:ssZ
+      match[1] = !match[1] ? new Date().toJSON().substr(10) : '';
       // Assume that Date.parse can parse ISO 8601 strings, or has been shimmed in older browsers to do so.
-      let milliseconds = Date.parse(match[0]);
+      let milliseconds = Date.parse(match[0] + match[1]);
       if (!isNaN(milliseconds)) {
-          input[key] = new Date(milliseconds);
+        input[key] = new Date(milliseconds);
       }
     } else if (typeof value === 'object') {
       // Recurse into object
@@ -33,8 +38,6 @@ angular.module('app')
       convertDateStringsToDates(response);
       return response;
     });
-
-    return;
 
     $httpProvider.interceptors.push(['$q', '$location', '$injector', ($q, $location, $injector) => {
       return {
@@ -52,11 +55,14 @@ angular.module('app')
         responseError: (rejection) => {
           let toastr = $injector.get('toastr'),
               Auth = $injector.get('Auth'),
+              type =  'error',
               textContent = 'Something went wrong. Please, try again.';
 
           if (rejection.status === 401) {
+            type = 'warning';
+
             if (_.isEmpty(Auth.getSession())) {
-              textContent = 'Wrong email/password combination.';
+              textContent = 'Wrong username/password combination.';
             } else {
               textContent = 'Your session has expired. Re-enter your credentials.';
               // Despues de mostrar el mensaje redirijo
@@ -74,56 +80,59 @@ angular.module('app')
             textContent = 'Sorry but the service you are looking for has not be found.';
           }
 
-          // if (rejection.status === 400 && !_.isEmpty(rejection.data) && !_.isEmpty(rejection.data.message)) {
-          //   // Bad request. Invalid attr
-          //   if (s.contains(rejection.data.message, 'The given password does not match')) {
-          //     textContent = 'Hemos detectado que la clave actual introducida es incorrecta.';
-          //   }
+          if (rejection.status === 400) {
+            if (rejection.data && rejection.data.message) {
+              // Repeated item
+              if (_.contains(rejection.data.message, 'Repeated Item')) {
+                textContent = 'The value you\'re trying to create already exists.';
+                type = 'warning';
+              }
 
-          //   if (s.contains(rejection.data.message, 'Already merged account in')) {
-          //     textContent = 'Una de las cuentas seleccionadas ya ha sido compensada.';
-          //   }
+              // Item has childrens
+              if (_.contains(rejection.data.message, 'Can not delete this category, it has entities attached to it')) {
+                textContent = 'Item can not be deleted because it has other related items.';
+                type = 'warning';
+              }
 
-          //   if (s.contains(rejection.data.message, 'Error while importing BankTransactions, balances do not match')) {
-          //     textContent = 'El saldo final no fue el esperado.';
-          //   }
+              // No coordinator
+              // Personnel not in this position on job
+              if (_.contains(rejection.data.message, 'Personnel not in this position on job')) {
+                textContent = 'Only coordinators can do that action.';
+                type = 'warning';
+              }
 
-          //   if (s.contains(rejection.data.message, 'Accounts can not be of the same client')) {
-          //     textContent = 'Las cuentas no pueden pertenecer al mismo cliente.';
-          //   }
+              // Hour overlap
+              if (_.contains(rejection.data.message, 'Hours Overlapped')) {
+                textContent = 'The hours that you are trying to create overlap with others.';
+                type = 'warning';
+              }
 
-          //   if (s.contains(rejection.data.message, 'Amount overflows account total amount')) {
-          //     textContent = 'El monto sobrepasa el monto total de la cuenta.';
-          //   }
+              // Inventory quantity
+              if (_.contains(rejection.data.message, 'VIOLATION:InventoryEntry.quantityAvailable  Quantity available can not be negative ')) {
+                textContent = 'There aren\'t enough pieces to ship.';
+                type = 'warning';
+              }
+            }
 
-          //   if (s.contains(rejection.data.message, 'required documents are missing')) {
-          //     textContent = 'Faltan algunos documentos requeridos.';
-          //   }
-
-          //   if (s.contains(rejection.data.message, 'Password must cointain special characters')) {
-          //     textContent = 'La nueva clave debe contener mínimo 8 caracteres con al menos 1 letra y 1 caracter especial.';
-          //   }
-
-          //   if (s.contains(rejection.data.message, 'User with email:')) {
-          //     textContent = 'Ya se ha registrado un usuario con ese mismo correo.';
-          //   }
-
-          //   if (s.contains(rejection.data.message, 'IdentificationDocumentNumber')) {
-          //     textContent = 'El número de documento ya ha sido registrado anteriormente.';
-          //   }
-
-          //   if (s.contains(rejection.data.message, 'Nickname')) {
-          //     textContent = 'El alias ya ha sido registrado anteriormente.';
-          //   }
-          //   console.log(rejection.data);
-          // }
-
-          // message.show(_.isEmpty(textContent) ? undefined : textContent);
-
-          // return $q.reject(rejection);
+            // if (rejection.data && rejection.data.errors) {
+            //   _.each(rejection.data.errors, (error, i) => {
+            //     if (i === 0) {
+            //       textContent = '';
+            //     }
+            //     textContent += `${error.EN_message}.<br>`;
+            //   });
+            //   type = 'warning';
+            // }
+          }
 
           // Message
-          toastr.error(textContent, 'Message');
+          switch (type) {
+            case 'warning':
+              toastr.warning(textContent, 'Warning');
+              break;
+            default:
+              toastr.error(textContent, 'Message');
+          }
 
           console.error('Failed with', rejection.status);
           return $q.reject(rejection);

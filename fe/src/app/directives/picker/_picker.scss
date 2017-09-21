@@ -1,0 +1,63 @@
+#picker {
+  border: solid 1px #ddd;
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: #edeff5;
+  white-space: nowrap;
+  min-height: 50px;
+  // max-height: 66px;
+  @include clearfix();
+
+  .picker-icon {
+    float: left;
+    text-align: center;
+    padding: 0 10px;
+    line-height: 48px;
+    height: 48px;
+    overflow: hidden;
+
+    &.with-subtitle {
+      line-height: 64px;
+      height: 64px;
+    }
+  }
+
+  .picker-entry {
+    min-width: 90px;
+    background-color: #FFF;
+    display: inline-block;
+    text-align: center;
+    padding: 14px 20px;
+    border-left: solid 1px #ddd;
+    cursor: pointer;
+
+    &:last-child {
+      border-right: solid 1px #ddd;
+      margin-right: 45px;
+    }
+
+    &.active {
+      background-color: $brand-success;
+      color: #fff;
+      pointer-events: none;
+      span { color: #eee; }
+      &:hover { background-color: $brand-success; }
+    }
+
+    &:hover {
+      background-color: #edeff5;
+    }
+
+    span {
+      font-size: 85%;
+      display: block;
+      color: #888;
+    }
+
+    strong {
+      // font-size: 14px;
+    }
+  }
+
+
+}

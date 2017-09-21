@@ -1,0 +1,66 @@
+<div>
+  <div class="frame" cg-busy="$ctrl.isLoading || $ctrl.isLoadingData">
+    <div class="margin-bottom clearfix">
+      <div class="pull-left dropdown fw">
+        <h3 class="text-muted hug">
+          ROP Performance
+          <div class="query-filters dropdown-toggle" data-toggle="dropdown">
+            <small class="chart-sub-title">
+              Date: {{ $ctrl.lastSearch.date | date:'dd-MMM' }}
+            </small>
+
+            <small class="chart-sub-title">
+              Rig: {{ $ctrl.lastSearch.rig.name | available:'All' }}
+            </small>
+
+            <small class="chart-sub-title">
+              Formation: {{ $ctrl.lastSearch.formation.itemValue | available:'All' }}
+            </small>
+          </div>
+
+          <form name="form" class="dropdown-menu" ng-submit="$ctrl.load()">
+            <div class="col-12 padding-sm">
+              <p>Date <small class="text-danger" ng-show="form.date.$error.max">Invalid date.</small></p>
+              <div class="input-group">
+                <span class="input-group-addon" id="addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                <input class="form-control" type="date" ng-model="$ctrl.query.date" aria-describedby="addon" max="{{ $ctrl.query.endDate | date:'yyyy-MM-dd' }}" name="date" ng-disabled="$ctrl.isLoadingData" required />
+              </div>
+            </div>
+
+            <div class="col-12 padding-sm">
+              <p>Rig</p>
+
+              <select class="form-control" ng-model="$ctrl.query.rig" ng-options="item as item.name for item in $ctrl.rigs" ng-disabled="$ctrl.isLoadingData">
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <div class="col-12 padding-sm">
+              <p>Formation</p>
+
+              <select class="form-control" ng-model="$ctrl.query.formation" ng-options="item as item.itemValue for item in $ctrl.formations" ng-disabled="$ctrl.isLoadingData">
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <div class="col-12 padding-sm">
+              <button type="submit" ng-disabled="form.$invalid || $ctrl.isLoadingData" class="btn btn-primary btn-outline btn-block">Ok</button>
+            </div>
+          </form>
+        </h3>
+      </div>
+
+      <div class="chart-total flex">
+        <div>{{ $ctrl.best | number:2 | available }}</div>
+
+        <div>{{ $ctrl.slowest | number:2 | available }}</div>
+      </div>
+      <div class="chart-total-addon flex">
+        <small class="text-muted"><i class="fa fa-arrow-up" aria-hidden="true"></i> Best ROP</small>
+        <small class="text-muted"><i class="fa fa-arrow-down" aria-hidden="true"></i> Slowest ROP</small> 
+      </div>
+    </div>
+
+    <highchart id="jobHistory" config="$ctrl.chart"></highchart>
+  </div>
+</div>

@@ -1,0 +1,116 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <div class="actions-bar hug">
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+
+      <comments id="$ctrl.data.id" button-class="btn-default"></comments>
+      <attachment id="$ctrl.data.id" button-class="btn-default"></attachment>
+    </div>
+  </div>
+  <!-- /Main actions -->
+
+  <div class="padding-sm">
+    <div class="row">
+      <collapsable-panel></collapsable-panel>
+
+      <!-- board -->
+      <div class="col-12 col-lg-4 col-xl-3">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Contract Information
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div class="dashboard-body">
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Start Date</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-date="$ctrl.data.startDate" onbeforesave="$ctrl.save($data, 'startDate')" e-max="{{ $ctrl.data.endDate | date:'yyyy-MM-dd' }}" edit-disabled="!$ctrl.session.can('contract', 'edit')">
+                    {{ $ctrl.data.startDate | date:'dd/MMM/yyyy' | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">End Date</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-date="$ctrl.data.endDate" onbeforesave="$ctrl.save($data, 'endDate')" e-min="{{ $ctrl.data.startDate | date:'yyyy-MM-dd' }}" edit-disabled="!$ctrl.session.can('contract', 'edit')">
+                    {{ $ctrl.data.endDate | date:'dd/MMM/yyyy' | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Active?</div>
+                <div class="col-8 dashboard-input">
+                  <toggle ng-model="$ctrl.data.isActive" size="btn-sm" ng-disabled="!($ctrl.session.can('contract', 'activate') && $ctrl.session.can('contract', 'deactivate'))" ng-change="$ctrl.toggleActivation($ctrl.data)"></toggle>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Body -->
+        </div>
+      </div>
+      <!-- /board -->
+
+      <div class="col">
+        <div class="frame expand hug">
+          <scrollable-tabset auto-recalculate="true">
+            <uib-tabset justified="false">
+              <uib-tab index="0" heading="Terms">
+                <div class="actions-bar">
+                  <button class="btn btn-primary btn-outline" type="button" ng-click="$ctrl.addTerm()" ng-if="$ctrl.session.can('contract', 'edit')"><i class="fa fa-fw fa-plus"></i> Add Term</button>
+
+                  <div class="pull-right">
+                    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+                  </div>
+                </div>
+
+                <div class="table-frame hug borderless" cg-busy="{ promise: $ctrl.loadingPromise, message: !$ctrl.isDeleting ? 'Loading...' : 'Deleting...' }">
+                  <div class="table-responsive">
+                    <table class="table table-hover hug" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+                      <colgroup>
+                        <col>
+                        <col>
+                        <col width="33.33333333%">
+                        <col width="33.33333333%">
+                        <col width="33.33333333%">
+                      </colgroup>
+                      <tbody>
+                        <tr ng-repeat="item in $data">
+                          <td class="table-numeration">{{ $index + 1 }}</td>
+                          <td>
+                            <button type="button" class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.removeTerm(item)" ng-disabled="!$ctrl.session.can('contract', 'edit')">
+                              <i class="fa fa-fw fa-times"></i>
+                            </button>
+                          </td>
+                          <td title="'Description'" filter="{ description: 'text' }" sortable="'description'">
+                            {{ item.description }}
+                          </td>
+                          <td title="'Reference Cost'" filter="{ referenceCost: 'number' }" sortable="'referenceCost'" class="text-right">
+                            {{ item.referenceCost | currency:$ctrl.data.contract.currency.itemValue }}
+                          </td>
+                          <td title="'Unit'" sortable="'termUnit.itemValue'" filter="{ 'termUnit.itemValue': 'text' }">
+                            {{ item.termUnit.itemValue }}
+                          </td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </uib-tab>
+
+              <uib-tab index="1" heading="Contract Template">
+                <contracts-dashboard client-contract="$ctrl.data"></contracts-dashboard>
+              </uib-tab>
+            </uib-tabset>
+          </scrollable-tabset>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -1,3 +1,11 @@
+.btn {
+  outline: 0 !important;
+}
+
+.btn-secundary {
+  @include button-variant($btn-secundary-color, $btn-secundary-bg, $btn-secundary-border);
+}
+
 // Outlined buttons
 .btn-outline {
   background-color: transparent;
@@ -6,48 +14,149 @@
 }
 
 .btn-primary.btn-outline { color: $brand-primary; }
+.btn-secundary.btn-outline { color: $brand-secundary; }
 .btn-success.btn-outline { color: $brand-success; }
 .btn-info.btn-outline { color: $brand-info; }
 .btn-warning.btn-outline { color: $brand-warning; }
 .btn-danger.btn-outline { color: $brand-danger; }
 
-.btn-primary.btn-outline:hover,
-.btn-success.btn-outline:hover,
-.btn-info.btn-outline:hover,
-.btn-warning.btn-outline:hover,
-.btn-danger.btn-outline:hover {
-  color: #fff;
+.btn-primary.btn-outline,
+.btn-secundary.btn-outline,
+.btn-success.btn-outline,
+.btn-info.btn-outline,
+.btn-warning.btn-outline,
+.btn-danger.btn-outline {
+  &:hover,
+  &:focus {
+    color: #fff;
+  }
 }
 
 .btn-primary.btn-outline:disabled:hover { background-color: transparent; color: $brand-primary; }
+.btn-secundary.btn-outline:disabled:hover { background-color: transparent; color: $brand-secundary; }
 .btn-success.btn-outline:disabled:hover { background-color: transparent; color: $brand-success; }
 .btn-info.btn-outline:disabled:hover { background-color: transparent; color: $brand-info; }
 .btn-warning.btn-outline:disabled:hover { background-color: transparent; color: $brand-warning; }
 .btn-danger.btn-outline:disabled:hover { background-color: transparent; color: $brand-danger; }
 
-// Circle buttons
-.btn-circle {
-  width: 30px;
-  height: 30px;
-  text-align: center;
-  padding: 6px 0;
-  font-size: 12px;
-  line-height: 1.428571429;
-  border-radius: 15px;
-}
-.btn-circle.btn-lg {
-  width: 50px;
-  height: 50px;
-  padding: 10px 16px;
-  font-size: 18px;
-  line-height: 1.33;
-  border-radius: 25px;
-}
-.btn-circle.btn-xl {
-  width: 70px;
-  height: 70px;
-  padding: 10px 16px;
-  font-size: 24px;
-  line-height: 1.33;
-  border-radius: 35px;
-}
+// New button style
+// @mixin btn-shadow($color, $none: false) {
+//   @if $none {
+//     box-shadow: none !important;
+//   }
+//   @else {
+//     box-shadow: 0px 0px 3px 1px rgba($color, 0.25);
+//   }
+// }
+
+// @mixin apply-flex($align: center, $justify: center) {
+//   display: flex;
+//   align-items: $align;
+//   justify-content: $justify;
+// }
+
+// $btn-classes: primary, secundary, success, info, warning, danger, default, link;
+// $btn-colors: $brand-primary, $brand-secundary, $brand-success, $brand-info, $brand-warning, $brand-danger, #000, #000;
+// $btn-shadows: $brand-primary, $brand-secundary, $brand-success, $brand-info, $brand-warning, $brand-danger, #000, #000;
+
+// @mixin generate-btn-styles() {
+//   $i: 1;
+
+//   @each $class in $btn-classes {
+//     .btn-#{$class}.dropdown-toggle[aria-expanded=true] {
+//       color: #fff !important;
+//       background-color: nth($btn-colors, $i) !important;
+//     }
+
+//     .btn-#{$class}:not(.toggle, .toggle-on, .toggle-off, .toggle-handle) {
+//       color: nth($btn-colors, $i);
+//       background-color: transparent;
+//       text-transform: uppercase;
+//       // letter-spacing: 1.1px;
+//       outline: none !important;
+//       font-weight: bold;
+//       font-size: 85%;
+
+//       @if $class == link {
+//         &:hover, &:active, &:focus, &:visited {
+//           text-decoration: none !important;
+//         }
+//       }
+
+//       &:hover, &:focus, &:active {
+//         @if $class != link {
+//           @include btn-shadow(nth($btn-shadows, $i));
+//         }
+//       }
+
+//       &:not(.dropdown-toggle):hover, &:not(.dropdown-toggle):focus, &:not(.dropdown-toggle):active {
+//         color: nth($btn-colors, $i);
+//       }
+
+//       &:disabled {
+//         @include btn-shadow(#000, true);
+//       }
+//     }
+
+//     $i: $i + 1;
+//   }
+// }
+
+// @include generate-btn-styles();
+
+// .toggle-on, .toggle-off {
+//   text-transform: uppercase;
+//   // letter-spacing: 1.1px;
+//   font-size: 75%;
+//   @include apply-flex();
+// }
+
+// .toggle-handle {
+//   background-color: #fff !important;
+// }
+
+// .input-group-btn .btn {
+//   .fa {
+//     padding: 3px 0px;
+//     font-size: 14px !important;
+//   }
+// }
+
+// // Circle buttons
+// .btn-circle {
+//   width: 30px;
+//   height: 30px;
+//   text-align: center;
+//   padding: 6px 0;
+//   font-size: 12px;
+//   line-height: 1.428571429;
+//   border-radius: 15px;
+// }
+// .btn-circle.btn-xs {
+//   width: 23px;
+//   height: 23px;
+//   text-align: center;
+//   padding: 1px 0;
+//   font-size: 12px;
+//   line-height: 1.428571429;
+//   border-radius: 15px;
+// }
+// .btn-circle.btn-lg {
+//   width: 50px;
+//   height: 50px;
+//   padding: 10px 16px;
+//   font-size: 18px;
+//   line-height: 1.33;
+//   border-radius: 25px;
+// }
+// .btn-circle.btn-xl {
+//   width: 70px;
+//   height: 70px;
+//   padding: 10px 16px;
+//   font-size: 24px;
+//   line-height: 1.33;
+//   border-radius: 35px;
+// }
+
+
+

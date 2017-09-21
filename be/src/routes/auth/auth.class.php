@@ -12,28 +12,34 @@
 * Auth class.
 */
 class Auth extends BaseEntity {
-  public function __construct() {
-    parent::__construct();
-    $this->getDb()->setIgnoreToken(true);
-  }
-	/**
-	* Adds a new record
-	* 
-	* @param Array $data - Auth data
-	* @return JSONObject - Data result or error message, both as JSON format
-	*/
+	private static $instance = null;
+
+  private function __construct() {
+    //parent::__construct();
+	}
+
+	public static function getInstance() {
+		if (Auth::$instance == null) {
+			Auth::$instance = new Auth();
+		}
+
+		return Auth::$instance;
+	}
+
 	public function login($data) {
 		try {
-			$status = $this->getDb()->run(
-				'select * from user where username=:username and password=:password',
-				[":username" => $data['username'], ":password" => $data['password']]
-      );
+			$result = QB::table('Paciente')
+					->select('id')
+					->where('usuario', '=', $data['username'])
+					->where('contrasena', '=', $data['password'])
+					->get();
 
-			if (!$status) {
+			if (count($result) == 0) {
 				return Response::getBaseUnauthorized("Bad login credentials");
-      }
-      
-			return $status;
+			}
+			else {
+				return $result[0];
+			}
 		}
 		catch (Exception $ex) {
 			return Response::getBaseInternalError($ex->getMessage());

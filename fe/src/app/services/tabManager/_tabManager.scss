@@ -1,0 +1,87 @@
+#tabSettings {
+  min-width: 250px;
+
+  #tabManagerFilters {
+    margin: 5px 5px;
+    text-align: center;
+
+    .fa {
+      cursor: pointer;
+      opacity: 0.3;
+      &:hover {
+        opacity: 1;
+      }
+      &.fa-circle,
+      &.fa-check-circle {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+#tabManager {
+  @mixin _create-tab-colors($color-name, $color) {
+    &.#{$color-name}.active a {
+      color: $color !important;
+      border-bottom: 3px solid $color !important;
+
+    }
+    &.#{$color-name}:hover a {
+    border-bottom: 3px solid $color !important;
+
+    }
+
+    i.#{$color-name} { color: $color; }
+  }
+
+  .close-tab {
+    color: lighten(#ddd, 5%) !important;
+    &:hover {
+      color: inherit !important;
+    }
+  }
+
+  .tab-title {
+
+  }
+
+  .tab-content {
+
+  }
+
+  .tab-body {
+
+  }
+
+  .main-tabs > .nav-tabs {
+    li {
+      &:not(.thin) {
+        min-width: 180px;
+
+        uib-tab-heading .row .col-10 {
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+      }
+
+      @include _create-tab-colors('color-1', $color-1);
+      @include _create-tab-colors('color-2', $color-2);
+      @include _create-tab-colors('color-3', $color-3);
+      @include _create-tab-colors('color-4', $color-4);
+      @include _create-tab-colors('color-5', $color-5);
+      @include _create-tab-colors('color-6', $color-6);
+      @include _create-tab-colors('color-7', $color-7);
+      @include _create-tab-colors('color-8', $color-8);
+      @include _create-tab-colors('color-9', $color-9);
+      @include _create-tab-colors('color-10', $color-10);
+
+      &.thin {
+        .tab-title {
+          visibility: hidden;
+          width: 0;
+          display: inline-block;
+        }
+      }
+    }
+  }
+}

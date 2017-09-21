@@ -3,6 +3,9 @@ angular.module('app')
   // [1, 2, 3] => [3, 2, 1]
   .filter('reverseList', () => {
     return (items) => {
+      if (_.isEmpty(items)) {
+        return [];
+      }
       return items.slice().reverse();
     };
   })

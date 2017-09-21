@@ -1,0 +1,108 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Create Well</h3>
+  </div>
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label for="name" class="col-4 col-form-label">Name</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="name" id="name" placeholder="" ng-model="$ctrl.data.name" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.name.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.legalName.$invalid && form.legalName.$touched, 'has-success': form.legalName.$valid && form.legalName.$touched }">
+      <label for="legalName" class="col-4 col-form-label">Legal Name</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="legalName" id="legalName" placeholder="" ng-model="$ctrl.data.legalName" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.legalName.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.basin.$invalid && form.basin.$touched, 'has-success': form.basin.$valid && form.basin.$touched }">
+      <label for="basin" class="col-4 col-form-label">Basin</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="basin" id="basin" placeholder="" ng-model="$ctrl.data.basin" required uib-typeahead="item as item.name for item in $ctrl.getBasins($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.basin.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.owner.$invalid && form.owner.$touched, 'has-success': form.owner.$valid && form.owner.$touched }">
+      <label for="owner" class="col-4 col-form-label">Owner</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="owner" id="owner" placeholder="" ng-model="$ctrl.data.owner" maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.owner.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.productionType.$invalid && form.productionType.$touched, 'has-success': form.productionType.$valid && form.productionType.$touched && $ctrl.data.productionType.id, 'has-warning': form.productionType.$valid && form.productionType.$touched && !$ctrl.data.productionType.id }">
+      <label for="productionType" class="col-4 col-form-label">Production Type</label>
+      <div ng-class="{ 'col-8': $ctrl.session.can('well_production_type', 'create'), 'col-6': !$ctrl.session.can('well_production_type', 'create') }">
+        <div ng-class="{ 'input-group': $ctrl.session.can('well_production_type', 'create') }">
+          <input type="text" class="form-control" name="productionType" id="productionType" placeholder="" ng-model="$ctrl.data.productionType" uib-typeahead="item as item.itemValue for item in $ctrl.getProductionTypes($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="$ctrl.session.can('well_production_type', 'create')" typeahead-append-to-body="true">
+          <span class="input-group-btn" ng-if="$ctrl.session.can('well_production_type', 'create')">
+            <button class="btn btn-default" type="button" ng-click="$ctrl.createItem()" ng-disabled="!$ctrl.data.productionType || $ctrl.data.productionType.id" ng-class="{ 'btn-warning': $ctrl.data.productionType && !$ctrl.data.productionType.id }">
+              <i class="fa fa-fw fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <span class="help-block" ng-if="$ctrl.data.productionType && !$ctrl.data.productionType.id">
+          To create this new value click on the <strong>+</strong> button.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.latitude.$invalid && form.latitude.$touched, 'has-success': form.latitude.$valid && form.latitude.$touched }">
+      <label for="latitude" class="col-4 col-form-label">Latitude</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="latitude" id="latitude" placeholder="" ng-model="$ctrl.data.latitude">
+      </div>
+      <div class="col-4">
+        <input class="form-control" type="text" readonly value="{{ $ctrl.NumericUtil.convertDDToDMS($ctrl.data.latitude || 0, false, true) }}">
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.longitude.$invalid && form.longitude.$touched, 'has-success': form.longitude.$valid && form.longitude.$touched }">
+      <label for="longitude" class="col-4 col-form-label">Longitude</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="longitude" id="longitude" placeholder="" ng-model="$ctrl.data.longitude">
+      </div>
+      <div class="col-4">
+        <input class="form-control" type="text" readonly value="{{ $ctrl.NumericUtil.convertDDToDMS($ctrl.data.longitude || 0, true, true) }}">
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-4 col-form-label" for="isOffshore">Offshore?</label>
+      <div class="col-6">
+        <toggle ng-model="$ctrl.data.isOffshore"></toggle>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || $ctrl.validatePicklists()">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button>
+  </div>
+</form>

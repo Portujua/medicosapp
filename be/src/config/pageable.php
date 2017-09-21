@@ -41,7 +41,7 @@
 		*
 		* @return void
 		*/
-    public function __construct($queryString) {
+    public function __construct($queryString = []) {
       $defaults = [
         "simple" => false,
         "page" => 0,

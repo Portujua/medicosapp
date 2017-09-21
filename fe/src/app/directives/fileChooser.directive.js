@@ -7,11 +7,15 @@ angular.module('app')
       element.bind('change', () => {
         $scope.$apply(() => {
           $scope.fileChooser = element[0].files[0];
+          if (_.isFunction($scope.fileChange)) {
+            $scope.fileChange({ data: $scope.fileChooser });
+          }
         });
       });
     },
     scope: {
-      fileChooser: '='
+      fileChooser: '=',
+      fileChange: '&',
     },
   }));
 

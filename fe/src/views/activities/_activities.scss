@@ -1,0 +1,16 @@
+.drilling-parameters-summary {
+  overflow: hidden;
+  .dp {
+    background-color: #FFF;
+    border: solid 1px #ddd;
+    border-radius: $border-radius-base;
+    margin-bottom: 10px;
+    padding: 10px;
+    text-align: center;
+
+    .dp-label {
+      color: lighten($text-muted, 10%);
+      font-size: 85%;
+    }
+  }
+}

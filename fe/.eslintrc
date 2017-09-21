@@ -1,0 +1,51 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "node": true,
+  },
+  "globals": {
+    "jQuery": true,
+    "angular": true,
+    "console": true,
+    "$": true,
+    "_": true,
+    "moment": true,
+    "beforeEach": true,
+    "module": true,
+    "browser": true,
+    "element": true,
+    "window": true,
+    "document": true,
+    "navigator": true,
+    "Ratio": true,
+    "performance": true,
+    "s": true,
+    "Blob": true,
+    "FormData": true,
+    "FileReader": true,
+    "BaseFactory": true,
+    "BaseService": true,
+    "switch": true,
+    "google": true,
+    "randomColor": true,
+    "Highcharts": true
+  },
+  "rules": {
+    "quotes": [1, "single"],
+    "curly": 1,
+    "eqeqeq": 1,
+    "no-var": 1,
+    // "no-unused-vars": 1,
+    "no-undef": 2,
+    "array-bracket-spacing": 1,
+    "object-curly-spacing": [1, "always"],
+    "space-unary-ops": [ 2, {
+      "words": true,
+      "nonwords": false
+    }],
+    "arrow-parens": [1, "always"],
+    // "newline-after-var": 1,
+    "keyword-spacing": 1,
+  }
+}

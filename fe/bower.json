@@ -1,12 +1,12 @@
 {
-  "name": "basicapp",
+  "name": "scaffolar2",
   "description": "",
   "main": "index.js",
   "authors": [
-    "Eduardo Lorenzo <ejlorenzo19@gmail.com>"
+    "Christiam Mena <christiam.mena@gmail.com>"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Portujua/basicapp",
+  "homepage": "https://github.com/xtiam57/scaffolar2",
   "private": true,
   "ignore": [
     "**/.*",
@@ -21,24 +21,27 @@
     "angular-sanitize": "^1.6.1",
     "angular-animate": "^1.6.1",
     "angular-touch": "^1.6.1",
-    "angular-busy": "^4.1.3",
+    "angular-messages": "^1.6.1",
     "angular-ui-router": "^0.3.2",
     "angular-cache": "^4.6.0",
-    "angular-bootstrap": "^2.4.0",
+    "angular-xeditable": "^0.6.0",
+    "angular-translate": "^2.13.1",
+    "angular-breadcrumb": "^0.5.0",
+    "angular-toastr": "^2.1.1",
     "animate.css": "^3.5.1",
     "moment": "^2.17.1",
     "underscore": "^1.8.3",
     "font-awesome": "Font-Awesome#^4.7.0",
     "bootstrap-sass": "^3.3.7",
-    "angular-toastr": "^2.1.1",
-    "angular-xeditable": "^0.6.0",
-    "angular-translate": "^2.13.1",
-    "angular-breadcrumb": "^0.5.0",
-    "angular-messages": "^1.6.1",
-    "angular-strap": "^2.3.12",
-    "bootstrap-additions": "^0.3.1",
-    "ngEmbed": "ng-embed#^2.1.1",
-    "angucomplete-alt": "^3.0.0"
+    "ng-tags-input": "^3.1.1",
+    "angular-ui-tree": "^2.22.2",
+    "ngmap": "^1.18.4",
+    "angular-chart.js": "^1.1.1",
+    "highcharts": "^5.0.12",
+    "highcharts-ng": "^1.1.0",
+    "ui-cropper": "^1.0.4",
+    "angular-base64-upload": "~0.1.22",
+    "ment.io": "^0.9.24"
   },
   "resolutions": {
     "angular": "^1.6.1"
@@ -48,12 +51,6 @@
       "main": [
         "fonts/*",
         "css/font-awesome.min.css"
-      ]
-    },
-    "forerunnerdb": {
-      "main": [
-        "js/dist/fdb-all.js",
-        "js/dist/fdb-angular.js"
       ]
     },
     "bootstrap-sass": {

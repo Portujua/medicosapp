@@ -1,0 +1,80 @@
+<div class="navbar-form navbar-left expand-left">
+  <div class="btn-group">
+    <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" uib-tooltip="Tabs Options" tooltip-append-to-body="true" tooltip-placement="bottom">
+      <i class="fa fa-fw fa-clone {{ $ctrl.TMS.getFilters().selected }}"></i>
+      <!--  <span class="caret"></span> -->
+    </button>
+    <ul id="tabSettings" class="dropdown-menu" ng-click="$event.stopPropagation()">
+      <!-- Filters -->
+      <li class="dropdown-header">Filters</li>
+      <li>
+        <div id="tabManagerFilters">
+          <i class="fa fa-fw fa-2x {{ filter }}"
+             ng-repeat="filter in $ctrl.TMS.getFilters().colors"
+             ng-class="{ 'fa-check-circle': filter == $ctrl.TMS.getFilters().selected, 'fa-circle-o': filter != $ctrl.TMS.getFilters().selected }"
+             uib-tooltip="{{ !$index ? 'All tabs': null }}"
+             tooltip-append-to-body="true"
+             ng-click="$ctrl.TMS.filter(filter)"></i>
+        </div>
+      </li>
+      <!-- /Filters -->
+
+      <li role="separator" class="divider"></li>
+
+      <!-- Actions -->
+      <li class="dropdown-header">Actions</li>
+      <li ng-class="{ 'disabled': $ctrl.TMS.getCount() < 2 }">
+        <a href="" ng-click="$ctrl.TMS.closeAll()">
+          <i class="fa fa-fw fa-clone"></i> Close all tabs
+        </a>
+      </li>
+      <li>
+        <a href="" ng-click="$ctrl.TMS.closeAllByColor()">
+          <i class="fa fa-fw fa-square {{ $ctrl.TMS.getActiveTab().color | available:'text-primary' }}"></i> Close all tabs with same color
+        </a>
+      </li>
+      <li>
+        <a href="" ng-click="$ctrl.TMS.closeOtherTabs()">
+          <i class="fa fa-fw fa-exchange"></i> Close other tabs
+        </a>
+      </li>
+      <li>
+        <a href="" ng-click="$ctrl.TMS.closeRightTabs()">
+          <i class="fa fa-fw fa-long-arrow-right"></i> Close tabs to the right
+        </a>
+      </li>
+      <li>
+        <a href="" ng-click="$ctrl.TMS.closeLeftTabs()">
+          <i class="fa fa-fw fa-long-arrow-left"></i> Close tabs to the left
+        </a>
+      </li>
+      <!-- /Actions -->
+
+      <li role="separator" class="divider" ng-if="$ctrl.TMS.getHistoryCount()"></li>
+
+      <!-- History -->
+      <li class="dropdown-header" ng-if="$ctrl.TMS.getHistoryCount()">
+        History ({{ $ctrl.TMS.getHistoryCount() | number }})
+      </li>
+      <li ng-repeat="item in $ctrl.TMS.getHistory() track by item.id" ng-if="$ctrl.TMS.getHistoryCount()">
+        <a href="" ng-click="$ctrl.TMS.openFromHistory($index, true)">
+          <i class="fa fa-fw fa-square {{ item.color | available:'text-primary' }}"></i>
+          {{ item.title }}
+          <small class="block margin-left" style="color:#999;font-size:70%;">
+            {{ item.closedAt | date:'dd/MMM/yyyy@HH:mm:ss' | available }}
+          </small>
+        </a>
+      </li>
+
+      <li role="separator" class="divider" ng-if="$ctrl.TMS.getHistoryCount()"></li>
+
+      <li ng-if="$ctrl.TMS.getHistoryCount()">
+        <a href="" ng-click="$ctrl.TMS.openLast()">
+          <i class="fa fa-fw fa-clock-o"></i> Reopen recently closed tab
+        </a>
+      </li>
+      <!-- /History -->
+    </ul>
+  </div>
+
+</div>

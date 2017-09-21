@@ -1,0 +1,78 @@
+<div class="actions-bar borderless-top borderless-lr">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('shipping_order_line', 'create') && !$ctrl.shippingOrder.isComplete">
+    <i class="fa fa-fw fa-plus"></i> Add Line
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame hug borderless">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col ng-if="$ctrl.session.can('shipping_order_line', 'delete') && !$ctrl.shippingOrder.isComplete">
+        <col>
+        <col width="12.5%">
+        <col width="25%">
+        <col width="12.5%">
+        <col width="12.5%">
+        <col width="12.5%">
+        <col width="12.5%">
+        <col width="12.5%">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td class="text-center" ng-if="$ctrl.session.can('shipping_order_line', 'delete') && !$ctrl.shippingOrder.isComplete">
+            <button class="btn btn-danger btn-outline btn-xs" ng-click="$ctrl.delete(item.id)" uib-tooltip="Delete" tooltip-append-to-body="true">
+              <i class="fa fa-fw fa-times"></i>
+            </button>
+          </td>
+
+          <td class="bha-min-schematic">
+            <img ng-src="{{ item.lineEntry.imagePath }}"/>
+          </td>
+
+          <td title="'Type'" filter="{ 'lineEntry.itemType': 'select' }" filter-data="$ctrl.typesArray" sortable="'lineEntry.itemType'" class="text-nowrap">
+            <div>{{ item.lineEntry.itemType | type:{ 'BHACOMPONENT': 'BHA Component', 'BIT': 'Drill Bit', 'MOTOR': 'Motor', 'WATERPUMP': 'Water Pump' } | available }}</div>
+            <div ng-if="item.lineEntry.isBHAPart && !$ctrl.selectable" class="badge">BHA Piece</div>
+          </td>
+
+          <td title="'Catalog Entry'" filter="{ 'lineEntry.name': 'text' }" sortable="'lineEntry.name'" class="row-textarea">
+            <a href="" class="bold" drilldown="{ title: item.lineEntry.name, component: 'catalogsView', id: item.lineEntry.id }">{{ item.lineEntry.name | available }}</a>
+            <div class="small text-muted" ng-if="item.lineEntry.description">
+              {{ item.lineEntry.description | available }}
+            </div>
+          </td>
+
+          <td title="'Serial Number'" filter="{ 'lineEntry.serialNumber': 'text' }" sortable="'lineEntry.serialNumber'" class="text-nowrap">
+            {{ item.lineEntry.serialNumber | available }}
+          </td>
+
+          <td title="'Model'" filter="{ 'lineEntry.model': 'text' }" sortable="'lineEntry.model'" class="text-nowrap">
+            {{ item.lineEntry.model | available }}
+          </td>
+
+          <td title="'Manufacturer'" filter="{ 'lineEntry.manufacturer.itemValue': 'text' }" sortable="'lineEntry.manufacturer.itemValue'" class="text-nowrap">
+            {{ item.lineEntry.manufacturer.itemValue | available }}
+          </td>
+
+          <td title="'Qty. Sent'" filter="{ quantitySent: 'number' }" sortable="'quantitySent'" class="text-center">
+            <span editable-number="item.quantitySent" e-step="1" onbeforesave="$ctrl.save($data, 'quantitySent', item)" e-required e-min="1" edit-disabled="!$ctrl.session.can('shipping_order_line', 'edit') || $ctrl.shippingOrder.isComplete">
+              {{ item.quantitySent | number | available }}
+            </span>
+          </td>
+
+          <td title="'Qty. Received'" filter="{ quantityReceived: 'number' }" sortable="'quantityReceived'" class="text-center">
+            {{ item.quantityReceived | number | available }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

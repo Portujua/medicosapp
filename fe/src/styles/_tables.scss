@@ -1,0 +1,145 @@
+.table {
+  background-color: #fff;
+
+  &.table-cross-highlight {
+    tr:hover {
+      background-color: #ffa;
+    }
+
+    td, th {
+      position: relative;
+    }
+
+    td:hover {
+      // background-color: #Fe2;
+    }
+
+    td:hover::after,
+    th:hover::after {
+      content: "";
+      position: absolute;
+      background-color: #ffa;
+      left: 0;
+      top: -5000px;
+      height: 10000px;
+      width: 100%;
+      z-index: -1;
+    }
+  }
+
+  thead {
+  	th {
+      background-color: $table-bg-active;
+  		border-bottom: none !important;
+  	}
+  }
+
+  .table-numeration {
+    background-color: $table-bg-active;
+    border-right: solid #ddd 1px;
+    text-align: center;
+    font-size: 75%;
+    color: $text-muted;
+    font-weight: bold;
+    vertical-align: middle;
+    width: 25px;
+    max-width: 35px !important;
+  }
+
+  td, th {
+    vertical-align: middle !important;
+  }
+}
+
+@include table-row-variant('active', $table-bg-active);
+@include table-row-variant('success', lighten($state-success-bg, 11%));
+@include table-row-variant('info', lighten($state-info-bg, 10%));
+@include table-row-variant('warning', lighten($state-warning-bg, 10%));
+@include table-row-variant('danger', lighten($state-danger-bg, 10%));
+
+div[ng-table-pagination] {
+  border: solid 1px #ddd;
+  border-top: none;
+  padding: 10px;
+  @include clearfix();
+
+  .pagination {
+    display: block;
+    margin-right: 15px;
+    border-top-right-radius: 0;
+    border-top-left-radius: 0;
+  }
+
+  .ng-table-counts {
+
+  }
+}
+
+.table-frame {
+  border: 1px solid #ddd;
+  background-color: #FFF;
+  margin: $line-height-computed / 2;
+  min-height: 140px;
+
+  .table {
+    margin: 0;
+
+    tbody tr:last-child td {
+      border-bottom: 1px solid #ddd;
+    }
+  }
+
+  div[ng-table-pagination] {
+    border: none;
+  }
+}
+
+// .sort-indicator {
+// 	&::before {
+// 		border-top: 4px solid $brand-primary !important;
+// 	}
+
+// 	&::after {
+// 		border-color: $brand-primary transparent !important;
+// 	}
+// }
+
+.sub-table-frame {
+  min-height: 90px;
+  border-left: solid 10px $brand-success;
+}
+
+.table-responsive {
+  min-height: 0.01%;
+  width: 100%;
+  overflow-y: hidden;
+  overflow-x: auto;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+
+  // Tighten up spacing
+  > .table {
+    margin-bottom: 0;
+
+    // Ensure the content doesn't wrap
+    > tbody,
+    > tfoot {
+      > tr {
+        > td.row-textarea {
+          min-width: 280px;
+          text-align: left;
+        }
+      }
+    }
+
+    > thead {
+      > tr {
+        > th,
+        > td {
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
+
+

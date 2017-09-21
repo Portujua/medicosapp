@@ -1,0 +1,91 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <div class="actions-bar hug">
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+      <comments id="$ctrl.data.id" button-class="btn-default"></comments>
+      <attachment id="$ctrl.data.id" button-class="btn-default"></attachment>
+    </div>
+  </div>
+  <!-- /Main actions -->
+
+  <div class="padding-sm">
+    <div class="row">
+      <collapsable-panel></collapsable-panel>
+
+      <!-- board -->
+      <div class="col-12 col-lg-4 col-xl-3">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Project Information
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div class="dashboard-body">
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label"></div>
+                <div class="col-8 dashboard-input">
+                  <a href="" change-picture="{{ $ctrl.data.profilePicturePath }}" endpoint="projects/{{$ctrl.data.id}}/picture" load="$ctrl.load()" ng-disabled="!$ctrl.session.can('project', 'edit')">
+                    <img class="picture circle" ng-src="{{ $ctrl.data.profilePicturePath | defaultImage }}" alt="">
+                  </a>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Name</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.name" onbeforesave="$ctrl.save($data, 'name')" edit-disabled="!$ctrl.session.can('project', 'edit')">{{ $ctrl.data.name }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Description</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-textarea="$ctrl.data.description" e-rows="4" onbeforesave="$ctrl.save($data, 'description')" e-required e-minlength="0" e-maxlength="250" edit-disabled="!$ctrl.session.can('project', 'edit')">
+                    {{ $ctrl.data.description | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Client</div>
+                <div class="col-8 dashboard-input" ng-if="$ctrl.data.client">
+                  <span editable-text="$ctrl.data.client" e-uib-typeahead="item as item.name for item in $ctrl.getClients($viewValue)" onbeforesave="$ctrl.save($data, 'client')" edit-disabled="!$ctrl.session.can('project', 'edit')" e-form="clientForm">
+                    <a href="" drilldown="{ title: $ctrl.data.client.name, component: 'clientsView', id: $ctrl.data.client.id }">
+                      {{ $ctrl.data.client.name | available }}
+                    </a>
+                  </span>
+
+                  <div class="pull-right" ng-click="clientForm.$show()" ng-hide="clientForm.$visible">
+                    <a class="small" href="" ng-if="$ctrl.session.can('project', 'edit')">Change</a>
+                  </div>
+                </div>
+                <div class="col-8 dashboard-input" ng-if="!$ctrl.data.client">
+                  <span editable-text="$ctrl.data.client" e-uib-typeahead="item as item.name for item in $ctrl.getClients($viewValue)" onbeforesave="$ctrl.save($data, 'client')" edit-disabled="!$ctrl.session.can('project', 'edit')" e-typeahead-append-to-body="true">
+                    {{ $ctrl.data.client.name | available }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Body -->
+        </div>
+      </div>
+      <!-- /board -->
+
+      <!-- <div class="col">
+        <div class="frame expand hug">
+          <scrollable-tabset auto-recalculate="true">
+            <uib-tabset justified="false">
+              <uib-tab index="0" heading="Contracts">
+
+              </uib-tab>
+            </uib-tabset>
+          </scrollable-tabset>
+        </div>
+      </div> -->
+    </div>
+  </div>
+</div>
+
+

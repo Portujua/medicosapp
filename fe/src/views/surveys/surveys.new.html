@@ -1,0 +1,79 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Create Survey</h3>
+  </div>
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.job.$invalid && form.job.$touched, 'has-success': form.job.$valid && form.job.$touched }">
+      <label for="job" class="col-4 col-form-label">Job Number</label>
+      <div class="col">
+        <input type="text" class="form-control" name="job" id="job" placeholder="" ng-model="$ctrl.data.job" required uib-typeahead="item as item.jobNumber for item in $ctrl.getJobs($viewValue)" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.job.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.measuredDepth.$invalid && form.measuredDepth.$touched, 'has-success': form.measuredDepth.$valid && form.measuredDepth.$touched }">
+      <label for="measuredDepth" class="col-4 col-form-label">Measured Depth</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="measuredDepth" id="measuredDepth" placeholder="" ng-model="$ctrl.data.measuredDepth" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.measuredDepth.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.inclination.$invalid && form.inclination.$touched, 'has-success': form.inclination.$valid && form.inclination.$touched }">
+      <label for="inclination" class="col-4 col-form-label">Inclination</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="inclination" id="inclination" placeholder="" ng-model="$ctrl.data.inclination" required>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.inclination.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.azimuth.$invalid && form.azimuth.$touched, 'has-success': form.azimuth.$valid && form.azimuth.$touched }">
+      <label for="azimuth" class="col-4 col-form-label">Azimuth</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="azimuth" id="azimuth" placeholder="" ng-model="$ctrl.data.azimuth" required min="0" max="360">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.azimuth.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+          <span ng-message="max">Value must be lower than or equal to 360.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.holeDepth.$invalid && form.holeDepth.$touched, 'has-success': form.holeDepth.$valid && form.holeDepth.$touched }">
+      <label for="holeDepth" class="col-4 col-form-label">Hole Depth</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="holeDepth" id="holeDepth" placeholder="" ng-model="$ctrl.data.holeDepth" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.holeDepth.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || $ctrl.validatePicklists()">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button>
+  </div>
+</form>

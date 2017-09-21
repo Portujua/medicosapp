@@ -1,0 +1,102 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <div class="actions-bar hug">
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+
+      <comments id="$ctrl.data.id" button-class="btn-default"></comments>
+      <attachment id="$ctrl.data.id" button-class="btn-default"></attachment>
+    </div>
+  </div>
+  <!-- /Main actions -->
+
+  <div class="padding-sm">
+    <div class="row">
+      <collapsable-panel></collapsable-panel>
+
+      <!-- board -->
+      <div class="col-12 col-lg-4 col-xl-3">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Client Information
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div class="dashboard-body">
+
+               <div class="dashboard-group">
+                <div class="col-4 dashboard-label"></div>
+                <div class="col-8 dashboard-input">
+                  <a href="" change-picture="{{ $ctrl.data.profilePicturePath }}" endpoint="clients/{{$ctrl.data.id}}/picture" load="$ctrl.load()" ng-disabled="!$ctrl.session.can('client', 'edit')">
+                    <img class="picture circle " ng-src="{{ $ctrl.data.profilePicturePath | defaultImage }}" alt="">
+                  </a>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Name</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.name" onbeforesave="$ctrl.save($data, 'name')" edit-disabled="!$ctrl.session.can('client', 'edit')">{{ $ctrl.data.name }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Emails</div>
+                <div class="col-8 dashboard-input">
+                  <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.addEmail()" ng-disabled="!$ctrl.session.can('client', 'edit')">Add email</button>
+                </div>
+              </div>
+
+              <div class="dashboard-group" ng-repeat="email in $ctrl.data.emails">
+                <div class="col-4 dashboard-label"></div>
+                <div class="col-8 dashboard-input">
+                  <button class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.delete('email', email.id)" ng-if="$ctrl.session.can('client', 'edit')">
+                    <i class="fa fa-fw fa-times"></i>
+                  </button>
+                  {{ email.emailAddress }}
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Phones</div>
+                <div class="col-8 dashboard-input">
+                  <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.addPhone()" ng-disabled="!$ctrl.session.can('client', 'edit')">Add phone</button>
+                </div>
+              </div>
+
+              <div class="dashboard-group" ng-repeat="phone in $ctrl.data.phones">
+                <div class="col-4 dashboard-label"></div>
+                <div class="col-8 dashboard-input">
+                  <button class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.delete('phone', phone.id)" ng-if="$ctrl.session.can('client', 'edit')">
+                    <i class="fa fa-fw fa-times"></i>
+                  </button>
+                  +{{ phone.countryCode }} ({{ phone.areaCode }}) {{ phone.phoneNumber }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Body -->
+        </div>
+      </div>
+      <!-- /board -->
+
+      <div class="col">
+        <div class="frame expand hug">
+          <scrollable-tabset auto-recalculate="true">
+            <uib-tabset justified="false">
+              <uib-tab index="0" heading="Contracts">
+                <client-contracts-list client="$ctrl.data"></client-contracts-list>
+              </uib-tab>
+              <uib-tab index="1" heading="Projects">
+                <projects-list client="$ctrl.data"></projects-list>
+              </uib-tab>
+            </uib-tabset>
+          </scrollable-tabset>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

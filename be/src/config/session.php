@@ -95,6 +95,9 @@
       if ($token == null) {
         $token = Session::$lastToken;
       }
+      else {
+        Session::$lastToken = $token;
+      }
 
       $_SESSION[$token] = time();
     }

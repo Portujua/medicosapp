@@ -1,7 +1,12 @@
 .col-form-label {
-  line-height: $input-height-base;
-  margin-bottom: 0;
   text-align: right;
+  padding: 0 0 0 15px;
+  margin: 0;
+  font-size: 90%;
+}
+
+input, textarea {
+  box-shadow: none !important;
 }
 
 .form-control:focus {
@@ -10,10 +15,39 @@
 }
 
 .form-group label:not([class='radio-inline']):not([class='checkbox-inline']) {
-  color: #707070;
+  // color: #707070;
+}
+
+.form-group {
+  // align-items: center;
+  .col-form-label {
+    margin-top: 8px;
+  }
+
+  &.has-feedback {
+    input {
+      padding-right: 12px;
+      &.input-lg {
+        padding-right: 16px;
+      }
+    }
+  }
+
+  &.has-error {
+    // align-items: baseline !important;
+  }
 }
 
 .help-block {
   margin-bottom: 0;
+  margin-top: 0;
+  padding-top: 5px;
   font-size: 83%;
+  display: inline;
+}
+
+.form-control[disabled],
+.form-control[readonly],
+fieldset[disabled] .form-control {
+  background-color: #eee !important;
 }

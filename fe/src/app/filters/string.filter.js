@@ -39,11 +39,27 @@ angular.module('app')
     };
   })
 
+  .filter('defaultImage', () => {
+    return (input, attr) => {
+      attr = attr || attr === '' ? attr : 'images/no-picture-profile.png';
+      if (_.isString(input)) {
+        input = input.trim();
+      }
+      return (_.isNull(input) || s.isBlank(input) || _.isUndefined(input)) ? attr : input;
+    };
+  })
+
   // removeSpaces('Hello world')
   // => "Helloworld"
   .filter('removeSpaces', () => {
     return (str) => {
       return _(str).isString() ? str.replace(/ /g, '') : str;
+    };
+  })
+
+  .filter('removeSeconds', () => {
+    return (str) => {
+      return str.substring(0, 5);
     };
   })
 
@@ -83,5 +99,39 @@ angular.module('app')
       }
 
       return _.has(types, input) ? types[input] : input;
+    };
+  })
+
+  // {{ value | strcontain:filter:fieldName }}
+  // value = 'Lorem ipsum', filter = 'Lorem' => 'Lorem ipsum'
+  // value = 'lorem ipsum', filter = 'Lorem' => none
+  // value = { name: 'lorem ipsum' }, filter = 'Lorem', fieldName = 'name' => 'Lorem ipsum'
+  .filter('strcontain', () => {
+    return (input, substr, field = null) => {
+      if (_.isEmpty(substr) || _.isNull(input)) {
+        return input;
+      }
+
+      return input.filter((item) => {
+        return _.isNull(field) ? item.indexOf(substr) > -1 : item[field].indexOf(substr) > -1;
+      })
+    };
+  })
+
+  // Converts "Hello [~someUsername~someUUID]" to "Hello @someUsername"
+  // Where the @someUsername is a clickeable link
+  .filter('mentions', () => {
+    return (input, includeHtml = true) => {
+      if (_.isNull(input) || _.isUndefined(input)) {
+        return input;
+      }
+
+      return input.replace(/\[~[a-zA-Z0-9]+~[a-zA-Z0-9-]+\]/g, (match) => {
+        let username = match.slice(2, match.lastIndexOf('~'));
+        let id = match.slice(match.lastIndexOf('~') + 1, -1);
+        return includeHtml ?
+          `<span style="cursor: pointer; color: #0c86a2;" drilldown="{ title: '${username}', component: 'usersView', id: '${id}' }">@${username}</span>`
+          : `@${username}`;
+      })
     };
   });

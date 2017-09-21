@@ -1,0 +1,142 @@
+<div class="modal-header">
+  <h3 class="modal-title">Create Shipping Order</h3>
+</div>
+<div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+  <div class="row">
+    <div class="col-6 col-xl-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Select the pieces you want to ship
+          <div class="pull-right text-muted">
+            <i class="fa fa-truck fa-lg fa-flip-horizontal"></i>
+            <i class="fa fa-arrow-right"></i>
+          </div>
+        </div>
+        <inventory-list storage="$ctrl.data.fromStorage" ship="$ctrl.add(data)"></inventory-list>
+      </div>
+    </div>
+
+    <div class="col-6 col-xl-4">
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          Shipping Order
+          <div class="pull-right">
+            <i class="fa fa-fw fa-file-text"></i>
+          </div>
+        </div>
+        <div class="panel-body">
+          <form id="jobsNew" name="form" autocomplete="off">
+            <div class="form-group row has-feedback" ng-class="{ 'has-error': form.fromStorage.$invalid && form.fromStorage.$touched, 'has-success': form.fromStorage.$valid && form.fromStorage.$touched }">
+              <label for="fromStorage" class="col-2 col-form-label">From</label>
+              <div class="col-9">
+                <input type="text" class="form-control" name="fromStorage" id="fromStorage" placeholder="Source..." ng-model="$ctrl.data.fromStorage" required uib-typeahead="item as item.name for item in $ctrl.getStorages($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true" ng-disabled="$ctrl.data.orderLines.length">
+                <!-- Errors -->
+                <span class="help-block" ng-messages="form.fromStorage.$error" role="alert">
+                  <span ng-message="required">This field is required.</span>
+                </span>
+                <!-- /Errors -->
+              </div>
+            </div>
+
+            <div class="form-group row has-feedback hug-bottom" ng-class="{ 'has-error': form.toStorage.$invalid && form.toStorage.$touched, 'has-success': form.toStorage.$valid && form.toStorage.$touched }">
+              <label for="toStorage" class="col-2 col-form-label">To</label>
+              <div class="col-9">
+                <input type="text" class="form-control" name="toStorage" id="toStorage" placeholder="Destination..." ng-model="$ctrl.data.toStorage" required uib-typeahead="item as item.name for item in $ctrl.getStorages($viewValue, true)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true" ng-disabled="!$ctrl.data.fromStorage">
+                <!-- Errors -->
+                <span class="help-block" ng-messages="form.toStorage.$error" role="alert">
+                  <span ng-message="required">This field is required.</span>
+                </span>
+                <!-- /Errors -->
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="table-responsive" ng-if="$ctrl.data.orderLines.length">
+          <table class="table table-hover">
+            <colgroup>
+              <col>
+              <col>
+              <col>
+              <col width="20%">
+              <col width="60%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Catalog Entry</th>
+                <th class="text-center">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr ng-repeat="item in $ctrl.data.orderLines">
+                <td class="table-numeration">{{ $index + 1 }}</td>
+
+                <td>
+                  <button class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.remove(item, $index)">
+                    <i class="fa fa-fw fa-times"></i>
+                  </button>
+                </td>
+
+                <td class="bha-min-schematic">
+                  <img ng-src="{{ item.lineEntry.imagePath }}"/>
+                </td>
+
+                <td class="text-nowrap">
+                  <div>{{ item.lineEntry.itemType | type:{ 'BHACOMPONENT': 'BHA Component', 'BIT': 'Drill Bit', 'MOTOR': 'Motor', 'WATERPUMP': 'Water Pump' } | available }}</div>
+                  <div ng-if="item.lineEntry.isBHAPart && !$ctrl.selectable" class="badge">BHA Piece</div>
+                </td>
+
+                <td>
+                  <a href="" class="bold" drilldown="{ title: item.lineEntry.name, component: 'catalogsView', id: item.lineEntry.id }">{{ item.lineEntry.name | available }}</a>
+                  <div class="small text-muted" ng-if="item.lineEntry.description">
+                    <strong>Description:</strong> {{ item.lineEntry.description | available }}
+                  </div>
+                  <div class="small text-muted" ng-if="item.lineEntry.model">
+                    <strong>Model:</strong> {{ item.lineEntry.model | available }}
+                  </div>
+                  <div class="small text-muted" ng-if="item.lineEntry.manufacturer.itemValue">
+                    <strong>Manufacturer</strong> {{ item.lineEntry.manufacturer.itemValue | available }}
+                  </div>
+                  <div class="small text-muted" ng-if="item.lineEntry.serialNumber">
+                    <strong>S/N:</strong> {{ item.lineEntry.serialNumber | available }}
+                  </div>
+                </td>
+
+                <td class="text-center">
+                  <form name="form">
+                    <div class="form-group hug" ng-class="{ 'has-error': form.quantitySent.$invalid }">
+                      <input type="number" name="quantitySent" class="form-control text-center" ng-model="item.quantitySent" step="1" required min=1" max="{{ item.max }}">
+                    </div>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+            <tfoot>
+              <tr class="info">
+                <td colspan="5" class="bold text-right">Total:</td>
+                <td class="bold text-center">{{ $ctrl.getTotal() | number | available }}</td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <div class="pull-left">
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reset</button>
+  </div>
+  <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+    Cancel
+  </button>
+  <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="!$ctrl.data.fromStorage || !$ctrl.data.toStorage || !$ctrl.data.orderLines.length || !$ctrl.getTotal() || $ctrl.isSaving">
+    <i class="fa fa-fw fa-save"></i> Create
+  </button>
+</div>
+

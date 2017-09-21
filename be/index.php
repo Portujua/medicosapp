@@ -15,7 +15,7 @@ require 'vendor/autoload.php';
 $config = array(
 	'driver'    => 'mysql',
 	'host'      => 'localhost',
-	'database'  => 'test',
+	'database'  => 'medicos',
 	'username'  => 'root',
 	'password'  => '21115476',
 	'charset'   => 'utf8',

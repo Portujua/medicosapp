@@ -1,14 +1,33 @@
 angular.module('app')
-  .run(($rootScope, PageService, SidebarService, $uibModalStack, editableOptions, editableThemes, toggleConfig) => {
+  .run(($rootScope, PageService, SidebarService, editableOptions, editableThemes, toggleConfig, $timeout) => {
     // X-Editable settings (theme)
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
+    editableOptions.icon_set = 'font-awesome';
     editableOptions.activate = 'select';
 
     // Toggle Config
     toggleConfig.on = 'Yes';
     toggleConfig.off = 'No';
+
+    // List of maps in the system
+    $rootScope.maps = [];
+
+    // Push every map initialized
+    $rootScope.$on('mapInitialized', (evt, map) => $rootScope.maps.push(map));
+
+    // Resize all maps no visible
+    // Will trigger in every tab change
+    $rootScope.$on('resizeAllMaps', () => {
+      _.each($rootScope.maps, (map) => {
+        let center = map.getCenter();
+        $timeout(() => {
+          google.maps.event.trigger(map, 'resize');
+          map.setCenter(center);
+        }, 100);
+      });
+    });
 
     // Broadcasted before a route change. At this point the route services starts
     // resolving all of the dependencies needed for the route change to occur.
@@ -29,9 +48,6 @@ angular.module('app')
 
       // Reset sidebar
       SidebarService.reset();
-
-      // Close all modals
-      $uibModalStack.dismissAll();
     });
 
 

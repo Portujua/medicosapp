@@ -1,0 +1,74 @@
+<div class="actions-bar borderless-top borderless-lr">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('shipping_order', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Shipping Order
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame hug borderless">
+  <div class="table-responsive" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isDeleting ? 'Deleting...' : 'Loading...' }">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col ng-if="$ctrl.session.can('shipping_order', 'delete')">
+        <col width="10%">
+        <col width="40%">
+        <col>
+        <col width="40%">
+        <col width="10%">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td class="text-center" ng-if="$ctrl.session.can('shipping_order', 'delete')">
+            <button class="btn btn-danger btn-outline btn-xs" ng-click="$ctrl.delete(item.id)" uib-tooltip="Delete" tooltip-append-to-body="true">
+              <i class="fa fa-fw fa-times"></i>
+            </button>
+          </td>
+
+          <td title="'Number'" filter="{ shippingOrderNumber: 'number' }" sortable="'shippingOrderNumber'" class="text-center text-nowrap bold">
+            <a href="" class="block" drilldown="{ title: 'Order ' + item.shippingOrderNumber, component: 'shippingOrdersView', id: item.id }">
+              {{ item.shippingOrderNumber | available }}
+            </a>
+          </td>
+
+          <td title="'From'" filter="{ 'fromStorage.name': 'text' }" sortable="'fromStorage.name'">
+            <strong>{{ item.fromStorage.name | available }}</strong>
+            <div class="small text-muted" ng-if="item.fromStorage.address">
+              <strong>Address:</strong> {{ item.fromStorage.address | available }}
+            </div>
+            <div class="small text-muted" ng-if="item.fromStorage.description">
+              <strong>Description:</strong> {{ item.fromStorage.description | available }}
+            </div>
+          </td>
+
+          <td title="'Status'" sortable="'isComplete'" class="text-nowrap">
+            <!-- <i class="fa fa-arrow-right"></i> -->
+            <i class="fa fa-truck fa-lg fa-flip-horizontal"></i>
+            <i class="fa fa-arrow-right"></i>
+            <div class="label label-success" ng-class="{ 'label-success': item.isComplete, 'label-warning': !item.isComplete }">{{ item.isComplete | conditional:'Completed':'Pending' }}</div>
+          </td>
+
+          <td title="'To'" filter="{ 'toStorage.name': 'text' }" sortable="'toStorage.name'">
+            <strong>{{ item.toStorage.name | available }}</strong>
+            <div class="small text-muted" ng-if="item.toStorage.address">
+              <strong>Address:</strong> {{ item.toStorage.address | available }}
+            </div>
+            <div class="small text-muted" ng-if="item.toStorage.description">
+              <strong>Description:</strong> {{ item.toStorage.description | available }}
+            </div>
+          </td>
+
+          <td title="'Created On'" filter="{ createdAt: 'date' }" sortable="'createdAt'" class="text-center text-nowrap">
+            {{ item.createdAt | date:'dd/MMM/yyyy@HH:mm' | available }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,86 @@
+<form name="form" autocomplete="off" set-dirty="$ctrl.data.permission">
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">Edit Role</h3>
+
+    <!-- <toggle ng-model="$ctrl.data.isActive" name="isActive" on="Active" off="Inactive" class="pull-right"></toggle> -->
+  </div>
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label for="name" class="col-4 col-form-label">Name</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="name" id="name" placeholder="" ng-model="$ctrl.data.name" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.name.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.description.$invalid && form.description.$touched, 'has-success': form.description.$valid && form.description.$touched }">
+      <label for="description" class="col-4 col-form-label">Description</label>
+      <div class="col-8">
+        <textarea class="form-control resize-vertical" type="text" name="description" id="description" placeholder="" ng-model="$ctrl.data.description" maxlength="100" rows="2" required></textarea>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.description.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 100.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <hr>
+
+    <input type="text" class="form-control margin-sm-bottom" placeholder="Filter entities..." ng-model="$ctrl.search.entityName">
+
+    <table class="table table-bordered hug" ng-if="($ctrl.data.permission | filter:$ctrl.search.entityName).length">
+      <colgroup>
+        <col width="50%">
+        <col>
+        <col width="50%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th class="text-center text-middle">Entity</th>
+          <th class="text-center text-middle">
+            Allowed
+            <small class="block">
+              <a href="" ng-click="$ctrl.selectAll(true)">All</a> &middot; <a href="" ng-click="$ctrl.selectAll(false)">None</a>
+            </small>
+          </th>
+          <th class="text-middle">Permissions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat-start="item in $ctrl.data.permission | filter:$ctrl.search.entityName">
+          <td style="padding:3px" rowspan="{{ item.sysAction.length + 1 }}" class="text-center text-middle bold text-muted">
+            {{ item.entityName | available }}
+            <small class="block">
+              <a href="" ng-click="$ctrl.select(item, true)">All</a> &middot; <a href="" ng-click="$ctrl.select(item, false)">None</a>
+            </small>
+          </td>
+        </tr>
+        <tr ng-repeat-end ng-repeat="action in item.sysAction">
+          <td class="text-center text-middle">
+            <toggle ng-model="action.activeForRole" size="btn-xs"></toggle>
+          </td>
+          <td class="text-middle">{{ action.actionName | available }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="text-center bold text-muted margin-lg-tb" ng-if="!($ctrl.data.permission | filter:$ctrl.search.entityName).length">
+      <i class="fa fa-fw fa-search"></i> No entity found.
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || !form.$dirty">
+      <i class="fa fa-fw fa-save"></i> Save
+    </button>
+  </div>
+</form>

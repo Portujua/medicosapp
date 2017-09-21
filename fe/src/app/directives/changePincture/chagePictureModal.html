@@ -1,0 +1,50 @@
+<form id="image-uploader" name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title">Change Picture</h3>
+  </div>
+
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isUploading ? 'Uploading...' : 'Loading...' }">
+
+    <div class="row" ng-if="!$ctrl.image">
+      <div class="col-6">
+        <img class="current-img circle" ng-src="{{$ctrl.resolve.urlPicture | defaultImage }}" alt="">
+      </div>
+      <div class="col-6">
+        <div class="upload-btn-wrapper">
+          <div class="tag">
+            <i class="fa fa-image fa-4x block"></i>
+            Choose a file
+          </div>
+          <input type="file" class="custom-file-input" name="file" preview="$ctrl.preview" image="$ctrl.image"  ng-disabled="$ctrl.isUploading" required>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" ng-if="$ctrl.image">
+      <div class="col-6">
+        <img ng-src="{{ $ctrl.myCroppedImage }} " class="current-img circle">
+      </div>
+      <div class="col-6">
+        <ui-cropper image="$ctrl.image" area-type="circle" result-image="$ctrl.myCroppedImage" result-image-size="'max'" ng-if="$ctrl.image"></ui-cropper>
+      </div>
+    </div>
+
+
+
+  </div>
+
+  <div class="modal-footer">
+    <div class="pull-left" ng-if="$ctrl.image">
+      <button class="btn btn-link" type="button" ng-click="$ctrl.remove()" ng-disabled="$ctrl.isUploading">
+        <i class="fa fa-trash-o"></i> Remove image
+      </button>
+    </div>
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isUploading">
+      Close
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.upload($ctrl.myCroppedImage)" ng-disabled="form.$invalid || !$ctrl.image">
+        <i class="fa fa-fw fa-save"></i> Save
+      </button>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,118 @@
+<div class="actions-bar">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('survey', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Insert Survey
+  </button>
+
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.bulk()" ng-if="$ctrl.session.can('survey', 'create') && $ctrl.surveys.length">
+    <i class="fa fa-fw fa-upload"></i> Bulk Upload
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame hug borderless" cg-busy="$ctrl.loadingPromise">
+  <div class="table-responsive">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+        <col width="7.69%">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data track by item.id" ng-class="{ 'info': item.tiein }">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td title="'Tie-In'" sortable="'tiein'" class="text-center">
+            {{ item.tiein | conditional }}
+          </td>
+
+          <td header-title="'Measured Depth'" title="'MD'" filter="{ 'measuredDepth' : 'number' }" sortable="'measuredDepth'" class="text-center">
+            <span editable-number="item.measuredDepth" e-step="any" onbeforesave="$ctrl.save($data, 'measuredDepth', item)" e-required e-min="0" edit-disabled="!$ctrl.session.can('survey', 'edit')">
+              {{ item.measuredDepth | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Inclination'" title="'Incl.'" filter="{ 'inclination' : 'number' }" sortable="'inclination'" class="text-center">
+            <span editable-number="item.inclination" e-step="any" onbeforesave="$ctrl.save($data, 'inclination', item)" e-required e-min="0" edit-disabled="!$ctrl.session.can('survey', 'edit')">
+              {{ item.inclination | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Azimuth'" title="'Azm.'" filter="{ 'azimuth' : 'number' }" sortable="'azimuth'" class="text-center">
+            <span editable-number="item.azimuth" e-step="any" onbeforesave="$ctrl.save($data, 'azimuth', item)" e-required e-min="0" e-max="360" edit-disabled="!$ctrl.session.can('survey', 'edit')">
+              {{ item.azimuth | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'True vertical Depth'" title="'TVD'" filter="{ 'trueVerticalDepth' : 'number' }" sortable="'trueVerticalDepth'" class="text-center">
+            <span editable-number="item.trueVerticalDepth" e-step="any" onbeforesave="$ctrl.save($data, 'trueVerticalDepth', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.trueVerticalDepth | number | available }}
+            </span>
+          </td>
+
+          <td title="'Northings'" filter="{ 'northings' : 'number' }" sortable="'northings'" class="text-center">
+            <span editable-number="item.northings" e-step="any" onbeforesave="$ctrl.save($data, 'northings', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.northings | number | available }}
+            </span>
+          </td>
+
+          <td title="'Eastings'" filter="{ 'eastings' : 'number' }" sortable="'eastings'" class="text-center">
+            <span editable-number="item.eastings" e-step="any" onbeforesave="$ctrl.save($data, 'eastings', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.eastings | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Vertical Section Direction'" title="'VSD'" filter="{ 'verticalSection' : 'number' }" sortable="'verticalSection'" class="text-center">
+            <span editable-number="item.verticalSection" e-step="any" onbeforesave="$ctrl.save($data, 'verticalSection', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.verticalSection | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Dogleg Severity'" title="'Dogleg'" filter="{ 'doglegSeverity' : 'number' }" sortable="'doglegSeverity'" class="text-center">
+            <span editable-number="item.doglegSeverity" e-step="any" onbeforesave="$ctrl.save($data, 'doglegSeverity', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.doglegSeverity | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Build Up Rate'" title="'BUR'" filter="{ 'buildUpRate' : 'number' }" sortable="'buildUpRate'" class="text-center">
+            <span editable-number="item.buildUpRate" e-step="any" onbeforesave="$ctrl.save($data, 'buildUpRate', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.buildUpRate | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Turn Rate'" title="'TR'" filter="{ 'turnRate' : 'number' }" sortable="'turnRate'" class="text-center">
+            <span editable-number="item.turnRate" e-step="any" onbeforesave="$ctrl.save($data, 'turnRate', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.turnRate | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Tool Face'" title="'TF'" filter="{ 'toolface' : 'number' }" sortable="'toolface'" class="text-center">
+            <span editable-number="item.toolface" e-step="any" onbeforesave="$ctrl.save($data, 'toolface', item)" edit-disabled="!$ctrl.session.can('survey', 'edit') || !item.tiein">
+              {{ item.toolface | number | available }}
+            </span>
+          </td>
+
+          <td header-title="'Hole Depth'" title="'HD'" filter="{ 'holeDepth' : 'number' }" sortable="'holeDepth'" class="text-center">
+            <span editable-number="item.holeDepth" e-step="any" onbeforesave="$ctrl.save($data, 'holeDepth', item)" e-required e-min="0" edit-disabled="!$ctrl.session.can('survey', 'edit')">
+              {{ item.holeDepth | number | available }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

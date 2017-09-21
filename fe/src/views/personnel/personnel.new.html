@@ -1,0 +1,156 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Create Personnel </h3>
+  </div>
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label for="name" class="col-4 col-form-label">Name</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="name" id="name" placeholder="" ng-model="$ctrl.data.name" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.name.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.email.$invalid && form.email.$touched, 'has-success': form.email.$valid && form.email.$touched }">
+      <label for="email" class="col-4 col-form-label">Email</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="email" id="email" placeholder="" ng-model="$ctrl.data.email" required maxlength="50"   ng-pattern="/^.+@.+\..+$/">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.email.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="pattern">This field must have an email structure.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.cellPhoneNumber.$invalid && form.cellPhoneNumber.$touched, 'has-success': form.cellPhoneNumber.$valid && form.cellPhoneNumber.$touched }">
+      <label for="cellPhoneNumber" class="col-4 col-form-label">Cellphone Number</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="cellPhoneNumber" id="cellPhoneNumber" placeholder="" ng-model="$ctrl.data.cellPhoneNumber"  maxlength="25"   >
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.cellPhoneNumber.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 25.</span>
+          <span ng-message="pattern">must be number</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.jobPhoneNumber.$invalid && form.jobPhoneNumber.$touched, 'has-success': form.jobPhoneNumber.$valid && form.jobPhoneNumber.$touched }">
+      <label for="jobPhoneNumber" class="col-4 col-form-label">Job Phone Number</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="jobPhoneNumber" id="jobPhoneNumber" placeholder="" ng-model="$ctrl.data.jobPhoneNumber"  maxlength="25"   >
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.jobPhoneNumber.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 25.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.otherPhoneNumber.$invalid && form.otherPhoneNumber.$touched, 'has-success': form.otherPhoneNumber.$valid && form.otherPhoneNumber.$touched }">
+      <label for="otherPhoneNumber" class="col-4 col-form-label">Other Phone Number</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="otherPhoneNumber" id="otherPhoneNumber" placeholder="" ng-model="$ctrl.data.otherPhoneNumber" maxlength="25">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.otherPhoneNumber.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 25.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.user.$invalid && form.user.$touched, 'has-success': form.user.$valid && form.user.$touched }">
+      <label for="user" class="col-4 col-form-label">User</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="user" id="user" placeholder="" ng-model="$ctrl.data.user" required uib-typeahead="item as item.name for item in $ctrl.getUsers($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.user.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.positionType.$invalid && form.positionType.$touched, 'has-success': form.positionType.$valid && form.positionType.$touched && $ctrl.data.positionType.id, 'has-warning': form.positionType.$valid && form.positionType.$touched && !$ctrl.data.positionType.id }">
+      <label for="positionType" class="col-4 col-form-label">Position Type</label>
+      <div ng-class="{ 'col-8': $ctrl.session.can('personnel_position', 'create'), 'col-6': !$ctrl.session.can('personnel_position', 'create') }">
+        <div ng-class="{ 'input-group': $ctrl.session.can('personnel_position', 'create') }">
+          <input type="text" class="form-control" name="positionType" id="positionType" placeholder="" ng-model="$ctrl.data.positionType" required uib-typeahead="item as item.itemValue for item in $ctrl.getPositions($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="$ctrl.session.can('personnel_position', 'create')" typeahead-append-to-body="true">
+          <span class="input-group-btn" ng-if="$ctrl.session.can('personnel_position', 'create')">
+            <button class="btn btn-default" type="button" ng-click="$ctrl.createPosition()" ng-disabled="!$ctrl.data.positionType || $ctrl.data.positionType.id" ng-class="{ 'btn-warning': $ctrl.data.positionType && !$ctrl.data.positionType.id }">
+              <i class="fa fa-fw fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <span class="help-block" ng-if="$ctrl.data.positionType && !$ctrl.data.positionType.id">
+          To create this new value click on the <strong>+</strong> button.
+        </span>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.positionType.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.contractType.$invalid && form.contractType.$touched, 'has-success': form.contractType.$valid && form.contractType.$touched && $ctrl.data.contractType.id, 'has-warning': form.contractType.$valid && form.contractType.$touched && !$ctrl.data.contractType.id }">
+      <label for="contractType" class="col-4 col-form-label">Contract Type</label>
+      <div ng-class="{ 'col-8': $ctrl.session.can('personnel_contract_type', 'create'), 'col-6': !$ctrl.session.can('personnel_contract_type', 'create') }">
+        <div ng-class="{ 'input-group': $ctrl.session.can('personnel_contract_type', 'create') }">
+          <input type="text" class="form-control" name="contractType" id="contractType" placeholder="" ng-model="$ctrl.data.contractType" required uib-typeahead="item as item.itemValue for item in $ctrl.getContractTypes($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="$ctrl.session.can('personnel_contract_type', 'create')" typeahead-append-to-body="true">
+          <span class="input-group-btn" ng-if="$ctrl.session.can('personnel_contract_type', 'create')">
+            <button class="btn btn-default" type="button" ng-click="$ctrl.createContract()" ng-disabled="!$ctrl.data.contractType || $ctrl.data.contractType.id" ng-class="{ 'btn-warning': $ctrl.data.contractType && !$ctrl.data.contractType.id }">
+              <i class="fa fa-fw fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <span class="help-block" ng-if="$ctrl.data.contractType && !$ctrl.data.contractType.id">
+          To create this new value click on the <strong>+</strong> button.
+        </span>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.contractType.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.hiredAt.$invalid && form.hiredAt.$touched, 'has-success': form.hiredAt.$valid && form.hiredAt.$touched }">
+      <label for="hiredAt" class="col-4 col-form-label">Date of hire</label>
+      <div class="col-6">
+        <input class="form-control" type="date" name="hiredAt" id="hiredAt" placeholder="" ng-model="$ctrl.data.hiredAt" required>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.hiredAt.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="date">Invalid date.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <label class="col-4 col-form-label" for="isRigOperator">Rig Operator?</label>
+      <div class="col-6">
+        <toggle ng-model="$ctrl.data.isRigOperator"></toggle>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || ($ctrl.data.user && !$ctrl.data.user.id) || ($ctrl.data.positionType && !$ctrl.data.positionType.id) || ($ctrl.data.contractType && !$ctrl.data.contractType.id)">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button>
+  </div>
+</form>

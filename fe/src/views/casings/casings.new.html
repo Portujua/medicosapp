@@ -1,0 +1,116 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Create Casing</h3>
+  </div>
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.job.$invalid && form.job.$touched, 'has-success': form.job.$valid && form.job.$touched }">
+      <label for="job" class="col-4 col-form-label">Job Number</label>
+      <div class="col">
+        <input type="text" class="form-control" name="job" id="job" placeholder="" ng-model="$ctrl.data.job" required uib-typeahead="item as item.jobNumber for item in $ctrl.getJobs($viewValue)" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.job.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.outerDiameter.$invalid && form.outerDiameter.$touched, 'has-success': form.outerDiameter.$valid && form.outerDiameter.$touched }">
+      <label for="outerDiameter" class="col-4 col-form-label">Outer Diameter</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="outerDiameter" id="outerDiameter" placeholder="" ng-model="$ctrl.data.outerDiameter" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.outerDiameter.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.innerDiameter.$invalid && form.innerDiameter.$touched, 'has-success': form.innerDiameter.$valid && form.innerDiameter.$touched }">
+      <label for="innerDiameter" class="col-4 col-form-label">Inner Diameter</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="innerDiameter" id="innerDiameter" placeholder="" ng-model="$ctrl.data.innerDiameter" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.innerDiameter.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.top.$invalid && form.top.$touched, 'has-success': form.top.$valid && form.top.$touched }">
+      <label for="top" class="col-4 col-form-label">Top</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="top" id="top" placeholder="" ng-model="$ctrl.data.top" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.top.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bottom.$invalid && form.bottom.$touched, 'has-success': form.bottom.$valid && form.bottom.$touched }">
+      <label for="bottom" class="col-4 col-form-label">Bottom</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="bottom" id="bottom" placeholder="" ng-model="$ctrl.data.bottom" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.bottom.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+     <div class="form-group row has-feedback" ng-class="{ 'has-error': form.weight.$invalid && form.weight.$touched, 'has-success': form.weight.$valid && form.weight.$touched }">
+      <label for="weight" class="col-4 col-form-label">Weight</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="weight" id="weight" placeholder="" ng-model="$ctrl.data.weight" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.weight.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.size.$invalid && form.size.$touched, 'has-success': form.size.$valid && form.size.$touched }">
+      <label for="size" class="col-4 col-form-label">Size</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="size" id="size" placeholder="" ng-model="$ctrl.data.size" required min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.size.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.description.$invalid && form.description.$touched, 'has-success': form.description.$valid && form.description.$touched }">
+      <label for="description" class="col-4 col-form-label">Description</label>
+      <div class="col-8">
+        <textarea class="form-control resize-vertical" type="text" name="description" id="description" placeholder="" ng-model="$ctrl.data.description" required maxlength="500" rows="4"></textarea>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.description.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 500.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || $ctrl.validatePicklists()">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button>
+  </div>
+</form>

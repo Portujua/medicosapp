@@ -2,9 +2,9 @@ angular.module('app')
   .factory('Session', (StorageService) => {
 
     class Session extends BaseFactory {
-      constructor({ id = null, username = null, token = null, name = null, role = null, email = null, expirationTime = 60, isActive = true }) {
+      constructor({ id = null, username = null, token = null, name = null, role = null, email = null, profilePicturePath = null, expirationTime = 60, isActive = true }) {
         // Parent
-        super({ id, username, token, name, role, email, expirationTime, isActive });
+        super({ id, username, token, name, role, email, profilePicturePath, expirationTime, isActive });
 
         // Sort permissions
         this.role.permission = _.sortBy(this.role.permission, (entity) => entity.entityName);
@@ -17,21 +17,8 @@ angular.module('app')
         });
       }
 
-      get() {
-        return {
-          id: this.id,
-          username: this.username,
-          token: this.token,
-          name: this.name,
-          role: this.role,
-          email: this.email,
-          expirationTime: this.expirationTime,
-          isActive: this.isActive,
-        };
-      }
-
       // Permissions
-      can(entityName = null, action = null) {
+      can(entityName = null, action = null) {        
         if (_.isEmpty(entityName) || !_.isString(entityName)) {
           return false;
         }

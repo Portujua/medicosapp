@@ -10,6 +10,7 @@ angular.module('app')
 
     },
     replace: true,
+    scope: true,
   }));
 
 })();

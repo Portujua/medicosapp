@@ -1,0 +1,77 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title">Dashboard Settings</h3>
+  </div>
+  <div id="homeSettings" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" >
+
+    <div class="row">
+      <div class="col-6">
+        <div class="box">
+          <div class="panel panel-default hug">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Available
+                <div class="pull-right">
+                  <a href="" ng-click="$ctrl.selectAll(true)">All</a>
+                </div>
+              </h3>
+            </div>
+            <div class="panel-body padding-xs">
+              <ul dnd-list="$ctrl.models.lists.available">
+                  <!-- The dnd-draggable directive makes an element draggable and will
+                       transfer the object that was assigned to it. If an element was
+                       dragged away, you have to remove it from the original list
+                       yourself using the dnd-moved attribute -->
+                <li ng-repeat="item in $ctrl.models.lists.available"
+                    dnd-draggable="item"
+                    dnd-moved="$ctrl.models.lists.available.splice($index, 1); $ctrl.ping()"
+                    dnd-effect-allowed="move"
+                    dnd-selected="$ctrl.models.selected = item">
+                    <h4 class="hug"><i class="fa fa-fw text-primary {{ item.icon || 'fa-line-chart' }}"></i> {{ item.title }}</h4>
+                    <p ng-if="item.description" class="text-muted hug-bottom margin-xs-top small">{{ item.description }}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-6">
+        <div class="box">
+          <div class="panel panel-default hug">
+            <div class="panel-heading">
+              <h3 class="panel-title">
+                Showing
+                <div class="pull-right">
+                  <a href="" ng-click="$ctrl.selectAll(false)">None</a>
+                </div>
+              </h3>
+            </div>
+            <div class="panel-body padding-xs">
+              <ul dnd-list="$ctrl.models.lists.showing">
+                  <!-- The dnd-draggable directive makes an element draggable and will
+                       transfer the object that was assigned to it. If an element was
+                       dragged away, you have to remove it from the original list
+                       yourself using the dnd-moved attribute -->
+                <li ng-repeat="item in $ctrl.models.lists.showing"
+                    dnd-draggable="item"
+                    dnd-moved="$ctrl.models.lists.showing.splice($index, 1)"
+                    dnd-effect-allowed="move"
+                    dnd-selected="$ctrl.models.selected = item">
+                    <h4 class="hug"><i class="fa fa-fw text-primary {{ item.icon || 'fa-line-chart' }}"></i> {{ item.title }}</h4>
+                    <p ng-if="item.description" class="text-muted hug-bottom margin-xs-top small">{{ item.description }}</p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">Close</button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.save()" ng-disabled="form.$invalid || $ctrl.isSaving"><i class="fa fa-fw fa-save"></i> Save</button>
+  </div>
+</form>

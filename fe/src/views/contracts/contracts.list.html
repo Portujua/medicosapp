@@ -1,0 +1,57 @@
+<div class="actions-bar hug">
+  <button class="btn btn-primary" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('contract', 'create') || true">
+    <i class="fa fa-fw fa-plus"></i> Create Contract Template
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col ng-if="$ctrl.session.can('contract', 'edit') || true">
+        <col width="45%">
+        <col width="45%">
+        <col width="10%">
+        <col ng-if="$ctrl.session.can('contract', 'activate') && $ctrl.session.can('contract', 'deactivate')">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td ng-if="$ctrl.session.can('contract', 'edit') || true">
+            <button class="btn btn-primary btn-xs" uib-tooltip="Edit" ng-click="$ctrl.update(item.id)">
+              <i class="fa fa-fw fa-pencil"></i>
+            </button>
+          </td>
+
+          <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
+            <span editable-text="item.name" onbeforesave="$ctrl.save($data, 'name', item)" edit-disabled="!$ctrl.session.can('contract', 'edit')" e-required e-maxlength="50">
+              {{ item.name | available }}
+            </span>
+          </td>
+
+          <td title="'Post Script'" filter="{ postScript: 'text' }" sortable="'postScript'">
+            <span editable-text="item.postScript" onbeforesave="$ctrl.save($data, 'postScript', item)" edit-disabled="!$ctrl.session.can('contract', 'edit')" e-required e-maxlength="50">
+              {{ item.postScript | available }}
+            </span>
+          </td>
+
+          <td class="text-center" title="'Currency'" filter="{ currency: 'text' }" sortable="'currency'">
+            {{ item.currency.itemValue | available }}
+          </td>
+
+          <td title="'Active?'" sortable="'isActive'" class="text-center" ng-if="$ctrl.session.can('contract', 'activate') && $ctrl.session.can('contract', 'deactivate')">
+            <toggle ng-model="item.isActive" ng-change="$ctrl.toggleActivation(item)" size="btn-xs"></toggle>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

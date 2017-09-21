@@ -1,0 +1,51 @@
+<div class="actions-bar hug">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('role', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Role
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col width="20%">
+        <col width="80%">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td title="'Name'" filter="{ name: 'text' }" sortable="'name'" class="text-middle">
+            <a href="" ng-if="$ctrl.session.can('role', 'edit')" ng-click="$ctrl.update(item.id)">{{ item.name | available }}</a>
+            <span ng-if="!$ctrl.session.can('role', 'edit')">{{ item.name | available }}</span>
+            <!-- <a href="" drilldown="{ title: item.name, component: 'rolesView', id: item.id }">{{ item.name | available }}</a> -->
+          </td>
+
+          <td title="'Description'" filter="{ 'description': 'text' }" sortable="'description'" class="text-middle">
+            {{ item.description | available }}
+          </td>
+
+          <!-- <td title="'Active?'" sortable="'isActive'" class="text-center">
+            {{ item.isActive | conditional }}
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+

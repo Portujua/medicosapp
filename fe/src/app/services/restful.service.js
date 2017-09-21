@@ -22,6 +22,30 @@ class RESTful {
   }
 
   /**
+   * Create the filter queryString as of 
+   * https://bitbucket.org/addsoftware/ddmanager-be/commits/2240e04367ac6c621395e3e36a681eae4e4c0fa2
+   * @param {Array} filters 
+   * @return {String}
+   */
+  _parseFilters(filters) {
+    if (!_.isArray(filters)) {
+      return filters;
+    }
+
+    if (filters.length === 0) {
+      return '';
+    }
+
+    let qs = '';
+
+    _.each(filters, (filter) => {
+      qs += filter.toString()
+    })
+
+    return qs;
+  }
+
+  /**
    * Create a valid url using the API constant
    * @param  {String} endpoint
    * @param  {Object} queryStrings
@@ -31,6 +55,11 @@ class RESTful {
     // Has query strings?
     if (!_.isEmpty(queryStrings) && _.isObject(queryStrings)) {
       endpoint += endpoint.indexOf('?') === -1 ? '?' : '&';
+
+      if (!_.isUndefined(queryStrings.filter)) {
+        queryStrings.filter = this._parseFilters(queryStrings.filter);
+      }
+
       endpoint += jQuery.param(queryStrings);
     }
     return this._url + endpoint;
@@ -137,6 +166,36 @@ class RESTful {
     }
 
     this.$http.delete(this._createUrl(endpoint, queryStrings), config)
+      .then((response) => {
+        deferred.resolve(this._createResponse(response, isHttpResponse));
+      }, (response) => {
+        deferred.reject(this._createResponse(response, isHttpResponse));
+      });
+
+    return deferred.promise;
+  }
+
+  /**
+   * PATCH
+   * @param  {String} url The endpoint
+   * @param  {Object} payload
+   * @param  {Object} queryStrings     Query strings
+   * @param  {Object} config
+   * @param  {Bool} isHttpResponse     direct http response ({ data, status, headers, config, statusText })
+   * @return {Promise}
+   */
+  patch(endpoint, payload, queryStrings, config, isHttpResponse) {
+    let deferred = this.$q.defer();
+
+    if (!_.isString(endpoint)) {
+      deferred.reject('"endpoint" isn\'t a string.');
+    }
+
+    if (!payload || !_.isObject(payload)) {
+      payload = {};
+    }
+
+    this.$http.patch(this._createUrl(endpoint, queryStrings), payload, config)
       .then((response) => {
         deferred.resolve(this._createResponse(response, isHttpResponse));
       }, (response) => {

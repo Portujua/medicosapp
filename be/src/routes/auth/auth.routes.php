@@ -10,13 +10,11 @@
 * @license MIT
 */
 
-$auth = new Auth();
-
-$app->group('/auth', function() use ($app, $auth){
-	$app->post('/', function() use ($app, $auth) {
+$app->group('/auth', function() use ($app){
+	$app->post('/', function() use ($app) {
     $data = json_decode($app->request->getBody(), true);
 
-    $responseData = $auth->login($data);
+    $responseData = Auth::getInstance()->login($data);
 
     if ($responseData instanceof Response) {
       $responseData->setSlim($app);
@@ -25,8 +23,9 @@ $app->group('/auth', function() use ($app, $auth){
     else {
       $token = Session::generateId();
       Session::set($token);
+      $responseData = Patient::getInstance()->get($responseData->id);
 
-      $responseData = Util::jsonPdoToArray($responseData[0]);
+      $responseData = Util::jsonPdoToArray($responseData);
 
       $response = new Response(Util::mergeOptions($responseData, ["token" => $token], true));
       $response->setSlim($app);

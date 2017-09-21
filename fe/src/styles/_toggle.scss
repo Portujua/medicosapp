@@ -4,9 +4,10 @@
   margin-right: 5px;
 }
 .toggle {
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+  // font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
   position: relative;
   overflow: hidden;
+  // border-radius: 1000px;
 }
 .toggle-group {
   position: absolute;
@@ -93,4 +94,9 @@
 }
 .toggle-off.btn-xs {
   padding-left: 12px;
+}
+
+// Custom style in tables
+td .toggle {
+  min-width: 60px !important;
 }

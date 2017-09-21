@@ -1,0 +1,148 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header pointer" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title pull-left pointer">Create Activity</h3>
+  </div>
+
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.wellbore.$invalid && form.wellbore.$touched, 'has-success': form.wellbore.$valid && form.wellbore.$touched }">
+      <label for="wellbore" class="col-4 col-form-label">Wellbore</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="wellbore" id="wellbore" placeholder="" ng-model="$ctrl.data.wellbore" required uib-typeahead="item as item.name for item in $ctrl.getWellbores($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.wellbore.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.startTime.$invalid && form.startTime.$touched, 'has-success': form.startTime.$valid && form.startTime.$touched }">
+      <label for="startTime" class="col-4 col-form-label">Start Time</label>
+      <div class="col-6">
+        <div uib-timepicker ng-model="$ctrl.data.startTime" max="$ctrl.data.endTime" show-meridian="false" show-spinners="false" required ng-disabled="$ctrl.resolve.list.length"></div>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.endTime.$invalid && form.endTime.$touched, 'has-success': form.endTime.$valid && form.endTime.$touched }">
+      <label for="endTime" class="col-4 col-form-label">End Time</label>
+      <div class="col-6">
+        <div uib-timepicker ng-model="$ctrl.data.endTime" min="$ctrl.data.startTime" show-meridian="false" show-spinners="false" required></div>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.hours.$invalid && form.hours.$touched, 'has-success': form.hours.$valid && form.hours.$touched }">
+      <label for="hours" class="col-4 col-form-label">Hours</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="hours" id="hours" placeholder="" step="any" ng-model="$ctrl.data.duration" required min="0" max="24">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.hours.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 1.</span>
+          <span ng-message="max">Value must be lower than or equal to 24.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.activityType.$invalid && form.activityType.$touched, 'has-success': form.activityType.$valid && form.activityType.$touched }">
+      <label for="activityType" class="col-4 col-form-label">Code</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="activityType" id="activityType" placeholder="" ng-model="$ctrl.data.activityType" required uib-typeahead="item as item.name for item in $ctrl.getActivityTypes($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true" typeahead-on-select="$ctrl.setActivityType($item, $model, $label, $event)">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.activityType.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+       </div>
+    </div>
+
+    <div class="form-group row" ng-if="$ctrl.data.activityType.hasDrillingParameters">
+      <label for="drillingParameters" class="col-4 col-form-label"></label>
+      <div class="col-6">
+        <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.openDrillingParameters()">Drilling Parameters</button>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.startDepth.$invalid && form.startDepth.$touched, 'has-success': form.startDepth.$valid && form.startDepth.$touched }">
+      <label for="startDepth" class="col-4 col-form-label">Start Depth</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="startDepth" id="startDepth" placeholder="" step="1" ng-model="$ctrl.data.startDepth" required min="0" max="{{ $ctrl.data.endDepth }}" ng-disabled="$ctrl.resolve.list.length">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.startDepth.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.endDepth.$invalid && form.endDepth.$touched, 'has-success': form.endDepth.$valid && form.endDepth.$touched }">
+      <label for="endDepth" class="col-4 col-form-label">End Depth</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="endDepth" id="endDepth" placeholder="" step="1"  ng-model="$ctrl.data.endDepth" required min="{{ $ctrl.data.startDepth }}">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.endDepth.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.comments.$invalid && form.comments.$touched, 'has-success': form.comments.$valid && form.comments.$touched }">
+      <label for="comments" class="col-4 col-form-label">Comments</label>
+      <div class="col-8">
+        <textarea class="form-control resize-vertical" type="text" name="comments" id="comments" placeholder="" ng-model="$ctrl.data.comments" maxlength="500" rows="2"></textarea>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.comments.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 500.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bha.$invalid && form.bha.$touched, 'has-success': form.bha.$valid && form.bha.$touched }">
+      <label for="bha" class="col-4 col-form-label">BHA</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="bha" id="bha" placeholder="" ng-model="$ctrl.data.bha" uib-typeahead="item as item.name for item in $ctrl.getBhas($viewValue)" typeahead-show-hint="true" typeahead-min-length="1" typeahead-editable="false" typeahead-append-to-body="true">
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.measurementWhileDrilling.$invalid && form.measurementWhileDrilling.$touched, 'has-success': form.measurementWhileDrilling.$valid && form.measurementWhileDrilling.$touched }">
+      <label for="measurementWhileDrilling" class="col-4 col-form-label">MWD</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="measurementWhileDrilling" id="measurementWhileDrilling" placeholder="" ng-model="$ctrl.data.measurementWhileDrilling"  uib-typeahead="item as item.name for item in $ctrl.getMWDs($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="false" typeahead-append-to-body="true">
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.phase.$invalid && form.phase.$touched, 'has-success': form.phase.$valid && form.phase.$touched }">
+      <label class="col-4 col-form-label" for="phase">Phase</label>
+      <div class="col-6">
+        <select id="phase" name="phase" class="form-control" ng-model= "$ctrl.data.phase">
+          <option value="HORIZONTAL">Horizontal </option>
+          <option value="CURVE">Curve</option>
+          <option value="VERTICAL">Vertical</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group row" ng-class="{ 'has-error': form.formations.$invalid && form.formations.$touched, 'has-success': form.formations.$valid && form.formations.$touched }" >
+      <label for="formations" class="col-4 col-form-label">Formations</label>
+      <div class="col-8">
+        <tags-input ng-model="$ctrl.form" key-property="id" display-property="itemValue" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Add a formation" ng-disabled="!$ctrl.data.wellbore.id">
+          <auto-complete source="$ctrl.getFormations($query)"></auto-complete>
+        </tags-input>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || ($ctrl.data.clientContractTerm && !$ctrl.data.clientContractTerm.id) || ($ctrl.data.workingDay && !$ctrl.data.workingDay.id)">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button>
+  </div>
+</form>

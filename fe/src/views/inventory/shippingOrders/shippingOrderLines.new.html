@@ -1,0 +1,130 @@
+<div class="modal-header">
+  <h3 class="modal-title">Add Line</h3>
+</div>
+<div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+  <div class="row">
+    <div class="col-6 col-xl-8">
+      <div class="panel panel-default">
+        <div class="panel-heading">
+          Select the piece you want to ship
+          <div class="pull-right text-muted">
+            <i class="fa fa-truck fa-lg fa-flip-horizontal"></i>
+            <i class="fa fa-arrow-right"></i>
+          </div>
+        </div>
+        <inventory-list storage="$ctrl.resolve.shippingOrder.fromStorage" select="$ctrl.add(data)"></inventory-list>
+      </div>
+    </div>
+
+    <div class="col-6 col-xl-4">
+      <!-- <div class="panel panel-primary">
+        <div class="panel-heading">
+          Shipping Order
+          <div class="pull-right">
+            <i class="fa fa-fw fa-file-text"></i>
+          </div>
+        </div>
+        <div class="panel-body">
+          <div class="form-group row">
+            <label for="fromStorage" class="col-2 col-form-label">From</label>
+            <div class="col-9">
+              <input type="text" class="form-control margin-sm-bottom" ng-model="$ctrl.resolve.shippingOrder.fromStorage.name" readonly="readonly">
+              <div class="small text-muted" ng-if="$ctrl.resolve.shippingOrder.fromStorage.address">
+                <strong>Address:</strong> {{ $ctrl.resolve.shippingOrder.fromStorage.address | available }}
+              </div>
+              <div class="small text-muted" ng-if="$ctrl.resolve.shippingOrder.fromStorage.description">
+                <strong>Description:</strong> {{ $ctrl.resolve.shippingOrder.fromStorage.description | available }}
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="toStorage" class="col-2 col-form-label">From</label>
+            <div class="col-9">
+              <input type="text" class="form-control margin-sm-bottom" ng-model="$ctrl.resolve.shippingOrder.toStorage.name" readonly="readonly">
+              <div class="small text-muted" ng-if="$ctrl.resolve.shippingOrder.toStorage.address">
+                <strong>Address:</strong> {{ $ctrl.resolve.shippingOrder.toStorage.address | available }}
+              </div>
+              <div class="small text-muted" ng-if="$ctrl.resolve.shippingOrder.toStorage.description">
+                <strong>Description:</strong> {{ $ctrl.resolve.shippingOrder.toStorage.description | available }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div> -->
+
+      <div class="panel panel-info">
+        <div class="panel-heading">
+          Line Details
+          <div class="pull-right">
+            <i class="fa fa-fw fa-plus-circle"></i>
+          </div>
+        </div>
+
+        <div class="table-responsive" ng-if="$ctrl.data.lineEntry">
+          <table class="table table-hover">
+            <colgroup>
+              <col>
+              <col width="20%">
+              <col width="60%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th></th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Catalog Entry</th>
+                <th class="text-center">Quantity</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="bha-min-schematic">
+                  <img ng-src="{{ $ctrl.data.lineEntry.imagePath }}"/>
+                </td>
+
+                <td class="text-nowrap">
+                  <div>{{ $ctrl.data.lineEntry.itemType | type:{ 'BHACOMPONENT': 'BHA Component', 'BIT': 'Drill Bit', 'MOTOR': 'Motor', 'WATERPUMP': 'Water Pump' } | available }}</div>
+                  <div ng-if="$ctrl.data.lineEntry.isBHAPart && !$ctrl.selectable" class="badge">BHA Piece</div>
+                </td>
+
+                <td>
+                  <a href="" class="bold" drilldown="{ title: $ctrl.data.lineEntry.name, component: 'catalogsView', id: $ctrl.data.lineEntry.id }">{{ $ctrl.data.lineEntry.name | available }}</a>
+                  <div class="small text-muted" ng-if="$ctrl.data.lineEntry.description">
+                    <strong>Description:</strong> {{ $ctrl.data.lineEntry.description | available }}
+                  </div>
+                  <div class="small text-muted" ng-if="$ctrl.data.lineEntry.model">
+                    <strong>Model:</strong> {{ $ctrl.data.lineEntry.model | available }}
+                  </div>
+                  <div class="small text-muted" ng-if="$ctrl.data.lineEntry.manufacturer.itemValue">
+                    <strong>Manufacturer</strong> {{ $ctrl.data.lineEntry.manufacturer.itemValue | available }}
+                  </div>
+                  <div class="small text-muted" ng-if="$ctrl.data.lineEntry.serialNumber">
+                    <strong>S/N:</strong> {{ $ctrl.data.lineEntry.serialNumber | available }}
+                  </div>
+                </td>
+
+                <td class="text-center">
+                  <form name="form">
+                    <div class="form-group hug" ng-class="{ 'has-error': form.quantitySent.$invalid }">
+                      <input type="number" name="quantitySent" class="form-control text-center" ng-model="$ctrl.data.quantitySent" step="1" required min=1" max="{{ $ctrl.data.max }}">
+                    </div>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+    Cancel
+  </button>
+  <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="!$ctrl.data.quantitySent || $ctrl.isSaving">
+    <i class="fa fa-fw fa-save"></i> Add
+  </button>
+</div>
+

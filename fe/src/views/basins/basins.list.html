@@ -1,0 +1,46 @@
+<div class="actions-bar hug">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('basin', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Basin
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+  </div>
+</div>
+
+<div class="table-frame">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col width="25%">
+        <col width="25%">
+        <col width="50%">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
+            <span editable-text="item.name" onbeforesave="$ctrl.save($data, 'name', item)" edit-disabled="!$ctrl.session.can('basin', 'edit')" e-required e-maxlength="50">
+              {{ item.name | available }}
+            </span>
+          </td>
+
+          <td title="'Region'" filter="{ 'region.name' : 'text' }" sortable="'region.name'">
+            <span editable-select="item.region" e-ng-options="item as item.name for item in $ctrl.regions" onbeforesave="$ctrl.save($data, 'region', item)" e-required edit-disabled="!$ctrl.session.can('basin', 'edit')" onshow="$ctrl.getRegions()">
+              {{ item.region.name | available }}
+            </span>
+          </td>
+
+          <td title="'Description'" filter="{ 'description': 'text' }" sortable="'description'" class="row-textarea">
+            <span editable-textarea="item.description" e-rows="4" onbeforesave="$ctrl.save($data, 'description', item)" edit-disabled="!$ctrl.session.can('basin', 'edit')" e-maxlength="250">
+              {{ item.description | available }}
+            </span>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

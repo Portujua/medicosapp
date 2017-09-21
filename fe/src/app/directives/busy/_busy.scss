@@ -27,7 +27,7 @@
   opacity: 0;
   transform: translate(0, -40px);
 }
-.cg-busy-backdrop { background-color: #fff; }
+.cg-busy-backdrop { background-color: #fff; opacity: .8; }
 
 .cg-busy-backdrop-animation.ng-hide-add,
 .cg-busy-backdrop-animation.ng-hide-remove {
@@ -50,23 +50,7 @@
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+.cg-saving { overflow-y: hidden; }
 
 
 

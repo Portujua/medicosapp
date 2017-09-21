@@ -1,0 +1,88 @@
+<div class="actions-bar hug">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.createHours()" ng-if="!ctrl.session.can('personnel_hours', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Hour Entry
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.report()" ng-if="$ctrl.job.id"><i class="fa fa-fw fa-file-o"></i> Report</button>
+    <!-- <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button> -->
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+  </div>
+</div>
+
+<div class="padding-sm bordered-bottom">
+  <picker ng-model="$ctrl.day"
+      picker-list="$ctrl.days"
+      picker-on-change="$ctrl.getHours($item)"
+      subtitle-attr="date"
+      picker-icon="fa-calendar">
+  </picker>
+</div>
+
+<div class="margin-sm" cg-busy="$ctrl.loadingPromise">
+  <div class="table-responsive">
+    <table class="table table-hover hug bordered" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col width="11.42%">
+        <col width="11.42%">
+        <col width="11.42%">
+        <col width="11.42%">
+        <col width="11.42%">
+        <col width="11.42%">
+        <col width="11.42%">
+        <col width="20%">
+      </colgroup>
+      <thead>
+        <th></th>
+        <th class="text-center">Status</th>
+        <th class="text-center">Personnel</th>
+        <th class="text-center">Category</th>
+        <th class="text-center">Start Time </th>
+        <th class="text-center">End Time</th>
+        <th class="text-center">Approved By</th>
+        <th class="text-center">Extra Hours</th>
+        <th class="text-center">Comments</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="item in $ctrl.data | orderBy:'personnel.name'" ng-class="{ 'info': item.approved === 'APPROVED' }">
+          <td class="table-numeration">{{ $index + 1 }}</td>
+
+          <td class="text-center">
+            <span editable-select="item.approved" e-ng-options="sta for sta  in $ctrl.status"  onbeforesave="$ctrl.updateStatus(item.id ,$data)" edit-disabled="!$ctrl.session.can('personnel_hours', 'edit')">
+              {{ item.approved |available }}
+            </span>
+          </td>
+
+          <td>
+            {{ item.personnel.name | available }}
+          </td>
+
+           <td>
+            {{ item.hourType.itemValue | available }}
+          </td>
+
+          <td class="text-center">
+            {{ item.startTime | removeSeconds | available }}
+          </td>
+
+          <td class="text-center">
+            {{ item.endTime | available | removeSeconds }}
+          </td>
+
+          <td>
+            {{ item.approvedBy.name | available }}
+          </td>
+
+          <td class="text-center">
+            {{ item.extraHours | available | conditional }}
+          </td>
+
+          <td class="row-textarea">
+            {{ item.comments | available }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

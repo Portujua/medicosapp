@@ -1,0 +1,60 @@
+.navbar {
+  margin-left: $sidebar-width;
+  animation: $sidebar-expand-animation _collapseSidebar;
+
+  .dropdown-header {
+    color: #aaa;
+    font-size: 75%;
+    text-transform: uppercase;
+  }
+
+  .navbar-header {
+    display: flex;
+    align-items: center;
+
+    margin-left: -($grid-gutter-width / 2);
+  }
+
+  .navbar-brand {
+    margin: 0;
+    padding: 5px 10px;
+    img {
+      height: 40px;
+    }
+  }
+
+  &.sidebar-open {
+    margin-left: $expanded-sidebar-width;
+    animation: $sidebar-expand-animation _expandSidebar;
+  }
+
+  .profile-pic {
+    float: left;
+    display: inline-block;
+    margin-right: 8px;
+    height: 30px;
+    width: 30px;
+    margin-top: -5px;
+    margin-bottom: -5px;
+  }
+
+  .container-fluid:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dropdown {
+    .dropdown-toggle[aria-expanded=true] {
+      background-color: $brand-primary !important;
+      color: #fff !important;
+    }
+
+    .dropdown-menu {
+      a:hover {
+        // background-color: $brand-primary !important;
+        // color: #fff !important;
+      }
+    }
+  }
+}

@@ -1,7 +1,11 @@
-Basic App
+Scaffolar 2
 ===========
 
-This is project should serve as a base to start any web application based on AngularJS. It contains a bunch of libraries included.
+The AngularJS' scaffolding tool for single page websites.
+
+This project is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.
+
+Scaffolar contains a sample AngularJS application and is preconfigured to install the Angular framework and a bunch of development and testing tools for instant web development gratification.
 
 ## Getting Started
 
@@ -18,8 +22,13 @@ This is project should serve as a base to start any web application based on Ang
 
 2. Run `bower install` to install front-end dependencies.
 
-3. Run `gulp` to start the development server. It should automatically open the client in your browser when ready.
+3. Run `gulp serve` to start the development server. It should automatically open the client in your browser when ready.
 
-**Eduardo Lorenzo**
+## Build & development
 
-- <http://github.com/Portujua>
+Run `grunt build` for building or `grunt build:serve` for building and preview.
+
+**Christiam Mena**
+
+- <http://twitter.com/xtiam57>
+- <http://github.com/xtiam57>

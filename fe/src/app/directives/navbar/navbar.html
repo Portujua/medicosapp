@@ -1,4 +1,4 @@
-<div class="navbar navbar-default navbar-fixed-top">
+<div class="navbar navbar-default navbar-fixed-top {{ $ctrl.SidebarService.isOpen ? 'sidebar-open' : '' }}">
   <div class="container-fluid">
     <!-- Brand and toggle get grouped for better mobile display -->
     <div class="navbar-header">
@@ -8,14 +8,47 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="">
-        <img alt="Brand" ui-sref="root.home">
-      </a>
+      <!-- <a class="navbar-brand" href="">
+        <img src="../images/logo.png" alt="Logo" ui-sref="root.home">
+      </a> -->
+
+      <!-- Toggle sidebar -->
+      <ul class="nav navbar-nav">
+        <li>
+          <a href="" ng-click="$ctrl.toggle()">
+            <i class="fa fa-caret-right text-muted pointer" ng-if="!$ctrl.SidebarService.isOpen"></i>
+            <i class="fa fa-caret-left text-muted pointer" ng-if="$ctrl.SidebarService.isOpen"></i>
+          </a>
+        </li>
+      </ul>
+      <!-- /Toggle sidebar -->
+
+      <!-- Create button -->
+      <div class="navbar-form navbar-left">
+        <div class="dropdown">
+          <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" uib-tooltip="Create..." tooltip-placement="bottom" tooltip-append-to-body="true">
+            <i class="fa fa-fw fa-plus"></i>
+          </button>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">Create</li>
+            <li>
+              <a href="" ng-repeat="item in NavbarService.getCreates()" ng-click="item.callback()" ng-if="item.can()" ng-disabled="item.isLoading || item.isDisabled">
+                <i ng-if="item.icon" class="fa fa-fw {{ item.icon }} text-{{ item.color | available:'primary' }}"></i> {{ item.name }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <!-- /Create button -->
+
+      <!-- Close tabs -->
+      <tab-manager-options></tab-manager-options>
+      <!-- /Close tabs -->
     </div>
 
     <!-- Collect the nav links, forms, and other content for toggling -->
     <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-      <ul class="nav navbar-nav">
+      <!-- <ul class="nav navbar-nav">
         <li ng-class="{ 'active': page.get() == 'root.home' }">
           <a href="" ui-sref="root.home" >
             <i class="fa fa-fw fa-home"></i>
@@ -36,37 +69,66 @@
             <li><a href="">One more separated link</a></li>
           </ul>
         </li>
-      </ul>
+      </ul> -->
 
-      <!-- <form class="navbar-form navbar-right">
+      <!-- <form class="navbar-form navbar-left">
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search">
         </div>
-        <button type="submit" class="btn btn-default">Submit</button>
+        <button type="submit" class="btn btn-default"><i class="fa fa-fw fa-search"></i></button>
       </form> -->
 
       <ul class="nav navbar-nav navbar-right">
+        <!-- Notifications -->
+        <notifications></notifications>
+        <!-- /Notifications -->
+
+        <!-- Profile -->
         <li>
           <span class="navbar-text">
-            Welcome, <a href="" class="navbar-link bold">{{ session.username | uppercase }}</a> <small>({{ session.role.name }})</small>
+            <a href="" change-picture="{{ session.profilePicturePath }}" endpoint="{{ $ctrl.endPoint }}">
+              <img class="profile-pic circle" ng-src="{{ session.profilePicturePath | defaultImage }}" alt="">
+            </a>
+            <a href="" class="navbar-link bold"  drilldown="{ title: session.name , component: 'usersView', id: session.id }">{{ session.username | uppercase }}</a>
+            <small>({{ session.role.name }})</small>
           </span>
         </li>
-        <!-- <li><a href="">Link</a></li> -->
+        <!-- /Profile -->
+
+        <!-- Options -->
         <li class="dropdown">
           <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            <i class="fa fa-fw fa-bars"></i> <span class="caret"></span>
+            <i class="fa fa-fw fa-cog"></i>
+          </a>
+          <ul class="dropdown-menu">
+            <li class="dropdown-header">User administration</li>
+            <li><a href="" drilldown="{ title: 'Users', component: 'usersList' }">Users</a></li>
+            <li><a href="" drilldown="{ title: 'Roles', component: 'rolesList' }">Roles</a></li>
+            <li role="separator" class="divider"></li>
+            <li class="dropdown-header">App settings</li>
+            <li><a href="" ng-click="$ctrl.openPicklistModal()">Picklists</a></li>
+            <li><a href="" drilldown="{ title: 'Regions', component: 'regionsList' }">Regions</a></li>
+             <li><a href="" drilldown="{ title: 'Basins', component: 'basinsList' }">Basins</a></li>
+            <li><a href="" drilldown="{ title: 'Activity Types', component: 'activityTypesList' }">Activity Types</a></li>
+          </ul>
+        </li>
+        <!-- /Options -->
+
+        <!-- Signout -->
+        <li class="dropdown">
+          <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            <i class="fa fa-fw fa-ellipsis-v"></i>
           </a>
           <ul class="dropdown-menu">
             <li class="dropdown-header">Session administration</li>
             <li><a href="" ng-click="$ctrl.openProfileModal()">My Profile</a></li>
-            <li role="separator" class="divider"></li>
-            <li class="dropdown-header">Site administration</li>
-            <li><a href="" ui-sref="root.clientlist">User management</a></li>
+            <li><a href="" ng-click="$ctrl.openSettings()">Settings</a></li>
             <li role="separator" class="divider"></li>
             <li><a href="" ui-sref="logout">Sign Out</a></li>
           </ul>
         </li>
+        <!-- /Signout -->
       </ul>
-    </div><!-- /.navbar-collapse -->
-  </div><!-- /.container-fluid -->
+    </div>
+  </div>
 </div>

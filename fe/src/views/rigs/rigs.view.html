@@ -1,0 +1,111 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <div class="actions-bar hug">
+    <button class="btn btn-primary btn-outline" ng-click="$ctrl.createType()" ng-if="$ctrl.session.can('rig_type', 'create')">
+      Create Type
+    </button>
+
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+      <comments id="$ctrl.data.id" button-class="btn-default"></comments>
+      <attachment id="$ctrl.data.id" button-class="btn-default"></attachment>
+    </div>
+  </div>
+  <!-- /Main actions -->
+
+  <div class="margin-sm">
+    <div class="row">
+      <collapsable-panel></collapsable-panel>
+
+      <!-- Job board -->
+      <div class="col-12 col-lg-4 col-xl-3">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Rig Information
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div class="dashboard-body">
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Name</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.name" onbeforesave="$ctrl.save($data, 'name')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-required e-maxlength="50">
+                    {{ $ctrl.data.name | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Type</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.type" e-ng-options="type as type.itemValue for type in $ctrl.types" onshow="$ctrl.getTypes()" onbeforesave="$ctrl.save($data, 'type')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-required>
+                    {{ $ctrl.data.type.itemValue | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Owner</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.owner" onbeforesave="$ctrl.save($data, 'owner')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-required e-maxlength="50">
+                    {{ $ctrl.data.owner | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Manufacturer</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.manufacturer" onbeforesave="$ctrl.save($data, 'manufacturer')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-maxlength="50">
+                    {{ $ctrl.data.manufacturer | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Power</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.power" onbeforesave="$ctrl.save($data, 'power')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-required e-maxlength="50">
+                    {{ $ctrl.data.power | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Comments</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-textarea="$ctrl.data.comments" e-rows="4" onbeforesave="$ctrl.save($data, 'comments')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-maxlength="250">
+                    {{ $ctrl.data.comments | available }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Body -->
+        </div>
+      </div>
+      <!-- /Job board -->
+
+      <!-- Tabs -->
+      <!-- <div class="col">
+        <scrollable-tabset auto-recalculate="true">
+          <uib-tabset justified="false">
+            <uib-tab index="0" heading="Tab One">
+              <h2>Bye</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Ullam adipisci, perferendis cupiditate ab facilis quis ipsum quibusdam. Aliquid sed eum non aspernatur totam id, deleniti nobis mollitia magnam, recusandae natus!</p>
+            </uib-tab>
+            <uib-tab index="1" heading="Tab Two">
+              <h2>Hello</h2>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Necessitatibus quos itaque similique porro nostrum ex odio voluptas vitae, nisi blanditiis esse expedita error fugit hic quam dignissimos quas facilis. Deserunt!</p>
+            </uib-tab>
+          </uib-tabset>
+        </scrollable-tabset>
+      </div> -->
+      <!-- /Tabs -->
+    </div>
+  </div>
+</div>
+
+
+
+

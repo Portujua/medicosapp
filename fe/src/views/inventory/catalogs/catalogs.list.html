@@ -1,0 +1,84 @@
+<div class="actions-bar borderless-top borderless-lr">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('catalog_entry', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Catalog Entry
+  </button>
+
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.createCatalogCategory()" ng-if="$ctrl.session.can('catalog_category', 'create')">
+    Catalog Categories
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame hug borderless">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col ng-if="$ctrl.session.can('catalog_entry', 'create')">
+        <col>
+        <col width="13.33%">
+        <col width="13.33%">
+        <col width="13.33%">
+        <col width="13.33%">
+        <col width="13.33%">
+        <col width="13.33%">
+        <col width="20%">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td class="text-center" ng-if="$ctrl.session.can('catalog_entry', 'create')">
+            <button class="btn btn-primary btn-outline btn-xs" ng-click="$ctrl.createInventoryEntry(item)" uib-tooltip="Create Inventory Entry" tooltip-append-to-body="true">
+              <i class="fa fa-fw fa-list-ol"></i>
+            </button>
+          </td>
+
+          <td class="bha-min-schematic">
+            <img ng-src="{{ item.imagePath }}"/>
+          </td>
+
+          <td title="'Type'" filter="{ itemType: 'select' }" sortable="'itemType'" filter-data="$ctrl.typesArray">
+            <div>{{ item.itemType | type:{ 'BHACOMPONENT': 'BHA Component', 'BIT': 'Drill Bit', 'MOTOR': 'Motor', 'WATERPUMP': 'Water Pump' } | available }}</div>
+            <div ng-if="item.isBHAPart" class="badge">BHA Piece</div>
+          </td>
+
+          <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
+            <a href="" drilldown="{ title: item.name, component: 'catalogsView', id: item.id }">{{ item.name | available }}</a>
+          </td>
+
+          <td title="'Serial Number'" filter="{ name: 'text' }" sortable="'serialNumber'">
+            {{ item.serialNumber | available }}
+          </td>
+
+          <td title="'Model'" filter="{ model: 'text' }" sortable="'model'">
+            {{ item.model | available }}
+          </td>
+
+          <td title="'Image'" filter="{ baseImage: 'text' }" sortable="'baseImage'">
+            {{ item.baseImage | s:'replaceAll':['_', ' '] | available }}
+          </td>
+
+          <!-- <td title="'Categories'">
+            <span ng-if="!item.categories.length">N/A</span>
+            <span class="badge margin-xs-right" ng-if="item.categories.length" ng-repeat="c in item.categories">
+              {{ c.name | available }}
+            </span>
+          </td> -->
+
+          <td title="'Manufacturer'" filter="{ 'manufacturer.itemValue': 'text' }" sortable="'manufacturer.itemValue'">
+            {{ item.manufacturer.itemValue | available }}
+          </td>
+
+          <td title="'Description'" filter="{ description: 'text' }" sortable="'description'" class="row-textarea">
+            {{ item.description | available }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

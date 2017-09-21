@@ -1,9 +1,15 @@
 ;(() => {
 
 class SidebarService {
-  constructor(SidebarOption) {
+  constructor(SidebarOption, $timeout) {
     this._options = [];
     this.SidebarOption = SidebarOption;
+    this.$timeout = $timeout;
+    this.isOpen = false;
+  }
+
+  toggle() {
+    this.isOpen = !this.isOpen;
   }
 
   reset() {
@@ -34,8 +40,8 @@ class SidebarService {
     return _.findWhere(this._options, { id });
   }
 
-  getByPosition(pos, type = 'option') {
-    let out = _.sortBy(_.filter(this._options, (value) => value.type.toLowerCase() === type.toLowerCase()), (value) => value.order);
+  getByPosition(pos) {
+    let out = _.sortBy(this._options, (value) => value.order);
     return out[pos];
   }
 
@@ -53,8 +59,8 @@ class SidebarService {
     }
   }
 
-  removeByPosition(pos, type = 'option') {
-    let item = this.getByPosition(pos, type);
+  removeByPosition(pos) {
+    let item = this.getByPosition(pos);
 
     if (!_.isEmpty(item)) {
       let index = _.indexOf(this._options, item);
@@ -68,11 +74,7 @@ class SidebarService {
   }
 
   getOptions() {
-    return _.sortBy(_.filter(this._options, (value) => value.type.toLowerCase() === 'option'), (value) => value.order);
-  }
-
-  getButtons() {
-    return _.sortBy(_.filter(this._options, (value) => value.type.toLowerCase() !== 'option'), (value) => value.order);
+    return _.sortBy(this._options, (value) => value.order);
   }
 
   _update() {

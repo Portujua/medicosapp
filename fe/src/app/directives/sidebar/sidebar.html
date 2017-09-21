@@ -1,55 +1,61 @@
-<div id="sidebar">
-  <!-- Buttons -->
-  <div class="margin-sm-tb">
-    <button ng-repeat="item in SidebarService.getButtons()"
-            class="btn btn-circle btn-lg margin-sm-tb"
-            ng-class="item.className"
-            ng-click="item.callback()"
-            uib-tooltip="{{ item.name }}" tooltip-placement="right" tooltip-append-to-body="true"
-            ng-if="item.can()"
-            ng-disabled="item.isLoading || item.isDisabled">
-      <span ng-switch="item.isLoading">
-        <span ng-switch-when="true">
-          <i class="fa fa-spin fa-spinner"></i>
-        </span>
-        <span ng-switch-default>
-          <i class="fa" ng-class="item.icon"></i>
-        </span>
-      </span>
-    </button>
-  </div>
-  <!-- /Buttons -->
+<div id="sidebar" ng-class="{ 'collapsed': !$ctrl.isOpen() }">
+  <a href="" class="toggle-sidebar" ng-click="$ctrl.toggle()">
+    <img src="images/short-logo.svg" alt="Logo" ui-sref="root.home" ng-if="!$ctrl.isOpen()">
+    <img src="images/logo.svg" alt="Logo" ui-sref="root.home" ng-if="$ctrl.isOpen()">
+    <!-- <i class="fa fa-fw fa-bars"></i> -->
+  </a>
 
-  <ul class="list-unstyled">
-    <li ng-repeat="item in SidebarService.getOptions()" title="{{ item.name }}">
-      <span ng-switch="item.route">
-        <span ng-switch-when="null">
-          <!-- Without route -->
-          <a href="" ng-click="item.callback()" uib-tooltip="{{ item.name }}" tooltip-placement="bottom" tooltip-append-to-body="true" ng-if="item.can()" ng-disabled="item.isLoading || item.isDisabled">
-            <span ng-switch="item.isLoading">
-              <span ng-switch-when="true">
-                <i class="fa fa-lg fa-fw fa-spin fa-spinner"></i>
-              </span>
-              <span ng-switch-default>
-                <i class="fa fa-lg fa-fw" ng-class="item.icon"></i>
-              </span>
-            </span>
+  <!-- Regular menu -->
+  <ul class="sidebar-options list-unstyled">
+    <li ng-repeat="item in SidebarService.getOptions()" class="{{ item.color }}">
+      <div ng-switch="item.tab.component">
+        <div ng-switch-when="null">
+          <!-- Without component -->
+          <a href="" ng-click="item.callback()" uib-tooltip="{{ item.title }}" tooltip-placement="right" tooltip-append-to-body="true" ng-if="item.can()" ng-disabled="item.isDisabled">
+            <i class="fa fa-lg fa-fw" ng-class="item.icon"></i>
+            <span class="sidebar-label" ng-if="$ctrl.isOpen()">{{ item.title | s:'prune':[20] }}</span>
           </a>
-        </span>
-        <span ng-switch-default>
-          <!-- With route -->
-          <a href="" ui-sref="{{ item.route }}" ng-click="item.callback()" uib-tooltip="{{ item.name }}" tooltip-placement="right" tooltip-append-to-body="true" ng-if="item.can()" ng-disabled="item.isLoading || item.isDisabled">
-            <span ng-switch="item.isLoading">
-              <span ng-switch-when="true">
-                <i class="fa fa-lg fa-fw fa-spin fa-spinner"></i>
-              </span>
-              <span ng-switch-default>
-                <i class="fa fa-lg fa-fw" ng-class="item.icon"></i>
-              </span>
-            </span>
+        </div>
+        <div ng-switch-default>
+          <!-- With component -->
+          <a href="" ng-click="item.open()" uib-tooltip="{{ item.title }}" tooltip-placement="right" tooltip-append-to-body="true" ng-if="item.can()" ng-disabled="item.isDisabled" ng-class="{ 'has-caret': item.menu.length }">
+            <i class="fa fa-lg fa-fw" ng-class="item.icon"></i>
+            <span class="sidebar-label" ng-if="$ctrl.isOpen()">{{ item.title | s:'truncate':[12] }}</span>
           </a>
+        </div>
+
+        <!-- If have sub-menu -->
+        <span ng-if="item.menu.length" class="sidebar-caret" ng-click="item.collapsed = !item.collapsed"  ng-class="{ 'open': item.collapsed }">
+          <i class="fa fa-caret-down" ng-if="!item.collapsed"></i>
+          <i class="fa fa-caret-up" ng-if="item.collapsed"></i>
         </span>
-      </span>
+        <!-- /If have sub-menu -->
+      </div>
+
+      <!-- Sub-menu -->
+      <div uib-collapse="!item.collapsed" class="sub-menu">
+        <div class="sub-item" ng-class="{ 'sidebar-collapsed': !$ctrl.isOpen() }" ng-repeat="subItem in item.menu">
+          <div ng-switch="subItem.tab.component">
+            <div ng-switch-when="null">
+              <!-- Without component -->
+              <a href="" ng-click="subItem.callback()" uib-tooltip="{{ subItem.title }}" tooltip-placement="right" tooltip-append-to-body="true">
+                <i class="fa fa-lg fa-fw" ng-class="subItem.icon"></i>
+                <span class="sidebar-label" ng-if="$ctrl.isOpen()">{{ subItem.title | s:'truncate':[16] }}</span>
+              </a>
+            </div>
+            <div ng-switch-default>
+              <!-- With component -->
+              <a href="" ng-click="subItem.open()" uib-tooltip="{{ subItem.title }}" tooltip-placement="right" tooltip-append-to-body="true">
+                <i class="fa fa-lg fa-fw" ng-class="subItem.icon"></i>
+                <span class="sidebar-label" ng-if="$ctrl.isOpen()">{{ subItem.title | s:'truncate':[16] }}</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Sub-menu -->
+
     </li>
   </ul>
+  <!-- /Regular menu -->
 </div>

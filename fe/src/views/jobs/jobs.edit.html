@@ -1,0 +1,234 @@
+<form id="jobsNew" name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">Edit Job</h3>
+  </div>
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+    <div class="row">
+      <div class="col-12 col-lg-6">
+
+        <div class="form-group row">
+          <label for="jobNumber" class="col-4 col-form-label">Job Number</label>
+          <div class="col-6">
+            <input class="form-control" type="text" name="jobNumber" id="jobNumber" placeholder="" ng-model="$ctrl.data.jobNumber" readonly>
+          </div>
+        </div>
+
+        <div class="form-group row has-feedback" ng-class="{ 'has-error': form.jobObjective.$invalid && form.jobObjective.$touched, 'has-success': form.jobObjective.$valid && form.jobObjective.$touched && $ctrl.data.jobObjective.id, 'has-warning': form.jobObjective.$valid && form.jobObjective.$touched && !$ctrl.data.jobObjective.id }">
+          <label for="jobObjective" class="col-4 col-form-label">Objective</label>
+          <div ng-class="{ 'col-8': $ctrl.session.can('job_objective', 'create'), 'col-6': !$ctrl.session.can('job_objective', 'create') }">
+            <div ng-class="{ 'input-group': $ctrl.session.can('job_objective', 'create') }">
+              <input type="text" class="form-control" name="jobObjective" id="jobObjective" placeholder="" ng-model="$ctrl.data.jobObjective" uib-typeahead="item as item.itemValue for item in $ctrl.getJobObjectives($viewValue)" typeahead-show-hint="true" typeahead-min-length="0" typeahead-editable="$ctrl.session.can('job_objective', 'create')">
+              <span class="input-group-btn" ng-if="$ctrl.session.can('job_objective', 'create')">
+                <button class="btn btn-default" type="button" ng-click="$ctrl.createJobObjective()" ng-disabled="!$ctrl.data.jobObjective || $ctrl.data.jobObjective.id" ng-class="{ 'btn-warning': $ctrl.data.jobObjective && !$ctrl.data.jobObjective.id }">
+                  <i class="fa fa-fw fa-plus"></i>
+                </button>
+              </span>
+            </div>
+            <span class="help-block" ng-if="$ctrl.data.jobObjective && !$ctrl.data.jobObjective.id">
+              To create this new value click on the <strong>+</strong> button.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row has-feedback" ng-class="{ 'has-error': form.jobType.$invalid && form.jobType.$touched, 'has-success': form.jobType.$valid && form.jobType.$touched && $ctrl.data.jobType.id, 'has-warning': form.jobType.$valid && form.jobType.$touched && !$ctrl.data.jobType.id }">
+          <label for="jobType" class="col-4 col-form-label">Type</label>
+          <div ng-class="{ 'col-8': $ctrl.session.can('job_type', 'create'), 'col-6': !$ctrl.session.can('job_type', 'create') }">
+            <div ng-class="{ 'input-group': $ctrl.session.can('job_type', 'create') }">
+              <input type="text" class="form-control" name="jobType" id="jobType" placeholder="" ng-model="$ctrl.data.jobType" uib-typeahead="item as item.itemValue for item in $ctrl.getJobTypes($viewValue)" typeahead-show-hint="true" typeahead-min-length="0" typeahead-editable="$ctrl.session.can('job_type', 'create')">
+              <span class="input-group-btn" ng-if="$ctrl.session.can('job_type', 'create')">
+                <button class="btn btn-default" type="button" ng-click="$ctrl.createJobType()" ng-disabled="!$ctrl.data.jobType || $ctrl.data.jobType.id" ng-class="{ 'btn-warning': $ctrl.data.jobType && !$ctrl.data.jobType.id }">
+                  <i class="fa fa-fw fa-plus"></i>
+                </button>
+              </span>
+            </div>
+            <span class="help-block" ng-if="$ctrl.data.jobType && !$ctrl.data.jobType.id">
+              To create this new value click on the <strong>+</strong> button.
+            </span>
+          </div>
+        </div>
+
+        <div class="form-group row has-feedback" ng-class="{ 'has-error': form.estimatedStartDate.$invalid && form.estimatedStartDate.$touched, 'has-success': form.estimatedStartDate.$valid && form.estimatedStartDate.$touched }">
+          <label for="estimatedStartDate" class="col-4 col-form-label">Estimated Start Date</label>
+          <div class="col-6">
+            <input class="form-control" type="date" name="estimatedStartDate" id="estimatedStartDate" placeholder="" ng-model="$ctrl.data.estimatedStartDate" max="{{ $ctrl.data.estimatedEndDate | date:'yyyy-MM-dd' }}">
+            <!-- Errors -->
+            <span class="help-block" ng-messages="form.estimatedStartDate.$error" role="alert">
+              <span ng-message="date, max">Invalid date.</span>
+            </span>
+            <!-- /Errors -->
+          </div>
+        </div>
+
+        <div class="form-group row has-feedback" ng-class="{ 'has-error': form.estimatedEndDate.$invalid && form.estimatedEndDate.$touched, 'has-success': form.estimatedEndDate.$valid && form.estimatedEndDate.$touched }">
+          <label for="estimatedEndDate" class="col-4 col-form-label">Estimated End Date</label>
+          <div class="col-6">
+            <input class="form-control" type="date" name="estimatedEndDate" id="estimatedEndDate" placeholder="" ng-model="$ctrl.data.estimatedEndDate" min="{{ $ctrl.data.estimatedStartDate | date:'yyyy-MM-dd' }}">
+            <!-- Errors -->
+            <span class="help-block" ng-messages="form.estimatedEndDate.$error" role="alert">
+              <span ng-message="date, min">Invalid date.</span>
+            </span>
+            <!-- /Errors -->
+          </div>
+        </div>
+
+        <div class="form-group row has-feedback" ng-class="{ 'has-error': form.startDate.$invalid && form.startDate.$touched, 'has-success': form.startDate.$valid && form.startDate.$touched }">
+          <label for="startDate" class="col-4 col-form-label">Start Date</label>
+          <div class="col-6">
+            <input class="form-control" type="date" name="startDate" id="startDate" placeholder="" ng-model="$ctrl.data.startDate" max="{{ $ctrl.data.endDate | date:'yyyy-MM-dd' }}">
+            <!-- Errors -->
+            <span class="help-block" ng-messages="form.startDate.$error" role="alert">
+              <span ng-message="date, max">Invalid date.</span>
+            </span>
+            <!-- /Errors -->
+          </div>
+        </div>
+
+        <div class="form-group row has-feedback" ng-class="{ 'has-error': form.endDate.$invalid && form.endDate.$touched, 'has-success': form.endDate.$valid && form.endDate.$touched }">
+          <label for="endDate" class="col-4 col-form-label">End Date</label>
+          <div class="col-6">
+            <input class="form-control" type="date" name="endDate" id="endDate" placeholder="" ng-model="$ctrl.data.endDate" min="{{ $ctrl.data.startDate | date:'yyyy-MM-dd' }}">
+            <!-- Errors -->
+            <span class="help-block" ng-messages="form.endDate.$error" role="alert">
+              <span ng-message="date, min">Invalid date.</span>
+            </span>
+            <!-- /Errors -->
+          </div>
+        </div>
+
+        <div class="form-group row has-feedback" ng-class="{ 'has-error': form.additionalInformation.$invalid && form.additionalInformation.$touched, 'has-success': form.additionalInformation.$valid && form.additionalInformation.$touched }">
+          <label for="additionalInformation" class="col-4 col-form-label">Additional Information</label>
+          <div class="col-8">
+            <textarea class="form-control resize-vertical" type="text" name="additionalInformation" id="additionalInformation" placeholder="" ng-model="$ctrl.data.additionalInformation" maxlength="500" rows="3"></textarea>
+            <!-- Errors -->
+            <span class="help-block" ng-messages="form.additionalInformation.$error" role="alert">
+              <span ng-message="maxlength">Length must be lower than or equal to 500.</span>
+            </span>
+            <!-- /Errors -->
+          </div>
+        </div>
+
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <fieldset>
+          <legend class="hug">Rig</legend>
+
+          <div class="related-elements margin-sm-top">
+            <div class="form-group row has-feedback hug-bottom" ng-class="{ 'has-error': form.rig.$invalid && form.rig.$touched, 'has-success': form.rig.$valid && form.rig.$touched }">
+              <div class="col-12">
+                <div ng-class="{ 'input-group': $ctrl.session.can('rig', 'create') }">
+                  <input type="text" class="form-control" name="rig" id="rig" placeholder="Type a rig name..." ng-model="$ctrl.data.rig" uib-typeahead="item as item.name for item in $ctrl.getRigs($viewValue)" typeahead-show-hint="true" typeahead-min-length="1" typeahead-editable="false" required typeahead-append-to-body="true">
+                  <span class="input-group-btn" ng-if="$ctrl.session.can('rig', 'create')">
+                    <button class="btn btn-default" type="button" ng-click="$ctrl.createRig()" uib-tooltip="Create Rig">
+                      <i class="fa fa-fw fa-plus"></i>
+                    </button>
+                  </span>
+                </div>
+                <!-- Errors -->
+                <span class="help-block" ng-messages="form.rig.$error" role="alert">
+                  <span ng-message="required">This field is required.</span>
+                </span>
+                <!-- /Errors -->
+
+                <!-- <div class="related-details bordered margin-sm-top" ng-if="$ctrl.data.rig.id">
+                  <h4 class="hug-top">
+                    <span ng-if="!$ctrl.session.can('rig', 'edit')">{{ $ctrl.data.rig.name | available }}</span>
+                    <a href="" ng-click="$ctrl.updateRig()" ng-if="$ctrl.session.can('rig', 'edit')">{{ $ctrl.data.rig.name | available }}</a>
+                  </h4>
+                  <ul class="small text-muted list-unstyled hug-top">
+                    <li ng-if="$ctrl.data.rig.legalName"><strong>Legal Name: </strong> {{ $ctrl.data.rig.legalName | available }}</li>
+                    <li ng-if="$ctrl.data.rig.type"><strong>Type: </strong> {{ $ctrl.data.rig.type.itemValue | available }}</li>
+                    <li ng-if="$ctrl.data.rig.owner"><strong>Owner: </strong> {{ $ctrl.data.rig.owner | available }}</li>
+                    <li ng-if="$ctrl.data.rig.manufacturer"><strong>Manufacturer: </strong> {{ $ctrl.data.rig.manufacturer | available }}</li>
+                    <li ng-if="$ctrl.data.rig.power"><strong>Power: </strong> {{ $ctrl.data.rig.power | available }}</li>
+                    <li ng-if="$ctrl.data.rig.comments"><strong>Comments: </strong> {{ $ctrl.data.rig.comments | available }}</li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="hug">Well</legend>
+
+          <div class="related-elements margin-sm-top">
+            <div class="form-group row has-feedback hug-bottom" ng-class="{ 'has-error': form.well.$invalid && form.well.$touched, 'has-success': form.well.$valid && form.well.$touched }">
+              <div class="col-12">
+                <div ng-class="{ 'input-group': $ctrl.session.can('well', 'create') }">
+                  <input type="text" class="form-control" name="well" id="well" placeholder="Type a well name..." ng-model="$ctrl.data.well" uib-typeahead="item as item.name for item in $ctrl.getWells($viewValue)" typeahead-show-hint="true" typeahead-min-length="1" typeahead-editable="false" required typeahead-append-to-body="true">
+
+                  <span class="input-group-btn" ng-if="$ctrl.session.can('well', 'create')">
+                    <button class="btn btn-default" type="button" ng-click="$ctrl.createWell()" uib-tooltip="Create Well">
+                      <i class="fa fa-fw fa-plus"></i>
+                    </button>
+                  </span>
+                </div>
+                <!-- Errors -->
+                <span class="help-block" ng-messages="form.well.$error" role="alert">
+                  <span ng-message="required">This field is required.</span>
+                </span>
+                <!-- /Errors -->
+
+                <!-- <div class="related-details bordered margin-sm-top" ng-if="$ctrl.data.well.id">
+                  <h4 class="hug-top">
+                    <span ng-if="!$ctrl.session.can('well', 'edit')">{{ $ctrl.data.well.name | available }}</span>
+                    <a href="" ng-click="$ctrl.updateWell()" ng-if="$ctrl.session.can('well', 'edit')">{{ $ctrl.data.well.name | available }}</a>
+                  </h4>
+                  <ul class="small text-muted list-unstyled hug-top">
+                    <li ng-if="$ctrl.data.well.legalName"><strong>Legal Name: </strong> {{ $ctrl.data.well.legalName | available }}</li>
+                    <li ng-if="$ctrl.data.well.owner"><strong>Owner: </strong> {{ $ctrl.data.well.owner | available }}</li>
+                    <li ng-if="$ctrl.data.well.productionType.itemValue"><strong>Production Type: </strong> {{ $ctrl.data.well.productionType.itemValue | available }}</li>
+                    <li><strong>Latitude: </strong> {{ $ctrl.data.well.latitude | available }}</li>
+                    <li><strong>Longitude: </strong> {{ $ctrl.data.well.longitude | available }}</li>
+                    <li><strong>Offshore: </strong> {{ $ctrl.data.well.isOffshore | conditional }}</li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="hug">Client</legend>
+
+          <div class="related-elements margin-sm-top">
+            <div class="form-group row has-feedback hug-bottom" ng-class="{ 'has-error': form.client.$invalid && form.client.$touched, 'has-success': form.client.$valid && form.client.$touched }">
+              <div class="col-12">
+                <div ng-class="{ 'input-group': $ctrl.session.can('client', 'create') }">
+                  <input type="text" class="form-control" name="client" id="client" placeholder="Type a client name..." ng-model="$ctrl.data.client" uib-typeahead="item as item.name for item in $ctrl.getClients($viewValue)" typeahead-show-hint="true" typeahead-min-length="1" typeahead-editable="false" typeahead-append-to-body="true">
+
+                  <span class="input-group-btn" ng-if="$ctrl.session.can('client', 'create')">
+                    <button class="btn btn-default" type="button" ng-click="$ctrl.createClient()" uib-tooltip="Create Client">
+                      <i class="fa fa-fw fa-plus"></i>
+                    </button>
+                  </span>
+                </div>
+
+                <!-- <div class="related-details bordered margin-sm-top" ng-if="$ctrl.data.client.id">
+                  <h4 class="hug-top">
+                    <span ng-if="!$ctrl.session.can('client', 'edit')">{{ $ctrl.data.client.name | available }}</span>
+                    <a href="" ng-click="$ctrl.updateClient()" ng-if="$ctrl.session.can('client', 'edit')">{{ $ctrl.data.client.name | available }}</a>
+                  </h4>
+                  <ul class="small text-muted list-unstyled hug">
+                    <li ng-if="$ctrl.data.client.createdAt"><strong>Created Date: </strong> {{ $ctrl.data.client.createdAt | date:'dd/MMM/yyyy' | available }}</li>
+                  </ul>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving  || !form.$dirty || $ctrl.validatePicklists()">
+      <i class="fa fa-fw fa-save"></i> Save
+    </button>
+  </div>
+</form>

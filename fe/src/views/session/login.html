@@ -1,41 +1,51 @@
-<div class="container">
-  <div class="row align-items-center">
-    <div class="col-lg-4 offset-lg-4">
-      <div class="panel panel-default">
-        <div class="panel-body">
-          <!-- <h2 class="hug-top margin-bottom">BasicAPP</h2> -->
-          <form name="form" role="form" ng-submit="$ctrl.login($ctrl.credentials)">
-            <div class="form-group">
-              <label for="email">Username</label>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                <input type="text" class="form-control" name="username" placeholder="Enter your username" ng-model="$ctrl.credentials.username"  required autofocus ng-disabled="$ctrl.isLoading" tabindex="1">
-              </div>
-            </div>
-            <div class="form-group">
-              <label for="password" class="block">
-                Password <a href="" class="inline-block pull-right">Forgot your password?</a>
-              </label>
-              <div class="input-group">
-                <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
-                <input type="password" class="form-control" name="password" placeholder="Enter your password" ng-model="$ctrl.credentials.password" required ng-disabled="$ctrl.isLoading" tabindex="2">
-              </div>
-            </div>
-            <button type="submit" class="btn btn-block btn-primary btn-outline btn-lg" ng-disabled="form.$invalid || $ctrl.isLoading" tabindex="3">
-              <span ng-switch="$ctrl.isLoading">
-                <span ng-switch-when="true">
-                  <i class="fa fa-fw fa-spin fa-spinner"></i> Signing in
-                </span>
-                <span ng-switch-default>Sign in</span>
-              </span>
-            </button>
-          </form>
+<div class="wrapper">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6 col-xl-4 offset-lg-3 offset-xl-4">
+        <div class="text-center">
+          <img src="../images/logo.png" alt="Logo" class="margin-bottom">
         </div>
-      </div>
+        <div class="panel panel-default">
+          <div class="panel-body">
+            <h3 class="hug-top text-center margin-bottom">Office Module</h3>
+            <form name="form" role="form" ng-submit="$ctrl.login($ctrl.credentials)">
+              <div class="form-group">
+                <label for="email">Username</label>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
+                  <input type="text" class="form-control" name="username" placeholder="Enter your username" ng-model="$ctrl.credentials.username" tabindex="1" required autofocus ng-disabled="$ctrl.isLoading">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="password" class="block">
+                  Password <a href="" class="inline-block pull-right">(I forgot my password)</a>
+                </label>
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
+                  <input type="password" class="form-control" name="password" placeholder="Enter your password" ng-model="$ctrl.credentials.password" tabindex="2" required ng-disabled="$ctrl.isLoading">
+                </div>
+              </div>
+              <button type="submit" class="btn btn-block btn-primary btn-outline btn-lg" tabindex="3" ng-disabled="form.$invalid || $ctrl.isLoading">
+                <span ng-switch="$ctrl.isLoading">
+                  <span ng-switch-when="true">
+                    <i class="fa fa-fw fa-spin fa-spinner"></i> Signing in
+                  </span>
+                  <span ng-switch-default>Sign in</span>
+                </span>
+              </button>
+            </form>
+          </div>
+        </div>
 
-      <div class="text-muted small margin-top text-center">
-        Last update: {{ $ctrl.PageService.getAppInfo().date | date:'MMMM dd, yyyy' }} ({{ $ctrl.PageService.getAppInfo().version | available }})
+        <div class="text-muted small margin-top text-center">
+          Last update: {{ $ctrl.PageService.getAppInfo().date | date:'MMMM dd, yyyy' }} ({{ $ctrl.PageService.getAppInfo().version | available }})
+        </div>
       </div>
     </div>
   </div>
+
+  <!-- For sticky footer -->
+  <div class="push"></div>
 </div>
+
+<footer></footer>

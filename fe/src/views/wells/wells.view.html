@@ -1,0 +1,128 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <div class="actions-bar hug">
+    <button class="btn btn-primary btn-outline" ng-click="$ctrl.createProductionType()" ng-if="$ctrl.session.can('well_production_type', 'create')">
+      Create Prodution Type
+    </button>
+
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+      <comments id="$ctrl.data.id" button-class="btn-default"></comments>
+      <attachment id="$ctrl.data.id" button-class="btn-default"></attachment>
+    </div>
+  </div>
+  <!-- /Main actions -->
+
+  <div class="margin-sm">
+    <div class="row">
+      <collapsable-panel></collapsable-panel>
+
+      <!-- Job board -->
+      <div class="col-12 col-lg-4 col-xl-3">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Well Information
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div class="dashboard-body">
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Name</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.name" onbeforesave="$ctrl.save($data, 'name')" edit-disabled="!$ctrl.session.can('well', 'edit')" e-maxlength="50">
+                    {{ $ctrl.data.name | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Legal Name</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.legalName" onbeforesave="$ctrl.save($data, 'legalName')" edit-disabled="!$ctrl.session.can('well', 'edit')" e-required e-maxlength="50">
+                    {{ $ctrl.data.legalName | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Owner</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.owner" onbeforesave="$ctrl.save($data, 'owner')" edit-disabled="!$ctrl.session.can('well', 'edit')" e-maxlength="50">
+                    {{ $ctrl.data.owner | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Production Type</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.productionType" e-ng-options="o as o.itemValue for o in $ctrl.productionTypes" onshow="$ctrl.getProductionTypes()" onbeforesave="$ctrl.save($data, 'productionType')" edit-disabled="!$ctrl.session.can('well', 'edit')">
+                    {{ $ctrl.data.productionType.itemValue | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Latitude</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-number="$ctrl.data.latitude" e-step="any" onbeforesave="$ctrl.save($data, 'latitude')" edit-disabled="!$ctrl.session.can('well', 'edit')" uib-tooltip="{{ $ctrl.NumericUtil.convertDDToDMS($ctrl.data.latitude || 0, false, true) }}">
+                    {{ $ctrl.data.latitude | number:6 | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Longitude</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-number="$ctrl.data.longitude" e-step="any" onbeforesave="$ctrl.save($data, 'longitude')" edit-disabled="!$ctrl.session.can('well', 'edit')" uib-tooltip="{{ $ctrl.NumericUtil.convertDDToDMS($ctrl.data.longitude || 0, true, true) }}">
+                    {{ $ctrl.data.longitude | number:6 | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Offshore?</div>
+                <div class="col-8 dashboard-input">
+                  <toggle ng-model="$ctrl.data.isOffshore" size="btn-sm" ng-disabled="!$ctrl.session.can('well', 'edit')" ng-change="$ctrl.save($ctrl.data.isOffshore, 'isOffshore')"></toggle>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-12 dashboard-input">
+                  <div class="dashboard-map-container">
+                    <ng-map class="dashboard-map" center="{{ $ctrl.data.latitude || 0 }}, {{ $ctrl.data.longitude || 0 }}" zoom="17">
+                      <marker position="{{ $ctrl.data.latitude || 0 }}, {{ $ctrl.data.longitude || 0 }}"></marker>
+                    </ng-map>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+          <!-- /Body -->
+        </div>
+      </div>
+      <!-- /Job board -->
+
+      <!-- Tabs -->
+      <div class="col">
+        <div class="frame expand hug">
+          <scrollable-tabset auto-recalculate="true">
+            <uib-tabset justified="false">
+              <uib-tab index="0" heading="Wellbores">
+                <!-- Wellbores -->
+                <wellbores-list id="{{ $ctrl.data.id }}" job="$ctrl.job" well="$ctrl.data"></wellbores-list>
+                <!-- /Wellbores -->
+              </uib-tab>
+            </uib-tabset>
+          </scrollable-tabset>
+        </div>
+      </div>
+      <!-- /Tabs -->
+    </div>
+  </div>
+</div>
+
+
+
+

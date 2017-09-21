@@ -7,7 +7,7 @@ var plugins = require('gulp-load-plugins')({
 // Settings
 var settings = {
   env: 'dev',  // Environment type (dev | dist)
-  port: 9999,  // Port's number
+  port: 9090,  // Port's number
   get isDevelopment() { return this.env === 'dev'; },
   get isDistribution() { return this.env === 'dist'; },
 };
@@ -47,12 +47,12 @@ gulp.task('scripts', function() {
     .pipe(plugins.plumber())
     .pipe(plugins.eslint())
     .pipe(plugins.eslint.format())
-    .pipe(plugins.if(settings.isDevelopment, plugins.sourcemaps.init()))
+    // .pipe(plugins.if(settings.isDevelopment, plugins.sourcemaps.init()))
     .pipe(plugins.concat('app.js', {newLine:';'}))
     .pipe(plugins.if(settings.isDistribution, plugins.babel()))
     .pipe(plugins.if(settings.isDistribution, plugins.ngAnnotate()))
-    .pipe(plugins.if(settings.isDistribution, plugins.uglify({preserveComments:'some'})))
-    .pipe(plugins.if(settings.isDevelopment, plugins.sourcemaps.write('../maps', {includeContent:false, sourceRoot:'/' })))
+    .pipe(plugins.if(settings.isDistribution, plugins.uglify(/*{preserveComments:'some'}*/)))
+    // .pipe(plugins.if(settings.isDevelopment, plugins.sourcemaps.write('../maps', { includeContent:false, sourceRoot:'/' })))
     .pipe(plugins.if(settings.isDistribution, plugins.rev()))
     .pipe(gulp.dest('dist/js'))
     .pipe(plugins.if(settings.isDistribution, plugins.rev.manifest('app.json')))
@@ -75,7 +75,7 @@ gulp.task('sass:includes', function() {
 gulp.task('inject:sass', function() {
   return gulp.src('src/app/_includes.scss')
     .pipe(plugins.plumber())
-    .pipe(plugins.inject(gulp.src(['src/{app,views,styles}/**/*.scss', '!src/app/app.scss', '!src/app/_includes.scss'], {read:false}), {
+    .pipe(plugins.inject(gulp.src(['src/{app,views,styles}/**/*.scss', '!src/app/app.scss', '!src/app/_includes.scss', '!src/styles/bootstrap-override.scss', '!src/styles/variables.scss'], {read:false}), {
       addRootSlash: false,
       relative: true,
       transform: function(path) {
@@ -107,8 +107,8 @@ gulp.task('vendors', function() {
   return gulp.src('src/vendors/**/*.js')
     .pipe(plugins.plumber())
     .pipe(plugins.concat('vendors.js', {newLine:';'}))
-    .pipe(plugins.if(settings.isDistribution, plugins.babel()))
-    .pipe(plugins.if(settings.isDistribution, plugins.uglify({preserveComments:'some'})))
+    // .pipe(plugins.if(settings.isDistribution, plugins.babel()))
+    .pipe(plugins.if(settings.isDistribution, plugins.uglify(/*{preserveComments:'some'}*/)))
     .pipe(plugins.if(settings.isDistribution, plugins.rev()))
     .pipe(gulp.dest('dist/js'))
     .pipe(plugins.if(settings.isDistribution, plugins.rev.manifest('vendors.json')))
@@ -125,7 +125,7 @@ gulp.task('partials', function() {
     .pipe(plugins.htmlmin({removeComments:true, conservativeCollapse:true, collapseWhitespace:true}))
     .pipe(plugins.ngHtml2js({moduleName:'app'/*, prefix:'app/'*/}))
     .pipe(plugins.concat('partials.js', {newLine:'\n'}))
-    .pipe(plugins.uglify({preserveComments:'some'}))
+    .pipe(plugins.uglify(/*{preserveComments:'some'}*/))
     .pipe(plugins.rev())
     .pipe(gulp.dest('dist/js'));
 });
@@ -201,7 +201,7 @@ gulp.task('useref', function() {
   return gulp.src('dist/index.html')
       .pipe(plugins.plumber())
       .pipe(plugins.useref())
-      .pipe(plugins.if('**/*.js', plugins.uglify({preserveComments:'some'})))
+      .pipe(plugins.if('**/*.js', plugins.uglify(/*{preserveComments:'some'}*/)))
       .pipe(plugins.if('**/*.css', plugins.csso()))
       .pipe(plugins.if('**/*.+(js|css)', plugins.rev()))
       .pipe(plugins.revReplace())

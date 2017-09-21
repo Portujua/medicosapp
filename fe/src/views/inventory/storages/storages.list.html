@@ -1,0 +1,103 @@
+<div class="padding-sm">
+  <div class="row">
+    <div class="col-6 col-lg-4 col-xl-6">
+      <div class="panel panel-default hug">
+        <div class="panel-heading">Storages</div>
+
+        <div class="actions-bar">
+          <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('storage', 'create')">
+            <i class="fa fa-fw fa-plus"></i> Create Storage
+          </button>
+
+          <div class="pull-right">
+            <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+            <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+          </div>
+        </div>
+
+        <div class="table-frame hug borderless">
+          <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+            <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+              <colgroup>
+                <col>
+                <col>
+                <col>
+                <col width="33.33%">
+                <col width="33.33%">
+                <col width="33.33%">
+                <col>
+              </colgroup>
+              <tbody>
+                <tr ng-repeat="item in $data" ng-class="{ 'info': $ctrl.selection.storage.id === item.id }">
+                  <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+                  <td class="text-center">
+                    <i class="fa fa-lg pointer" ng-class="{ 'fa-circle-o': $ctrl.selection.storage.id !== item.id, 'fa-dot-circle-o': $ctrl.selection.storage.id === item.id }" ng-click="$ctrl.select(item)"></i>
+                  </td>
+
+                  <td class="text-center">
+                    <button class="btn btn-primary btn-outline btn-xs" ng-click="$ctrl.ship(item)" uib-tooltip="Create Shipping Order" tooltip-append-to-body="true">
+                      <i class="fa fa-fw fa-truck fa-flip-horizontal"></i>
+                    </button>
+                  </td>
+
+                  <td title="'Name'" filter="{ 'name' : 'text' }" sortable="'name'">
+                    <span editable-text="item.name" onbeforesave="$ctrl.save($data, 'name', item)" e-required e-maxlength="50" edit-disabled="!$ctrl.session.can('storage', 'edit')">
+                      {{ item.name | available }}
+                    </span>
+                  </td>
+
+                  <td title="'Address'" filter="{ 'address' : 'text' }" sortable="'address'" class="row-textarea">
+                    <span editable-textarea="item.address" e-rows="4" onbeforesave="$ctrl.save($data, 'address', item)" e-maxlength="250" edit-disabled="!$ctrl.session.can('storage', 'edit')">
+                      {{ item.address | available }}
+                    </span>
+                  </td>
+
+                  <td title="'Description'" filter="{ 'description' : 'text' }" sortable="'description'" class="row-textarea">
+                    <span editable-textarea="item.description" e-rows="4" onbeforesave="$ctrl.save($data, 'description', item)" e-maxlength="250" edit-disabled="!$ctrl.session.can('storage', 'edit')">
+                      {{ item.description | available }}
+                    </span>
+                  </td>
+
+                  <td>
+                    <i ng-if="$ctrl.selection.storage.id === item.id" class="fa fa-caret-right"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col" ng-show="$ctrl.selection.storage">
+      <div class="panel panel-default hug">
+        <div class="panel-heading">
+          Sectors
+        </div>
+
+        <sectors-list selection="$ctrl.selection" storage="$ctrl.selection.storage"></sectors-list>
+      </div>
+    </div>
+
+    <div class="col" ng-show="$ctrl.selection.sector">
+      <div class="panel panel-default hug">
+        <div class="panel-heading">
+          Racks
+        </div>
+
+        <racks-list selection="$ctrl.selection" sector="$ctrl.selection.sector"></racks-list>
+      </div>
+    </div>
+
+    <div class="col" ng-show="$ctrl.selection.rack">
+      <div class="panel panel-default hug">
+        <div class="panel-heading">
+          Shelves
+        </div>
+
+        <shelves-list selection="$ctrl.selection" rack="$ctrl.selection.rack"></shelves-list>
+      </div>
+    </div>
+  </div>
+</div>

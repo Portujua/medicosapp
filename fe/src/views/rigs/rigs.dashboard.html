@@ -1,0 +1,67 @@
+<div class="panel panel-default borderless hug">
+  <!-- Body -->
+  <div class="panel-body" cg-busy="$ctrl.loadingPromise">
+    <div class="dashboard-body">
+      <div class="dashboard-group">
+        <div class="col-4 dashboard-label">Name</div>
+        <div class="col-8 dashboard-input">
+          <span editable-text="$ctrl.data" e-uib-typeahead="item as item.name for item in $ctrl.getRigs($viewValue)" onbeforesave="$ctrl.change($data)" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-form="rigForm" e-typeahead-min-length="2" e-typeahead-append-to-body="true">
+            <a href="" drilldown="{ title: $ctrl.data.name, component: 'rigsView', id: $ctrl.data.id }">{{ $ctrl.data.name | available }}</a>
+          </span>
+
+          <div class="pull-right" ng-click="rigForm.$show()" ng-hide="rigForm.$visible">
+            <a class="small" href="" ng-if="$ctrl.session.can('rig', 'edit')">Change</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="dashboard-group">
+        <div class="col-4 dashboard-label">Type</div>
+        <div class="col-8 dashboard-input">
+          <span editable-select="$ctrl.data.type" e-ng-options="type as type.itemValue for type in $ctrl.rigTypes" onshow="$ctrl.getRigTypes()" onbeforesave="$ctrl.save($data, 'type')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-required>
+            {{ $ctrl.data.type.itemValue | available }}
+          </span>
+        </div>
+      </div>
+
+      <div class="dashboard-group">
+        <div class="col-4 dashboard-label">Owner</div>
+        <div class="col-8 dashboard-input">
+          <span editable-text="$ctrl.data.owner" onbeforesave="$ctrl.save($data, 'owner')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-required e-maxlength="50">
+            {{ $ctrl.data.owner | available }}
+          </span>
+        </div>
+      </div>
+
+      <div class="dashboard-group">
+        <div class="col-4 dashboard-label">Manufacturer</div>
+        <div class="col-8 dashboard-input">
+          <span editable-text="$ctrl.data.manufacturer" onbeforesave="$ctrl.save($data, 'manufacturer')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-maxlength="50">
+            {{ $ctrl.data.manufacturer | available }}
+          </span>
+        </div>
+      </div>
+
+      <div class="dashboard-group">
+        <div class="col-4 dashboard-label">Power</div>
+        <div class="col-8 dashboard-input">
+          <span editable-text="$ctrl.data.power" onbeforesave="$ctrl.save($data, 'power')" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-maxlength="50">
+            {{ $ctrl.data.power | available }}
+          </span>
+        </div>
+      </div>
+
+      <div class="dashboard-group">
+        <div class="col-4 dashboard-label">Comments</div>
+        <div class="col-8 dashboard-input">
+          <span editable-textarea="$ctrl.data.comments" e-rows="4" onbeforesave="$ctrl.save($data, 'comments')" e-maxlength="500" edit-disabled="!$ctrl.session.can('rig', 'edit')" e-maxlength="250">
+            {{ $ctrl.data.comments | available }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- /Body -->
+</div>
+
+

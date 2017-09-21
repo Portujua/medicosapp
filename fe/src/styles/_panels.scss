@@ -1,0 +1,37 @@
+.panel {
+  position: relative;
+
+  &.with-fixed-footer {
+    padding-bottom: 41px;
+  }
+
+  .panel-heading {
+    width: 100%;
+    background-color: transparent;
+    padding: 15px 20px;
+    font-size: 20px;
+  }
+
+  .panel-details {
+    background-color: lighten(#BBDEFB, 8%);
+    padding: $panel-footer-padding;
+  }
+
+  .panel-body {
+    width: 100%;
+  }
+
+  .panel-footer {
+    background-color: #fff;
+  }
+
+  .panel-fixed-footer {
+    padding: $panel-footer-padding;
+    background-color: $panel-footer-bg;
+    border-top: 1px solid $panel-inner-border;
+    width: 100%;
+    // text-align: center;
+    position: absolute;
+    bottom: 0;
+  }
+}

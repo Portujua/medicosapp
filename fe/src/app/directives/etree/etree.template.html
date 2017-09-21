@@ -1,0 +1,17 @@
+<div class="row-separator"></div>
+<div ui-tree-handle class="tree-node tree-node-content">
+  <small></small>
+  <a class="btn {{ node.children && node.children.length > 0 || !node.loadedData || !$ctrl.hideToggle ? '' : 'not-visible' }} {{ $ctrl.toggleBtnClass }}" data-nodrag ng-click="$ctrl.toggle(this); $ctrl.toggleFn(node);">
+  	<span class="fa fa-fw" ng-init="$scope.collapse();" ng-class="{ 'fa-chevron-down': collapsed && node.loadedData, 'fa-chevron-up': !collapsed && node.loadedData, 'fa-download': !node.loadedData }"></span>
+  </a>
+  <span class="node-title {{ $ctrl.labelClass }}">{{ node[$ctrl.labelField] }}</span>
+  <span class="node-description {{ $ctrl.descriptionClass }}">{{ node[$ctrl.descriptionField] }}</span>
+  <a class="pull-right btn btn-danger {{ $ctrl.removeBtnClass }}" data-nodrag ng-click="$ctrl.removeFn(node)" ng-if="!$ctrl.hideRemove"><span
+      class="fa fa-fw fa-times"></span></a>
+  <a class="pull-right btn btn-primary {{ $ctrl.addBtnClass }}" data-nodrag ng-click="$ctrl.addFn(node)" ng-if="!$ctrl.hideAdd">
+    <span class="fa fa-fw fa-plus"></span>
+  </a>
+</div>
+<ol ui-tree-nodes="" ng-model="node.children" ng-class="{hidden: collapsed}">
+  <li ng-repeat="node in node.children" ui-tree-node ng-include="'nodes_renderer.html'"></li>
+</ol>

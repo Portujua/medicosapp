@@ -1,0 +1,109 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title">Drilling Parameters</h3>
+  </div>
+
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.revolutionsPerMinuteAvg.$invalid && form.revolutionsPerMinuteAvg.$touched, 'has-success': form.revolutionsPerMinuteAvg.$valid && form.revolutionsPerMinuteAvg.$touched }">
+      <label for="revolutionsPerMinuteAvg" class="col-4 col-form-label">Revolutions per Minute</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="revolutionsPerMinuteAvg" id="revolutionsPerMinuteAvg" placeholder="" step="any" ng-model="$ctrl.data.revolutionsPerMinuteAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.weightOnBitAvg.$invalid && form.weightOnBitAvg.$touched, 'has-success': form.weightOnBitAvg.$valid && form.weightOnBitAvg.$touched }">
+      <label for="weightOnBitAvg" class="col-4 col-form-label">Weight on Bit</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="weightOnBitAvg" id="weightOnBitAvg" placeholder="" step="any" ng-model="$ctrl.data.weightOnBitAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.flowRateAvg.$invalid && form.flowRateAvg.$touched, 'has-success': form.flowRateAvg.$valid && form.flowRateAvg.$touched }">
+      <label for="flowRateAvg" class="col-4 col-form-label">Flow Rate</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="flowRateAvg" id="flowRateAvg" placeholder="" step="any" ng-model="$ctrl.data.flowRateAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bottomHoleTempetureAvg.$invalid && form.bottomHoleTempetureAvg.$touched, 'has-success': form.bottomHoleTempetureAvg.$valid && form.bottomHoleTempetureAvg.$touched }">
+      <label for="bottomHoleTempetureAvg" class="col-4 col-form-label">Bottom Hole Tempeture</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="bottomHoleTempetureAvg" id="bottomHoleTempetureAvg" placeholder="" step="any" ng-model="$ctrl.data.bottomHoleTempetureAvg" required>
+      </div>
+    </div>
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.pickUpAvg.$invalid && form.pickUpAvg.$touched, 'has-success': form.pickUpAvg.$valid && form.pickUpAvg.$touched }">
+      <label for="pickUpAvg" class="col-4 col-form-label">Pick Up</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="pickUpAvg" id="pickUpAvg" placeholder="" step="any" ng-model="$ctrl.data.pickUpAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.slackOffAvg.$invalid && form.slackOffAvg.$touched, 'has-success': form.slackOffAvg.$valid && form.slackOffAvg.$touched }">
+      <label for="slackOffAvg" class="col-4 col-form-label">Slack Off</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="slackOffAvg" id="slackOffAvg" placeholder="" step="any" ng-model="$ctrl.data.slackOffAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.rotOffBottomAvg.$invalid && form.rotOffBottomAvg.$touched, 'has-success': form.rotOffBottomAvg.$valid && form.rotOffBottomAvg.$touched }">
+      <label for="rotOffBottomAvg" class="col-4 col-form-label">Rot. Off Bottom</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="rotOffBottomAvg" id="rotOffBottomAvg" placeholder="" step="any" ng-model="$ctrl.data.rotOffBottomAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.standPipePressureOnBottomAvg.$invalid && form.standPipePressureOnBottomAvg.$touched, 'has-success': form.standPipePressureOnBottomAvg.$valid && form.standPipePressureOnBottomAvg.$touched }">
+      <label for="standPipePressureOnBottomAvg" class="col-4 col-form-label">SPP On Bottom</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="standPipePressureOnBottomAvg" id="standPipePressureOnBottomAvg" placeholder="" step="any" ng-model="$ctrl.data.standPipePressureOnBottomAvg" required >
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.standPipePressureOffBottomAvg.$invalid && form.standPipePressureOffBottomAvg.$touched, 'has-success': form.standPipePressureOffBottomAvg.$valid && form.standPipePressureOffBottomAvg.$touched }">
+      <label for="standPipePressureOffBottomAvg" class="col-4 col-form-label">SPP Off Bottom</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="standPipePressureOffBottomAvg" id="standPipePressureOffBottomAvg" placeholder="" step="any" ng-model="$ctrl.data.standPipePressureOffBottomAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.deltaPressureAvg.$invalid && form.deltaPressureAvg.$touched, 'has-success': form.deltaPressureAvg.$valid && form.deltaPressureAvg.$touched }">
+      <label for="deltaPressureAvg" class="col-4 col-form-label">Delta Pressure</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="deltaPressureAvg" id="deltaPressureAvg" placeholder="" step="any" ng-model="$ctrl.data.deltaPressureAvg" required  ng-disabled="true">
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.surfaceTorqueAvg.$invalid && form.surfaceTorqueAvg.$touched, 'has-success': form.surfaceTorqueAvg.$valid && form.surfaceTorqueAvg.$touched }">
+      <label for="surfaceTorqueAvg" class="col-4 col-form-label">Surface Torque</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="surfaceTorqueAvg" id="surfaceTorqueAvg" placeholder="" step="any" ng-model="$ctrl.data.surfaceTorqueAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.inFlowTempetureAvg.$invalid && form.inFlowTempetureAvg.$touched, 'has-success': form.inFlowTempetureAvg.$valid && form.inFlowTempetureAvg.$touched }">
+      <label for="inFlowTempetureAvg" class="col-4 col-form-label">In Flow Tempeture</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="inFlowTempetureAvg" id="inFlowTempetureAvg" placeholder="" step="any" ng-model="$ctrl.data.inFlowTempetureAvg" required>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.outFlowTempetureAvg.$invalid && form.outFlowTempetureAvg.$touched, 'has-success': form.outFlowTempetureAvg.$valid && form.outFlowTempetureAvg.$touched }">
+      <label for="outFlowTempetureAvg" class="col-4 col-form-label">Out Flow Tempeture</label>
+      <div class="col-4">
+        <input class="form-control" type="number" name="outFlowTempetureAvg" id="outFlowTempetureAvg" placeholder="" step="any" ng-model="$ctrl.data.outFlowTempetureAvg" required>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disables="form.$invalid || $ctrl.isSaving">
+      <i class="fa fa-fw fa-save"></i> Save
+    </button>
+  </div>
+</form>

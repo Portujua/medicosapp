@@ -1,0 +1,48 @@
+<div id="comments-dashboard" class="margin-sm" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Commenting...' : 'Loading...' }">
+  <div class="actions-bar">
+    <h4>Comments ({{ $ctrl.comments.length }})</h4>
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+    </div>
+  </div>
+
+  <div class="media-footer">
+    <form name="form" ng-submit="$ctrl.comment()" autocomplete="off">
+      <div class="input-group input-group-lg ui-mention-container">
+        <script type="text/ng-template" id="'user-mentions.tpl'">
+          <ul class="list-group user-search">
+            <li mentio-menu-item="person" ng-repeat="person in items" class="list-group-item search-user-result">
+              <img class="circle" ng-src="{{ person.profilePicturePath | defaultImage }}">
+              <span>
+                {{ person.name }} (@{{ person.username }})
+              </span>
+            </li>
+          </ul>
+        </script>
+
+        <input type="text" class="form-control" ng-model="$ctrl.newComment" placeholder="Write something..." autofocus required ng-disabled="$ctrl.isSaving || !$ctrl.session.can('comment', 'create')" maxlength="300" mentio mentio-typed-text="typedTerm" mentio-items="$ctrl.acUsers | filter:label:typedTerm" mentio-search="$ctrl.typeaheadUsers(term)" mentio-template-url="'user-mentions.tpl'" mentio-select="$ctrl.selectUser(item)">
+        <span class="input-group-btn">
+          <button class="btn btn-success" type="submit" ng-disabled="form.$invalid || $ctrl.isSaving || !$ctrl.session.can('comment', 'create')">
+            <i class="fa fa-fw fa-paper-plane"></i>
+          </button>
+        </span>
+      </div>
+    </form>
+  </div>
+
+  <ul class="media-list" ng-if="$ctrl.comments.length">
+    <li class="media" ng-repeat="comment in $ctrl.comments | orderBy:'-createdAt'">
+      <div class="media-left">
+        <img class="media-object circle" ng-src="{{ comment.user.profilePicturePath | defaultImage }}" alt="Profile">
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{ comment.createdBy }}</h4>
+        <small class="text-muted">{{ comment.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+        <!-- <p ng-bind-html="$ctrl.toTrustedHtml(comment.text)"></p> -->
+        <p compile="comment.text | mentions"></p>
+      </div>
+    </li>
+  </ul>
+
+  <not-found expression="!$ctrl.comments.length" message="There are no comments yet."></not-found>
+</div>

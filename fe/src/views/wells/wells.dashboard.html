@@ -1,0 +1,91 @@
+<div class="panel panel-default borderless hug">
+  <!-- Body -->
+  <div class="panel-body bordered-bottom" cg-busy="$ctrl.loadingPromise">
+    <div class="row">
+      <!-- Info -->
+      <div class="col-12 col-lg-6">
+        <div class="dashboard-body">
+          <div class="dashboard-group">
+            <div class="col-4 dashboard-label">Name</div>
+            <div class="col-8 dashboard-input">
+              <span editable-text="$ctrl.data" e-uib-typeahead="item as item.name for item in $ctrl.getWells($viewValue)" onbeforesave="$ctrl.change($data)" edit-disabled="!$ctrl.session.can('well', 'edit')" e-form="wellForm" e-typeahead-min-length="2" e-typeahead-append-to-body="true">
+                <a href="" drilldown="{ title: $ctrl.data.name, component: 'wellsView', id: $ctrl.data.id }">{{ $ctrl.data.name | available }}</a>
+              </span>
+
+              <div class="pull-right" ng-click="wellForm.$show()" ng-hide="wellForm.$visible">
+                <a class="small" href="" ng-if="$ctrl.session.can('well', 'edit')">Change</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="dashboard-group">
+            <div class="col-4 dashboard-label">Legal Name</div>
+            <div class="col-8 dashboard-input">
+              <span editable-text="$ctrl.data.legalName" onbeforesave="$ctrl.save($data, 'legalName')" edit-disabled="!$ctrl.session.can('well', 'edit')" e-required e-maxlength="50">
+                {{ $ctrl.data.legalName | available }}
+              </span>
+            </div>
+          </div>
+
+          <div class="dashboard-group">
+            <div class="col-4 dashboard-label">Owner</div>
+            <div class="col-8 dashboard-input">
+              <span editable-text="$ctrl.data.owner" onbeforesave="$ctrl.save($data, 'owner')" edit-disabled="!$ctrl.session.can('well', 'edit')" e-maxlength="50">
+                {{ $ctrl.data.owner | available }}
+              </span>
+            </div>
+          </div>
+
+          <div class="dashboard-group">
+            <div class="col-4 dashboard-label">Production Type</div>
+            <div class="col-8 dashboard-input">
+              <span editable-select="$ctrl.data.productionType" e-ng-options="o as o.itemValue for o in $ctrl.productionTypes" onshow="$ctrl.getProductionTypes()" onbeforesave="$ctrl.save($data, 'productionType')" edit-disabled="!$ctrl.session.can('well', 'edit')">
+                {{ $ctrl.data.productionType.itemValue | available }}
+              </span>
+            </div>
+          </div>
+
+          <div class="dashboard-group">
+            <div class="col-4 dashboard-label">Latitude</div>
+            <div class="col-8 dashboard-input">
+              <span editable-number="$ctrl.data.latitude" e-step="any" onbeforesave="$ctrl.save($data, 'latitude')" edit-disabled="!$ctrl.session.can('well', 'edit')" uib-tooltip="{{ $ctrl.NumericUtil.convertDDToDMS($ctrl.data.latitude || 0, false, true) }}">
+                {{ $ctrl.data.latitude | number:6 | available }}
+              </span>
+            </div>
+          </div>
+
+          <div class="dashboard-group">
+            <div class="col-4 dashboard-label">Longitude</div>
+            <div class="col-8 dashboard-input">
+              <span editable-number="$ctrl.data.longitude" e-step="any" onbeforesave="$ctrl.save($data, 'longitude')" edit-disabled="!$ctrl.session.can('well', 'edit')" uib-tooltip="{{ $ctrl.NumericUtil.convertDDToDMS($ctrl.data.longitude || 0, true, true) }}">
+                {{ $ctrl.data.longitude | number:6 | available }}
+              </span>
+            </div>
+          </div>
+
+          <div class="dashboard-group">
+            <div class="col-4 dashboard-label">Offshore?</div>
+            <div class="col-8 dashboard-input">
+              <toggle ng-model="$ctrl.data.isOffshore" size="btn-sm" ng-change="$ctrl.save($ctrl.data.isOffshore, 'isOffshore')" ng-disabled="!$ctrl.session.can('well', 'edit')"></toggle>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /Info -->
+
+      <!-- Map -->
+      <div class="col col-lg-6">
+        <div class="dashboard-map-container">
+          <ng-map class="dashboard-map" center="{{ $ctrl.data.latitude || 0 }}, {{ $ctrl.data.longitude || 0 }}" zoom="17">
+            <marker position="{{ $ctrl.data.latitude || 0 }}, {{ $ctrl.data.longitude || 0 }}"></marker>
+          </ng-map>
+        </div>
+      </div>
+      <!-- /Map -->
+    </div>
+  </div>
+  <!-- /Body -->
+  <!-- Wellbores -->
+  <wellbores-list id="{{ $ctrl.data.id }}" job="$ctrl.job" well="$ctrl.data"></wellbores-list>
+  <!-- /Wellbores -->
+</div>

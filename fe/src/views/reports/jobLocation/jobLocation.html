@@ -1,0 +1,48 @@
+<div>
+  <div class="frame" cg-busy="$ctrl.isLoading">
+    <div class="margin-bottom clearfix">
+      <div class="pull-left dropdown">
+        <h3 class="text-muted hug">
+          Job Locations
+          <small class="chart-sub-title dropdown-toggle" data-toggle="dropdown">From {{ $ctrl.lastSearch.startDate | date:'dd/MMM/yyyy' }} to {{ $ctrl.lastSearch.endDate | date:'dd/MMM/yyyy' }}</small>
+          <form name="form" class="dropdown-menu" ng-submit="$ctrl.load()">
+            <div class="col-12 padding-sm">
+              <p>From<small class="text-danger" ng-show="form.startDate.$error.max">Invalid date.</small></p>
+              <div class="input-group">
+                <span class="input-group-addon" id="addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                <input class="form-control" type="date" ng-model="$ctrl.query.startDate" aria-describedby="addon" required name="startDate" ng-disabled="$ctrl.isLoading" max="{{ $ctrl.query.endDate | date:'yyyy-MM-dd' }}"/>
+              </div>
+            </div>
+
+            <div class="col-12 padding-sm">
+              <p>To <small class="text-danger" ng-show="form.endDate.$error.min">Invalid date.</small></p>
+              <div class="input-group">
+                <span class="input-group-addon" id="addon"><span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></span>
+                <input class="form-control" type="date" ng-model="$ctrl.query.endDate" aria-describedby="addon" required
+                  name="endDate" ng-disabled="$ctrl.isLoading" min="{{ $ctrl.query.startDate | date:'yyyy-MM-dd' }}"/>
+              </div>
+            </div>
+
+            <div class="col-12 padding-sm">
+              <p>Status</p>
+
+              <select class="form-control" ng-model="$ctrl.query.jobStatus" ng-options="item.id as item.title for item in $ctrl.statusArray"
+                ng-disabled="$ctrl.isLoading">
+                <option value="">All</option>
+              </select>
+            </div>
+
+            <div class="col-12 padding-sm">
+              <button type="submit" ng-disabled="form.$invalid || $ctrl.isLoading" class="btn btn-primary btn-outline btn-block">Ok</button>
+            </div>
+          </form>
+        </h3>
+      </div>
+    </div>
+
+    <ng-map zoom="{{ $ctrl.zoom }}" center="{{ $ctrl.center }}">
+      <marker ng-repeat="m in $ctrl.markers" position="{{ m.position }}" title="{{ m.title }}" on-click="$ctrl.clickMarker({ index: $index, ctrl: $ctrl })"
+        data="{{ $ctrl }}" icon="{{ m.icon }}"></marker>
+    </ng-map>
+  </div>
+</div>

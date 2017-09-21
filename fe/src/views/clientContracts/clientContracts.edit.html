@@ -1,0 +1,79 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">Edit Contract</h3>
+
+    <toggle ng-model="$ctrl.data.isActive" ng-change="$ctrl.toggleActivation()" on="Active" off="Inactive" ng-if="$ctrl.session.can('contract', 'activate') && $ctrl.session.can('contract', 'deactivate')" class="pull-right" no-dirty-check></toggle>
+  </div>
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.startDate.$invalid && form.startDate.$touched, 'has-success': form.startDate.$valid && form.startDate.$touched }">
+      <label for="startDate" class="col-4 col-form-label">Start Date</label>
+      <div class="col-6">
+        <input class="form-control" type="date" name="startDate" id="startDate" placeholder="" ng-model="$ctrl.data.startDate" max="{{ $ctrl.data.endDate | date:'yyyy-MM-dd' }}" required>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.startDate.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="date, max">Invalid date.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.endDate.$invalid && form.endDate.$touched, 'has-success': form.endDate.$valid && form.endDate.$touched }">
+      <label for="endDate" class="col-4 col-form-label">End Date</label>
+      <div class="col-6">
+        <input class="form-control" type="date" name="endDate" id="endDate" placeholder="" ng-model="$ctrl.data.endDate" min="{{ $ctrl.data.startDate | date:'yyyy-MM-dd' }}" required>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.endDate.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="date, min">Invalid date.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="row margin-sm-bottom">
+      <div class="col-6 offset-4">
+        <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.addTerm()">Add Term</button>
+      </div>
+    </div>
+
+    <table class="table table-hover hug bordered" ng-if="$ctrl.data.terms.length">
+      <colgroup>
+        <col>
+        <col width="33.33333333%">
+        <col width="33.33333333%">
+        <col width="33.33333333%">
+      </colgroup>
+      <thead>
+        <th></th>
+        <th>Description</th>
+        <th class="text-center">Reference Cost</th>
+        <th class="text-center">Unit</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="field in $ctrl.data.terms track by $index">
+          <td>
+            <button type="button" class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.removeTerm(field)">
+              <i class="fa fa-fw fa-times"></i>
+            </button>
+          </td>
+          <td title="Description">
+            {{ field.description }}
+          </td>
+          <td title="Reference Cost" class="text-right">
+            {{ field.referenceCost | currency:$ctrl.data.currency.itemValue }}
+          </td>
+          <td title="Unit" class="text-center">
+            {{ field.termUnit.itemValue }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">Cancel</button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving"><i class="fa fa-fw fa-save"></i> Save</button>
+  </div>
+</form>

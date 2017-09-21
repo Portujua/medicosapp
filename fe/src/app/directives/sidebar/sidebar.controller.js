@@ -1,8 +1,22 @@
 ;(() => {
 
 class SidebarController {
-  constructor($scope, SidebarService) {
-    $scope.SidebarService = SidebarService;
+  constructor($scope, SidebarService, PageService, TabManagerService) {
+    this.SidebarService = $scope.SidebarService = SidebarService;
+    $scope.PageService = PageService;
+    $scope.TabManagerService = TabManagerService;
+  }
+
+  toggle() {
+  	this.SidebarService.toggle();
+  }
+
+  isOpen() {
+  	return this.SidebarService.isOpen;
+  }
+
+  showLabels() {
+    return this.SidebarService.showLabels;
   }
 }
 

@@ -1,0 +1,99 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">Edit Client</h3>
+  </div>
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" >
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Name</label>
+      <div class="col-6">
+        <input type="text" name="name" id="name" class="form-control" ng-model="$ctrl.data.name" required placeholder="" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.name.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="row margin-sm-bottom">
+      <div class="col-6 offset-4">
+        <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.addEmail()">Add email</button>
+      </div>
+    </div>
+
+    <div class="bordered margin-sm-bottom" ng-if="$ctrl.data.emails.length > 0">
+      <table class="table table-hover hug">
+        <colgroup>
+          <col ng-if="$ctrl.session.can('client', 'edit')">
+          <col width="100%">
+        </colgroup>
+        <thead>
+          <th ng-if="$ctrl.session.can('client', 'edit')"></th>
+          <th>Email Address</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="email in $ctrl.data.emails track by $index">
+            <td ng-if="$ctrl.session.can('client', 'edit')">
+              <button class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.delete('email', email.id)">
+                <i class="fa fa-fw fa-times"></i>
+              </button>
+            </td>
+            <td title="Email Address">
+              <span>
+                {{ email.emailAddress }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="row margin-sm-bottom">
+      <div class="col-6 offset-4">
+        <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.addPhone()">Add phone</button>
+      </div>
+    </div>
+
+    <div class="bordered" ng-if="$ctrl.data.phones.length > 0">
+      <table class="table table-hover hug">
+        <colgroup>
+          <col ng-if="$ctrl.session.can('client', 'edit')">
+          <col width="33.333333333%">
+          <col width="33.333333333%">
+          <col width="33.333333333%">
+        </colgroup>
+        <thead>
+          <th ng-if="$ctrl.session.can('client', 'edit')"></th>
+          <th>Country Code</th>
+          <th>Area Code</th>
+          <th>Phone Number</th>
+        </thead>
+        <tbody>
+          <tr ng-repeat="phone in $ctrl.data.phones track by $index">
+            <td ng-if="$ctrl.session.can('client', 'edit')">
+              <button class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.delete('phone', phone.id)">
+                <i class="fa fa-fw fa-times"></i>
+              </button>
+            </td>
+            <td title="Country Code">
+              {{ phone.countryCode }}
+            </td>
+            <td title="Area Code">
+              {{ phone.areaCode }}
+            </td>
+            <td title="Phone Number">
+              {{ phone.phoneNumber }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">Cancel</button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || !form.$dirty"><i class="fa fa-fw fa-save"></i> Save</button>
+  </div>
+</form>

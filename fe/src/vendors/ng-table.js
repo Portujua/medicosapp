@@ -2213,7 +2213,7 @@ function ngTableParamsFactory($q, $log, $filter, ngTableDefaults, ngTableDefault
         }
         var _params = {
             page: 1,
-            count: 25,
+            count: 15,
             filter: {},
             sorting: {},
             group: {}
@@ -2232,9 +2232,9 @@ function ngTableParamsFactory($q, $log, $filter, ngTableDefaults, ngTableDefault
             defaultSort: 'desc',
             filterOptions: ng1.copy(defaultFilterOptions),
             groupOptions: ng1.copy(defaultGroupOptions),
-            counts: [10, 25, 50, 100],
+            counts: [15, 25, 50],
             interceptors: [],
-            paginationMaxBlocks: 11,
+            paginationMaxBlocks: 8,
             paginationMinBlocks: 5,
             sortingIndicator: 'span'
         };
@@ -2382,8 +2382,11 @@ module.exports = path;
   \********************************/
 /***/ function(module, exports, __webpack_require__) {
 
+
+
+// <small ng-if=\"params.settings().counts.length\" class=\"text-muted\">Page size:</small>
 var path = 'ng-table/pager.html';
-var html = "<div class=\"ng-cloak ng-table-pager\" ng-if=\"params.data.length\">\n    <div ng-if=\"params.settings().counts.length\" class=\"ng-table-counts btn-group pull-right\">\n        <button ng-repeat=\"count in params.settings().counts\" type=\"button\"\n                ng-class=\"{'active':params.count() == count}\"\n                ng-click=\"params.count(count)\" class=\"btn btn-default\">\n            <span ng-bind=\"count\"></span>\n        </button>\n    </div>\n    <ul ng-if=\"pages.length\" class=\"pagination ng-table-pagination\">\n        <li ng-class=\"{'disabled': !page.active && !page.current, 'active': page.current}\" ng-repeat=\"page in pages\" ng-switch=\"page.type\">\n            <a ng-switch-when=\"prev\" ng-click=\"params.page(page.number)\" href=\"\">&laquo;</a>\n            <a ng-switch-when=\"first\" ng-click=\"params.page(page.number)\" href=\"\"><span ng-bind=\"page.number\"></span></a>\n            <a ng-switch-when=\"page\" ng-click=\"params.page(page.number)\" href=\"\"><span ng-bind=\"page.number\"></span></a>\n            <a ng-switch-when=\"more\" ng-click=\"params.page(page.number)\" href=\"\">&#8230;</a>\n            <a ng-switch-when=\"last\" ng-click=\"params.page(page.number)\" href=\"\"><span ng-bind=\"page.number\"></span></a>\n            <a ng-switch-when=\"next\" ng-click=\"params.page(page.number)\" href=\"\">&raquo;</a>\n        </li>\n    </ul>\n</div>\n";
+var html = "<div class=\"text-center bold text-muted padding margin-tb\" ng-if=\"!params.data.length && !params.settings().$loading\">There is nothing to show.</div>       \n        <div class=\"ng-cloak ng-table-pager\" ng-if=\"params.data.length\">\n       <div ng-if=\"params.settings().counts.length\" class=\"ng-table-counts btn-group \">\n        <button title=\"{{ count }} records per page\" ng-repeat=\"count in params.settings().counts\" type=\"button\"\n                ng-class=\"{'btn-default active':params.count() == count, 'btn-default': params.count() != count}\"\n                ng-click=\"params.count(count)\" class=\"btn\">\n            <span ng-bind=\"count\"></span>\n        </button>\n    </div>\n    <ul ng-if=\"pages.length\" class=\"pagination ng-table-pagination pull-left\">\n        <li ng-class=\"{'disabled': !page.active && !page.current, 'active': page.current}\" ng-repeat=\"page in pages\" ng-switch=\"page.type\">\n            <a ng-switch-when=\"prev\" ng-click=\"params.page(page.number)\" href=\"\">&laquo;</a>\n            <a ng-switch-when=\"first\" ng-click=\"params.page(page.number)\" href=\"\"><span ng-bind=\"page.number\"></span></a>\n            <a ng-switch-when=\"page\" ng-click=\"params.page(page.number)\" href=\"\"><span ng-bind=\"page.number\"></span></a>\n            <a ng-switch-when=\"more\" ng-click=\"params.page(page.number)\" href=\"\">&#8230;</a>\n            <a ng-switch-when=\"last\" ng-click=\"params.page(page.number)\" href=\"\"><span ng-bind=\"page.number\"></span></a>\n            <a ng-switch-when=\"next\" ng-click=\"params.page(page.number)\" href=\"\">&raquo;</a>\n        </li>\n    </ul>\n</div>\n";
 var angular = __webpack_require__(/*! angular */ 0);
 angular.module('ng').run(['$templateCache', function(c) { c.put(path, html) }]);
 module.exports = path;

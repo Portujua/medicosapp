@@ -1,0 +1,35 @@
+@keyframes collapseSidebar {
+  from {
+    width: $expanded-sidebar-width;
+  }
+  to {
+    width: $sidebar-width;
+  }
+}
+
+@keyframes expandSidebar {
+  from {
+    width: $sidebar-width;
+  }
+  to {
+    width: $expanded-sidebar-width;
+  }
+}
+
+@keyframes _collapseSidebar {
+  from {
+    margin-left: $expanded-sidebar-width;
+  }
+  to {
+    margin-left: $sidebar-width;
+  }
+}
+
+@keyframes _expandSidebar {
+  from {
+    margin-left: $sidebar-width;
+  }
+  to {
+    margin-left: $expanded-sidebar-width;
+  }
+}

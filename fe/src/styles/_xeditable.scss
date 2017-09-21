@@ -1,11 +1,21 @@
-table .editable-wrap,
+$xeditable-min-width: 170px;
+$xeditable-buttons-width: 78px;
+
+table .editable-wrap:not(.editable-timepicker),
 table .editable-controls {
+
   width: 100% !important;
+  min-width: $xeditable-min-width + $xeditable-buttons-width;
+
   textarea,
   select,
   input {
-    width: calc(100% - 78px) !important;
-    min-width: 170px;
+    width: calc(100% - #{$xeditable-buttons-width});
+    min-width: $xeditable-min-width;
+  }
+
+  div[uib-timepicker] input {
+    min-width: inherit;
   }
 }
 
@@ -16,4 +26,61 @@ table .editable-controls.form-group .editable-input:not(.editable-has-buttons) {
 .editable {
   border-bottom-style: dotted;
   color: inherit;
+  border-color: #bbb;
+
+  &.editable-empty {
+    color: $brand-danger;
+  }
+
+  &[e-form] {
+    border: none;
+  }
 }
+
+.editable-click:hover,
+a.editable-click:hover {
+  color: $brand-primary;
+  border-color: $brand-primary;
+}
+
+.editable-wrap {
+  white-space: inherit;
+}
+
+.editable-timepicker {
+  padding: 0;
+  margin: 0;
+  max-height: 30px;
+  min-width: 190px;
+  max-width: 190px;
+
+  .editable-controls {
+    max-height: 30px;
+    min-width: 190px;
+    max-width: 190px;
+  }
+
+  div[uib-timepicker] table td {
+    display: inline-block;
+
+    input[type="text"] {
+      width: 50px;
+      height: 30px;
+    }
+  }
+}
+
+.dashboard-group .editable-wrap,
+.dashboard-group .editable-controls {
+  width: 100% !important;
+  textarea,
+  select,
+  input {
+    width: calc(100% - #{$xeditable-buttons-width});
+  }
+}
+
+
+
+
+

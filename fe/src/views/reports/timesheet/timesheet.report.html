@@ -1,0 +1,130 @@
+<div class="modal-header">
+  <h3 class="modal-title pull-left">Time Sheet</h3>
+  <div class="pull-right">
+    <button class="btn btn-default" type="button" print-area="print-content">
+      <i class="fa fa-fw fa-print"></i>
+    </button>
+  </div>
+</div>
+<div class="modal-body bg-dark expand" cg-busy="$ctrl.loadingPromise">
+  <div id="print-content">
+    <page>
+      <!-- Report Header -->
+      <div class="report-header visible-print-block">
+        <table>
+          <tr>
+            <td class="text-bottom">
+              <h3>Time Sheet</h3>
+            </td>
+            <td class="text-bottom text-right">
+              <img class="report-logo" src="../images/logo.png" alt="Logo"/>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- /Report Header -->
+
+      <!-- Report sub-header -->
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <colgroup>
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+            </colgroup>
+            <thead>
+              <th class="text-center">
+                <div class="report-title">Job Number</div>
+                <strong class="report-18">{{$ctrl.data.header.jobNumber}}</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Customer</div>
+                <strong class="report-18">{{$ctrl.data.header.customerName}}</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Well Name</div>
+                <strong class="report-18">{{$ctrl.data.header.wellName}}</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Rig Name</div>
+                <strong class="report-18">{{$ctrl.data.header.rigName}}</strong>
+              </th>
+            </thead>
+          </table>
+        </div>
+      </div>
+      <!-- /Report sub-header -->
+
+      <!-- Activities -->
+      <div class="row align-items-center" ng-repeat= "item in $ctrl.data.personnelHours">
+        <div class="col-8" >
+          <table>
+            <colgroup>
+              <col>
+              <col>
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+              <col width="20%">
+            </colgroup>
+            <thead>
+              <th colspan="7" class="report-18">{{item.personnelName}}</th>
+            </thead>
+            <thead>
+              <th class="text-center">#</th>
+              <th class="text-center">Status</th>
+              <th class="text-center">Date</th>
+              <th class="text-center">Start Time</th>
+              <th class="text-center">End Time</th>
+              <th class="text-center">Hours</th>
+              <th class="text-center">Category</th>
+            </thead>
+            <tbody>
+              <tr  ng-repeat= "hours in item.hoursDetail">
+                <td class="text-center">{{ $index + 1 }}</td>
+                <td class="text-center">{{hours.approved}}</td>
+                <td class="text-center">{{hours.date  | date: 'dd/MMM/yy' }} </td>
+                <td class="text-center">{{hours.startTime |removeSeconds}}</td>
+                <td class="text-center">{{hours.endTime  |removeSeconds }}  </td>
+                <td class="text-center">{{hours.hours}}</td>
+                <td class="text-center">{{hours.category}}</td>
+              </tr>
+     
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="5" class="text-right bold">Total:</td>
+                <td class="text-center bold">{{item.totalHours}}</td>
+                <th></th>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+        <div class="col-4">
+            <donut-chart  config ="item.chart"></donut-chart>
+          <!--<highchart id="chart1" config="$ctrl.chartConfig1"></highchart>-->
+        </div>
+      </div>
+
+     
+    </page>
+
+    <!-- <div class="report-divider hidden-print"></div> -->
+    <!-- <div class="report-break"></div> -->
+    <!-- Fin reporte -->
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()">
+    Close
+  </button>
+  <button class="btn btn-default" type="button" print-area="print-content">
+    <i class="fa fa-fw fa-print"></i> Print
+  </button>
+</div>

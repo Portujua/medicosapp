@@ -1,3 +1,15 @@
+toggle {
+  display: inline-block;
+  &[disabled="disabled"] {
+    pointer-events: none;
+
+    .btn:not(.toggle-handle) {
+      background-color: #ddd;
+      border-color: #ccc;
+      color: #666;
+    }
+  }
+}
 .checkbox label .toggle,
 .checkbox-inline .toggle {
   margin-left: -20px;

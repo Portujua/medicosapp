@@ -1,0 +1,18 @@
+.autocomplete-results {
+	border: 1px solid #999;
+	position: absolute;
+	width: 90%;
+	z-index: 9999;
+	background-color: white;
+
+	.autocomplete-result {
+		padding: 3px 5px;
+		border: 1px solid #fff;
+		cursor: pointer;
+		width: 100%;
+
+		&:hover {
+			background-color: #eee;
+		}
+	}
+}

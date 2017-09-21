@@ -1,0 +1,87 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title">Edit Wellbore</h3>
+  </div>
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label for="name" class="col-4 col-form-label">Name</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="name" id="name" placeholder="" ng-model="$ctrl.data.name" required minlength="2" maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.name.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="minlength">Length must be greater than or equal to 2.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.wellboreShape.$invalid && form.wellboreShape.$touched, 'has-success': form.wellboreShape.$valid && form.wellboreShape.$touched && $ctrl.data.wellboreShape.id, 'has-warning': form.wellboreShape.$valid && form.wellboreShape.$touched && !$ctrl.data.wellboreShape.id }">
+      <label for="wellboreShape" class="col-4 col-form-label">Wellbore Shape</label>
+      <div ng-class="{ 'col-8': $ctrl.session.can('wellbore_shape', 'create'), 'col-6': !$ctrl.session.can('wellbore_shape', 'create') }">
+        <div ng-class="{ 'input-group': $ctrl.session.can('wellbore_shape', 'create') }">
+          <input type="text" class="form-control" name="wellboreShape" id="wellboreShape" placeholder="" ng-model="$ctrl.data.wellboreShape" uib-typeahead="item as item.itemValue for item in $ctrl.getWellboreShapes($viewValue)" typeahead-show-hint="true" typeahead-min-length="0" typeahead-editable="$ctrl.session.can('wellbore_shape', 'create')" typeahead-append-to-body="true">
+          <span class="input-group-btn" ng-if="$ctrl.session.can('wellbore_shape', 'create')">
+            <button class="btn btn-default" type="button" ng-click="$ctrl.craeteWellboreShape()" ng-disabled="!$ctrl.data.wellboreShape || $ctrl.data.wellboreShape.id" ng-class="{ 'btn-warning': $ctrl.data.wellboreShape && !$ctrl.data.wellboreShape.id }">
+              <i class="fa fa-fw fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <span class="help-block" ng-if="$ctrl.data.wellboreShape && !$ctrl.data.wellboreShape.id">
+          To create this new value click on the <strong>+</strong> button.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.totalDepth.$invalid && form.totalDepth.$touched, 'has-success': form.totalDepth.$valid && form.name.$touched }">
+      <label for="totalDepth" class="col-4 col-form-label">Total Depth</label>
+      <div class="col-6">
+        <input class="form-control" type="number" name="totalDepth" id="totalDepth" placeholder="" ng-model="$ctrl.data.totalDepth" min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.totalDepth.$error" role="alert">
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.tieInDepth.$invalid && form.tieInDepth.$touched, 'has-success': form.tieInDepth.$valid && form.name.$touched }">
+      <label for="tieInDepth" class="col-4 col-form-label">Tie-In Depth</label>
+      <div class="col-6">
+        <input class="form-control" type="number" name="tieInDepth" id="tieInDepth" placeholder="" ng-model="$ctrl.data.tieInDepth" min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.tieInDepth.$error" role="alert">
+          <span ng-message="min">Value must be greater than or equal to 0.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.targetFormation.$invalid && form.targetFormation.$touched, 'has-success': form.targetFormation.$valid && form.targetFormation.$touched && $ctrl.data.targetFormation.id, 'has-warning': form.targetFormation.$valid && form.targetFormation.$touched && !$ctrl.data.targetFormation.id }">
+      <label for="targetFormation" class="col-4 col-form-label">Target Formation</label>
+      <div ng-class="{ 'col-8': $ctrl.session.can('formation', 'create'), 'col-6': !$ctrl.session.can('formation', 'create') }">
+        <div ng-class="{ 'input-group': $ctrl.session.can('formation', 'create') }">
+          <input type="text" class="form-control" name="targetFormation" id="targetFormation" placeholder="" ng-model="$ctrl.data.targetFormation" uib-typeahead="item as item.itemValue for item in $ctrl.getTargetFormations($viewValue)" typeahead-show-hint="true" typeahead-min-length="0" typeahead-editable="$ctrl.session.can('formation', 'create')" typeahead-append-to-body="true">
+          <span class="input-group-btn" ng-if="$ctrl.session.can('formation', 'create')">
+            <button class="btn btn-default" type="button" ng-click="$ctrl.createTargetFormation()" ng-disabled="!$ctrl.data.targetFormation || $ctrl.data.targetFormation.id" ng-class="{ 'btn-warning': $ctrl.data.targetFormation && !$ctrl.data.targetFormation.id }">
+              <i class="fa fa-fw fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <span class="help-block" ng-if="$ctrl.data.targetFormation && !$ctrl.data.targetFormation.id">
+          To create this new value click on the <strong>+</strong> button.
+        </span>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || !form.$dirty || $ctrl.validatePicklists()">
+      <i class="fa fa-fw fa-save"></i> Save
+    </button>
+  </div>
+</form>

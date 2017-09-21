@@ -1,0 +1,13 @@
+<div id="picker">
+  <div class="picker-icon" ng-class="{ 'with-subtitle': subtitleAttr }">
+    <i class="fa fa-fw" ng-class="pickerIcon"></i>
+  </div>
+  <div class="picker-entry" ng-repeat="item in pickerList | orderBy:'':reverse" ng-click="setItem(item)" ng-class="{ 'active': item[idAttr] === itemSelected[idAttr] }">
+    <!-- Main Title -->
+    <strong ng-if="titleAttr === '$index'">#{{ reverse ? pickerList.length - $index : $index + 1 | number }}</strong>
+    <strong ng-if="titleAttr !== '$index'">{{ item[titleAttr] | available }}</strong>
+
+    <!-- Sub-Title -->
+    <span ng-if="subtitleAttr">{{ item[subtitleAttr] | date:'dd/MMM/yyyy' | available }}</span>
+  </div>
+</div>

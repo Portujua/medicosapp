@@ -1,0 +1,163 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Create Activity Type</h3>
+  </div>
+
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" >
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Name</label>
+      <div class="col-6">
+        <input type="text" name="name" id="name" class="form-control" ng-model="$ctrl.data.name" required placeholder="" required maxlength="20">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.name.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 20.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.code.$invalid && form.code.$touched, 'has-success': form.code.$valid && form.code.$touched }">
+      <label for="code" class="col-4 col-form-label">Code</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="code" id="code" placeholder="" ng-model="$ctrl.data.code" maxlength="10">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.code.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 10.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.tooltip.$invalid && form.tooltip.$touched, 'has-success': form.tooltip.$valid && form.tooltip.$touched }">
+      <label for="tooltip" class="col-4 col-form-label">Tooltip</label>
+      <div class="col-8">
+        <textarea class="form-control resize-vertical" type="text" name="tooltip" id="tooltip" placeholder="" ng-model="$ctrl.data.tooltip" maxlength="250" rows="4"></textarea>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.tooltip.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 250.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <hr>
+
+    <table class="table table-bordered hug">
+      <colgroup>
+        <col>
+        <col width="100%">
+      </colgroup>
+      <thead>
+        <tr>
+          <th></th>
+          <th class="text-center text-middle">Group</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.calculateTotalHours" size="btn-xs"></toggle>
+          </td>
+          <td class="text-middle">Calculate total hours?</td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.calculateTotalFootage" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Calculate total footage?</td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.hasDrillingParameters" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Has drilling parameters?</td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.calculateROP" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Has Calculate ROP?</td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.slidingHours" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Sliding Hours?</td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.slidingFootage" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Sliding Footage?</td>
+        </tr>
+        <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.slidingROP" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Sliding ROP?</td>
+        </tr>
+         <!-- <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.slidingPercentage" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Sliding Percentage?</td>
+        </tr>-->
+          <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.rotatingHours" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Rotating Hours?</td>
+        </tr>
+          <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.rotatingFootage" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Rotating Footage?</td>
+        </tr>
+          <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.rotatingROP" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Rotating ROP?</td>
+        </tr>
+          <tr>
+        <!--  <td class="text-center">
+            <toggle ng-model="$ctrl.data.rotatingPercentage" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Rotating Percentage?</td>
+        </tr>-->
+          <tr>
+          <td class="text-center">
+            <toggle ng-model="$ctrl.data.circulatingHours" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Circulating Hours?</td>
+        </tr>
+        <tr>
+        <td class="text-center">
+            <toggle ng-model="$ctrl.data.trippingHours" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">Tripping Hours?</td>
+        </tr>
+        <td class="text-center">
+            <toggle ng-model="$ctrl.data.onBottomHours" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">On Bottom Hours?</td>
+        </tr>
+        <td class="text-center">
+            <toggle ng-model="$ctrl.data.BRTHours" size="btn-xs"></toggle>
+          </td>
+          <td  class="text-middle">BRT Hours?</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">Cancel</button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.save()" ng-disabled="form.$invalid || $ctrl.isSaving"><i class="fa fa-fw fa-save"></i> Create</button>
+  </div>
+</form>
+
+
+

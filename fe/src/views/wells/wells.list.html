@@ -1,0 +1,70 @@
+<div class="actions-bar">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('well', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Well
+  </button>
+
+  <!-- <button class="btn btn-primary btn-outline" ng-click="$ctrl.createProductionType()" ng-if="$ctrl.session.can('well_production_type', 'create')">
+    Create Production Type
+  </button> -->
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col width="14.285714%">
+        <col width="14.285714%">
+        <col width="14.285714%">
+        <col width="14.285714%">
+        <col width="14.285714%">
+        <col width="14.285714%">
+        <col width="14.285714%">
+        <col>
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
+            <a href="" drilldown="{ title: item.name, component: 'wellsView', id: item.id }">{{ item.name | available }}</a>
+          </td>
+
+          <td title="'Legal Name'" filter="{ legalName: 'text' }" sortable="'legalName'">
+            {{ item.legalName | available }}
+          </td>
+
+          <td title="'Basin'" filter="{ 'basin.name': 'text' }" sortable="'basin.name'">
+            {{ item.basin.name | available }}
+          </td>
+
+          <td title="'Owner'" filter="{ owner: 'text' }" sortable="'owner'">
+            {{ item.owner | available }}
+          </td>
+
+          <td title="'Production Type'" filter="{ 'productionType.itemValue': 'text' }" sortable="'productionType.itemValue'">
+            {{ item.productionType.itemValue | available }}
+          </td>
+
+          <td title="'Latitude'" filter="{ latitude: 'text' }" sortable="'latitude'">
+            {{ item.latitude | available }}
+          </td>
+
+          <td title="'Longitude'" filter="{ longitude: 'text' }" sortable="'longitude'">
+            {{ item.longitude | available }}
+          </td>
+
+          <td title="'Offshore?'" filter="{ isOffshore: 'text' }" sortable="'isOffshore'" class="text-center">
+            {{ item.isOffshore | conditional }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+

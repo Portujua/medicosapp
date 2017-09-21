@@ -5,6 +5,7 @@ angular.module('app')
     templateUrl: 'app/directives/sidebar/sidebar.html',
     restrict: 'E',
     controller: 'SidebarController',
+    controllerAs: '$ctrl',
     replace: true,
     link: ($scope, element, attrs, api) => {
 

@@ -1,0 +1,43 @@
+.composeWindowHolder {
+  bottom: 0;
+  width: 100vw;
+  height: 100vh;
+  overflow-x: auto;
+  position: fixed;
+  z-index: 99;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: row-reverse;
+
+  .modal {
+    pointer-events: auto;
+    margin: 0px;
+    max-height: calc(100vh - 50px) !important;
+    bottom: auto !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    position: static !important;
+    z-index: 3000;
+
+    width: $modal-md;
+    &.compose-sm { width: $modal-sm !important; }
+    &.compose-md { width: $modal-md !important; }
+    &.compose-lg { width: $modal-lg !important; }
+    &.compose-xl { width: $modal-xl !important; }
+
+    &:first-child {
+      margin-right: 10px;
+    }
+
+    .modal-dialog {
+      /* Set the same as on vendors/ui-bootstrpa-tpls.js */
+      width: calc(100% - 20px);
+
+      .modal-body {
+        max-height: calc(100vh - 200px);
+      }
+    }
+  }
+}

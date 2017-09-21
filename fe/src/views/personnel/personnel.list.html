@@ -1,0 +1,119 @@
+<div class="actions-bar hug">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('personnel', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Personnel
+  </button>
+
+  <!-- <button class="btn btn-primary btn-outline" ng-click="$ctrl.createPositionType()" ng-if="$ctrl.session.can('personnel_position', 'create')">
+    Create Position Type
+  </button>
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.createContractType()" ng-if="$ctrl.session.can('personnel_contract_type', 'create')">
+    Create Contract Type
+  </button> -->
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <!-- <col ng-if="$ctrl.session.can('personnel', 'edit')"> -->
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <!-- <col> -->
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <!-- <td ng-if="$ctrl.session.can('personnel', 'edit')">
+            <button class="btn btn-primary btn-xs" uib-tooltip="Edit" ng-click="$ctrl.update(item.id)">
+              <i class="fa fa-fw fa-pencil"></i>
+            </button>
+          </td> -->
+
+          <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
+            <a href="" drilldown="{ title: item.name, component: 'personnelView', id: item.id }">{{ item.name | available }}</a>
+          </td>
+
+          <td title="'Email'" filter="{ email: 'text' }" sortable="'email'">
+            {{ item.email | available }}
+            <!-- <span editable-text="item.email" onbeforesave="$ctrl.save($data, 'email', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required e-maxlength="50">
+              {{ item.email | available }}
+            </span> -->
+          </td>
+
+          <td title="'Cell Number'" filter="{ owner: 'text' }" sortable="'cellPhoneNumber'">
+            {{ item.cellPhoneNumber | available }}
+            <!-- <span editable-text="item.cellPhoneNumber" onbeforesave="$ctrl.save($data, 'cellPhoneNumber', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required e-maxlength="50">
+              {{ item.cellPhoneNumber | available }}
+            </span> -->
+          </td>
+
+           <td title="'Job Phone'" filter="{ owner: 'text' }" sortable="'jobPhoneNumber'">
+            {{ item.jobPhoneNumber | available }}
+            <!-- <span editable-text="item.jobPhoneNumber" onbeforesave="$ctrl.save($data, 'jobPhoneNumber', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required e-maxlength="50">
+              {{ item.jobPhoneNumber | available }}
+            </span> -->
+          </td>
+
+          <td title="'Other Phone'" filter="{ owner: 'text' }" sortable="'otherPhoneNumber'">
+            {{ item.otherPhoneNumber | available }}
+            <!-- <span editable-text="item.otherPhoneNumber" onbeforesave="$ctrl.save($data, 'otherPhoneNumber', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required e-maxlength="50">
+              {{ item.otherPhoneNumber | available }}
+            </span> -->
+          </td>
+
+          <td title="'Position Type'" filter="{ 'positionType.itemValue': 'text' }" sortable="'positionType.itemValue'">
+            {{ item.positionType.itemValue | available }}
+            <!-- <span editable-select="item.positionType" e-ng-options="type as type.itemValue for type in $ctrl.positions" onshow="$ctrl.getPosition()" onbeforesave="$ctrl.save($data, 'positionType', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required>
+              {{ item.positionType.itemValue | available }}
+            </span> -->
+          </td>
+
+          <td title="'Contract Type'" filter="{ 'contractType.itemValue': 'text' }" sortable="'contractType.itemValue'">
+            {{ item.contractType.itemValue | available }}
+            <!-- <span editable-select="item.contractType" e-ng-options="type as type.itemValue for type in $ctrl.contracts" onshow="$ctrl.getContractType()" onbeforesave="$ctrl.save($data, 'contractType', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required>
+              {{ item.contractType.itemValue | available }}
+            </span> -->
+          </td>
+
+          <td title="'User'" filter="{ 'user.name': 'text' }" sortable="'user.name'">
+            {{ item.user.name | available }}
+            <!-- <span editable-select="item.user" e-ng-options="user as user.name for user in $ctrl.users" onshow="$ctrl.getUsers(item)" onbeforesave="$ctrl.save($data, 'user', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required>
+              {{ item.user.name | available }}
+            </span> -->
+          </td>
+
+          <td title="'Date of Hire'" filter="{ hiredAt: 'text' }" sortable="'hiredAt'">
+            {{ item.hiredAt | available | date:"dd/MM/yyyy" }}
+            <!-- <span editable-date="item.hiredAt" onbeforesave="$ctrl.save($data, 'hiredAt', item)" edit-disabled="!$ctrl.session.can('personnel', 'edit')" e-required>
+              {{ item.hiredAt | available | date:"dd/MM/yyyy"}}
+            </span> -->
+          </td>
+
+          <td title="'Rig Operator?'" sortable="'isRigOperator'" class="text-center">
+            {{ item.isRigOperator | conditional }}
+            <!-- <toggle ng-model="item.isRigOperator" ng-change="$ctrl.save(item.isRigOperator, 'isRigOperator', item)" size="btn-xs"></toggle> -->
+          </td>
+
+          <!-- <td>
+            <comments id="item.id" button-class="btn-default btn-xs"></comments>
+          </td> -->
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

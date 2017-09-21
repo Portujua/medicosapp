@@ -1,0 +1,35 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title pull-left">Catalog Categories</h3>
+    <div class="pull-right">
+      <button class="btn btn-primary btn-outline" type="button" ng-click="$ctrl.add(null)" ng-disabled="$ctrl.isSaving">
+        <i class="fa fa-fw fa-plus"></i> Add Category
+      </button>
+    </div>
+  </div>
+
+  <div class="modal-body">
+    <div class="bordered">
+      <etree data="$ctrl.data"
+             reload-fn="$ctrl.load()"
+             promise="$ctrl.loadingPromise"
+             toggle-fn="$ctrl.loadChildrens(node)"
+             edit-fn="$ctrl.update(node)"
+             add-fn="$ctrl.add(node)"
+             remove-fn="$ctrl.delete(node)"
+             hide-add="!$ctrl.session.can('catalog_category', 'create')"
+             hide-edit="!$ctrl.session.can('catalog_category', 'edit')"
+             hide-remove="!$ctrl.session.can('catalog_category', 'delete')">
+      </etree>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <!-- <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || ($ctrl.data.mudType && !$ctrl.data.mudType.id) ">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button> -->
+  </div>
+</form>

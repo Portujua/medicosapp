@@ -1,0 +1,96 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title">Edit Rig</h3>
+  </div>
+  <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label for="name" class="col-4 col-form-label">Name</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="name" id="name" placeholder="" ng-model="$ctrl.data.name" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.name.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.type.$invalid && form.type.$touched, 'has-success': form.type.$valid && form.type.$touched && $ctrl.data.type.id, 'has-warning': form.type.$valid && form.type.$touched && !$ctrl.data.type.id }">
+      <label for="type" class="col-4 col-form-label">Type</label>
+      <div ng-class="{ 'col-8': $ctrl.session.can('rig_type', 'create'), 'col-6': !$ctrl.session.can('rig_type', 'create') }">
+        <div ng-class="{ 'input-group': $ctrl.session.can('rig_type', 'create') }">
+          <input type="text" class="form-control" name="type" id="type" placeholder="" ng-model="$ctrl.data.type" required uib-typeahead="item as item.itemValue for item in $ctrl.getTypes($viewValue)" typeahead-show-hint="true" typeahead-min-length="0" typeahead-editable="$ctrl.session.can('rig_type', 'create')" typeahead-append-to-body="true">
+          <span class="input-group-btn" ng-if="$ctrl.session.can('rig_type', 'create')">
+            <button class="btn btn-default" type="button" ng-click="$ctrl.createItem()" ng-disabled="!$ctrl.data.type || $ctrl.data.type.id" ng-class="{ 'btn-warning': $ctrl.data.type && !$ctrl.data.type.id }">
+              <i class="fa fa-fw fa-plus"></i>
+            </button>
+          </span>
+        </div>
+        <span class="help-block" ng-if="$ctrl.data.type && !$ctrl.data.type.id">
+          To create this new value click on the <strong>+</strong> button.
+        </span>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.type.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.owner.$invalid && form.owner.$touched, 'has-success': form.owner.$valid && form.name.$touched }">
+      <label for="owner" class="col-4 col-form-label">Owner</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="owner" id="owner" placeholder="" ng-model="$ctrl.data.owner" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.owner.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.manufacturer.$invalid && form.manufacturer.$touched, 'has-success': form.manufacturer.$valid && form.manufacturer.$touched }">
+      <label for="manufacturer" class="col-4 col-form-label">Manufacturer</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="manufacturer" id="manufacturer" placeholder="" ng-model="$ctrl.data.manufacturer" maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.manufacturer.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.power.$invalid && form.power.$touched, 'has-success': form.power.$valid && form.power.$touched }">
+      <label for="power" class="col-4 col-form-label">Power</label>
+      <div class="col-6">
+        <input class="form-control" type="text" name="power" id="power" placeholder="" ng-model="$ctrl.data.power">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.power.$error" role="alert"></span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.comments.$invalid && form.comments.$touched, 'has-success': form.comments.$valid && form.comments.$touched }">
+      <label for="comments" class="col-4 col-form-label">Comments</label>
+      <div class="col-8">
+        <textarea class="form-control resize-vertical" type="text" name="comments" id="comments" placeholder="" ng-model="$ctrl.data.comments" maxlength="250" rows="4"></textarea>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.comments.$error" role="alert">
+          <span ng-message="maxlength">Length must be lower than or equal to 250.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || !form.$dirty || ($ctrl.data.type && !$ctrl.data.type.id)">
+      <i class="fa fa-fw fa-save"></i> Save
+    </button>
+  </div>
+</form>

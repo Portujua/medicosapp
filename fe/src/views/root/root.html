@@ -2,14 +2,19 @@
 
 <sidebar></sidebar>
 
-<div id="root-container">
-  <!-- Breadcrumbs -->
-  <div class="container-fluid">
-    <div ncy-breadcrumb></div>
-  </div>
+<div id="root-container" class="{{ $ctrl.isSidebarOpen() ? 'sidebar-open' : '' }}">
+  <div class="wrapper">
+    <tab-manager></tab-manager>
+    <!-- <div ui-view ng-cloak class="container-fluid"></div> -->
 
-  <div ui-view ng-cloak class="container-fluid"></div>
+    <!-- For sticky footer -->
+    <div class="push"></div>
+  </div>
+  <footer></footer>
 </div>
+
+
+
 
 
 

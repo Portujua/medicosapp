@@ -1,0 +1,102 @@
+<form id="jobsNew" name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Create Contract</h3>
+  </div>
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }">
+
+    <!-- <div class="form-group row has-feedback" ng-class="{ 'has-error': form.client.$invalid && form.client.$touched, 'has-success': form.client.$valid && form.client.$touched }" ng-if="$ctrl.entity !== 'client'">
+      <label for="client" class="col-4 col-form-label">Client</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="client" id="client" placeholder="Search client.." ng-model="$ctrl.data.client" required uib-typeahead="item as item.name for item in $ctrl.clients" typeahead-show-hint="true" typeahead-min-length="0" typeahead-editable="false" typeahead-append-to-body="true">
+        <span class="help-block" ng-messages="form.client.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+      </div>
+    </div> -->
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.contract.$invalid && form.contract.$touched, 'has-success': form.contract.$valid && form.contract.$touched }" ng-if="$ctrl.entity !== 'contract'">
+      <label for="contract" class="col-4 col-form-label">Contract Template</label>
+      <div class="col-6">
+        <input type="text" class="form-control" name="contract" id="contract" placeholder="Search contract template.." ng-model="$ctrl.data.contract" required uib-typeahead="item as item.name for item in $ctrl.getContracts($viewValue)" typeahead-show-hint="true" typeahead-min-length="3" typeahead-editable="false" typeahead-append-to-body="true">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.contract.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.startDate.$invalid && form.startDate.$touched, 'has-success': form.startDate.$valid && form.startDate.$touched }">
+      <label for="startDate" class="col-4 col-form-label">Start Date</label>
+      <div class="col-6">
+        <input class="form-control" type="date" name="startDate" id="startDate" placeholder="" ng-model="$ctrl.data.startDate" max="{{ $ctrl.data.endDate | date:'yyyy-MM-dd' }}" required>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.startDate.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="date, max">Invalid date.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback" ng-class="{ 'has-error': form.endDate.$invalid && form.endDate.$touched, 'has-success': form.endDate.$valid && form.endDate.$touched }">
+      <label for="endDate" class="col-4 col-form-label">End Date</label>
+      <div class="col-6">
+        <input class="form-control" type="date" name="endDate" id="endDate" placeholder="" ng-model="$ctrl.data.endDate" min="{{ $ctrl.data.startDate | date:'yyyy-MM-dd' }}" required>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.endDate.$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="date, min">Invalid date.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="row margin-sm-bottom">
+      <div class="col-6 offset-4">
+        <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.addTerm()" ng-disabled="!$ctrl.data.contract.id">Add Term</button>
+      </div>
+    </div>
+
+    <table class="table hug table-hover bordered" ng-if="$ctrl.data.terms.length">
+      <colgroup>
+        <col>
+        <col width="33.33333333%">
+        <col width="33.33333333%">
+        <col width="33.33333333%">
+      </colgroup>
+      <thead>
+        <th></th>
+        <th class="text-center">Description</th>
+        <th class="text-center">Reference Cost</th>
+        <th class="text-center">Unit</th>
+      </thead>
+      <tbody>
+        <tr ng-repeat="field in $ctrl.data.terms track by $index">
+          <td>
+            <button type="button" class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.removeTerm(field)">
+              <i class="fa fa-fw fa-times"></i>
+            </button>
+          </td>
+          <td title="Description">
+            {{ field.description }}
+          </td>
+          <td title="Reference Cost" class="text-center">
+            {{ field.referenceCost | currency:$ctrl.data.contract.currency.itemValue }}
+          </td>
+          <td title="Unit" class="text-center">
+            {{ field.termUnit.itemValue }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">
+      Cancel
+    </button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-disabled="form.$invalid || $ctrl.isSaving || $ctrl.validatePicklists()">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button>
+  </div>
+</form>

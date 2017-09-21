@@ -1,19 +1,18 @@
 ;(() => {
 
 class Auth {
-  constructor(RESTful, StorageService, $q, $timeout, Session, $state, $window) {
+  constructor(RESTful, StorageService, $q, $timeout, Session, $state, $uibModalStack, $rootScope) {
     this.RESTful = RESTful;
     this.StorageService = StorageService;
     this.$q = $q;
     this.$timeout = $timeout;
     this.Session = Session;
     this.$state = $state;
-    this.$window = $window;
+    this.$uibModalStack = $uibModalStack;
+    this.$rootScope = $rootScope;
   }
 
   _setUser(response) {
-
-    console.log(response);
     this._session = new this.Session({
       username: response.data.username,
       email: response.data.email,
@@ -22,6 +21,7 @@ class Auth {
       resetPassword: response.data.resetPassword,
       id: response.data.id,
       role: response.data.role,
+      profilePicturePath: response.data.profilePicturePath,
       token: response.headers('X-Auth-Token'),
     });
 
@@ -30,8 +30,13 @@ class Auth {
     return this._session;
   }
 
+  changePicture(img) {
+    this._session.profilePicturePath = `${img}?${(new Date()).getTime()}`;
+    this.saveSession();
+  }
+
   saveSession() {
-    this.StorageService.put('session', this._session.get(), 's');
+    this.StorageService.put('session', this._session.getObject(), 's');
   }
 
   goHome() {
@@ -49,44 +54,13 @@ class Auth {
   login(credentials) {
     let deferred = this.$q.defer();
 
-    deferred.resolve(this._setUser({
-      data: {
-        username: credentials.username,
-        email: 'myemail@gmail.com',
-        name: 'Eduardo Lorenzo',
-        expirationTime: 99999,
-        resetPassword: false,
-        id: 1,
-        role: {
-          name: 'admin',
-          permission: [
-            {
-              entityName: 'USER',
-              sysAction: [
-                { actionName: 'ACTIVATE' }, 
-                { actionName: 'CREATE' }, 
-                { actionName: 'DEACTIVATE' }, 
-                { actionName: 'DELETE' }, 
-                { actionName: 'EDIT' }
-              ]
-            }
-          ]
-        }
-      },
-      headers: function(){
-        return 'some headers';
-      }
-    }));
-
-    this.goHome();
-    return;
-
     this.RESTful.post('auth', credentials, null, {
       headers: {
         'Content-Type': 'text/plain;charset=utf-8'
       }
     }, true)
       .then((response) => {
+
         deferred.resolve(this._setUser(response));
       }, (response) => {
         deferred.reject(response);
@@ -96,20 +70,14 @@ class Auth {
   }
 
   _destroy() {
-    // let deferred = this.$q.defer();
-
-    // this.RESTful.get('logout')
-    //   .finally(() => {
-        // Last logged user
-
-      // });
-
     return this.$timeout(() => {
       this._session = undefined;
-      this.StorageService.remove('session', 's');
-    });
+      this.StorageService.clear('session');
+      this.StorageService.clear('local');
 
-    // return deferred.promise;
+      // Close all modals
+      this.$uibModalStack.dismissAll();
+    });
   }
 
   logout() {

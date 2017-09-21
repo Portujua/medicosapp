@@ -1,5 +1,5 @@
 {
-  "name": "basicapp",
+  "name": "ddm-officemodule",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -8,14 +8,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Portujua/basicapp.git"
+    "url": "git+https://github.com/xtiam57/scaffolar2.git"
   },
-  "author": "Eduardo Lorenzo",
+  "author": "Watto Apps",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Portujua/basicapp/issues"
+    "url": "https://github.com/xtiam57/scaffolar2/issues"
   },
-  "homepage": "https://github.com/Portujua/basicapp#readme",
+  "homepage": "https://github.com/xtiam57/scaffolar2#readme",
   "devDependencies": {
     "babel-eslint": "^6.0.4",
     "babel-preset-es2015": "^6.9.0",

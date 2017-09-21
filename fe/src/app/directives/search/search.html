@@ -1,0 +1,25 @@
+<div class="search">
+
+	<div class="search-input">
+		<input type="text" class="form-control" name="search" ng-model="$ctrl.searchQuery" ng-model-options="{ debounce: $ctrl.delay }" ng-change="$ctrl.search()" ng-focus="$ctrl.focus()" ng-blur="$ctrl.blur()" placeholder="{{ $ctrl.placeholder }}" />
+
+		<div class="searchResults" ng-show="$ctrl.displayResults()" ng-mouseover="$ctrl.mouseover()" ng-mouseleave="$ctrl.mouseleave()">
+			<div class="result" ng-repeat="entities in $ctrl.results">
+				<hr ng-if="!$first">
+				<p class="entity">{{ $ctrl.getEntityName(entities.entityName) }}</p>
+				<div ng-repeat="result in entities.searchresult">
+					<p class="result-label" ng-click="$ctrl.add(result)">{{ result.display }}</p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="filters">
+		<div class="filter" ng-repeat="filter in $ctrl.filters track by $index">
+      {{ filter.display }}
+			<span class="remove-filter" ng-click="$ctrl.remove(filter)">
+        <i class="fa fa-times-circle" aria-hidden="true"></i>
+      </span>
+    </div>
+	</div>
+</div>

@@ -1,0 +1,854 @@
+<form id="newCatalogEntry" name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Create Catalog Entry</h3>
+  </div>
+
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" >
+
+    <uib-tabset type="pills" justified="true">
+      <uib-tab heading="Catalog Entry">
+        <div class="margin-top">
+          <div class="form-group row has-feedback" ng-class="{ 'has-error': form.itemType.$invalid && form.itemType.$touched, 'has-success': form.itemType.$valid && form.itemType.$touched }">
+            <label for="itemType" class="col-4 col-form-label">Type</label>
+            <div class="col-6">
+              <select class="form-control" name="itemType" id="itemType" placeholder="" ng-model="$ctrl.entry.itemType" required ng-options="item.value as item.title for item in $ctrl.baseComponents" ng-change="$ctrl.typeChange()"></select>
+              <!-- Errors -->
+              <span class="help-block" ng-messages="form.itemType.$error" role="alert">
+                <span ng-message="required">This field is required.</span>
+              </span>
+              <!-- /Errors -->
+            </div>
+          </div>
+
+          <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+            <label for="name" class="col-4 col-form-label">Name</label>
+            <div class="col-6">
+              <input class="form-control" type="text" name="name" id="name" placeholder="" ng-model="$ctrl.entry.name" required minlength="0" maxlength="50">
+              <!-- Errors -->
+              <span class="help-block" ng-messages="form.name.$error" role="alert">
+                <span ng-message="required">This field is required.</span>
+                <span ng-message="minlength">Length must be greater than or equal to 0.</span>
+                <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+              </span>
+              <!-- /Errors -->
+            </div>
+          </div>
+
+          <div class="form-group row has-feedback" ng-class="{ 'has-error': form.serialNumber.$invalid && form.serialNumber.$touched, 'has-success': form.serialNumber.$valid && form.serialNumber.$touched }">
+            <label for="serialNumber" class="col-4 col-form-label">Serial Number</label>
+            <div class="col-6">
+              <input class="form-control" type="text" name="serialNumber" id="serialNumber" placeholder="" ng-model="$ctrl.entry.serialNumber" required maxlength="50">
+              <!-- Errors -->
+              <span class="help-block" ng-messages="form.serialNumber.$error" role="alert">
+                <span ng-message="required">This field is required.</span>
+                <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+              </span>
+              <!-- /Errors -->
+            </div>
+          </div>
+
+          <div class="form-group row has-feedback" ng-class="{ 'has-error': form.model.$invalid && form.model.$touched, 'has-success': form.model.$valid && form.model.$touched }">
+            <label for="model" class="col-4 col-form-label">Model</label>
+            <div class="col-6">
+              <input class="form-control" type="text" name="model" id="model" placeholder="" ng-model="$ctrl.entry.model" maxlength="50">
+              <!-- Errors -->
+              <span class="help-block" ng-messages="form.model.$error" role="alert">
+                <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+              </span>
+              <!-- /Errors -->
+            </div>
+          </div>
+
+          <div class="form-group row has-feedback" ng-class="{ 'has-error': form.baseImage.$invalid && form.baseImage.$touched, 'has-success': form.baseImage.$valid && form.baseImage.$touched }">
+            <label for="baseImage" class="col-4 col-form-label">Image</label>
+            <div class="col-6">
+              <select class="form-control" name="baseImage" id="baseImage" placeholder="" ng-model="$ctrl.entry.baseImage" required ng-options="item.value as item.title for item in $ctrl.images">
+                <option value="">--- Select a value ---</option>
+              </select>
+              <!-- Errors -->
+              <span class="help-block" ng-messages="form.baseImage.$error" role="alert">
+                <span ng-message="required">This field is required.</span>
+              </span>
+              <!-- /Errors -->
+            </div>
+          </div>
+
+          <div class="form-group row" ng-class="{ 'has-error': form.categories.$invalid && form.categories.$touched, 'has-success': form.categories.$valid && form.categories.$touched }">
+            <label for="categories" class="col-4 col-form-label">Categories</label>
+            <div class="col-8">
+              <tags-input ng-model="$ctrl.entry.categories" display-property="name" key-property="id" add-from-autocomplete-only="true" replace-spaces-with-dashes="false" placeholder="Add a category" name="categories">
+                <!-- Use promise as source -->
+                <auto-complete source="$ctrl.getCategories($query)"></auto-complete>
+              </tags-input>
+            </div>
+          </div>
+
+          <div class="form-group row has-feedback" ng-class="{ 'has-error': form.manufacturer.$invalid && form.manufacturer.$touched, 'has-success': form.manufacturer.$valid && form.manufacturer.$touched && $ctrl.entry.manufacturer.id, 'has-warning': form.manufacturer.$valid && form.manufacturer.$touched && !$ctrl.entry.manufacturer.id }">
+            <label for="manufacturer" class="col-4 col-form-label">Manufacturer</label>
+            <div ng-class="{ 'col-8': $ctrl.session.can('manufacturer', 'create'), 'col-6': !$ctrl.session.can('manufacturer', 'create') }">
+              <div ng-class="{ 'input-group': $ctrl.session.can('manufacturer', 'create') }">
+                <input type="text" class="form-control" name="manufacturer" id="manufacturer" placeholder="" ng-model="$ctrl.entry.manufacturer" required uib-typeahead="item as item.itemValue for item in $ctrl.getManufacturers($viewValue)" typeahead-show-hint="true" typeahead-min-length="2" typeahead-editable="$ctrl.session.can('manufacturer', 'create')" typeahead-append-to-body="true">
+                <span class="input-group-btn" ng-if="$ctrl.session.can('manufacturer', 'create')">
+                  <button class="btn btn-default" type="button" ng-click="$ctrl.createManufacturer()" ng-disabled="!$ctrl.entry.manufacturer || $ctrl.entry.manufacturer.id" ng-class="{ 'btn-warning': $ctrl.entry.manufacturer && !$ctrl.entry.manufacturer.id }">
+                    <i class="fa fa-fw fa-plus"></i>
+                  </button>
+                </span>
+              </div>
+              <span class="help-block" ng-if="$ctrl.entry.manufacturer && !$ctrl.entry.manufacturer.id">
+                To create this new value click on the <strong>+</strong> button.
+              </span>
+              <!-- Errors -->
+              <span class="help-block" ng-messages="form.manufacturer.$error" role="alert">
+                <span ng-message="required">This field is required.</span>
+              </span>
+              <!-- /Errors -->
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label class="col-4 col-form-label" for="isBHAPart">Is this a BHA piece?</label>
+            <div class="col-6">
+              <toggle ng-model="$ctrl.entry.isBHAPart"></toggle>
+            </div>
+          </div>
+
+          <div class="form-group row hug-bottom has-feedback" ng-class="{ 'has-error': form.description.$invalid && form.description.$touched, 'has-success': form.description.$valid && form.description.$touched }">
+            <label for="description" class="col-4 col-form-label">Description</label>
+            <div class="col-8">
+              <textarea class="form-control resize-vertical" type="text" name="description" id="description" placeholder="" ng-model="$ctrl.entry.description" required minlength="0" maxlength="250" rows="4"></textarea>
+              <!-- Errors -->
+              <span class="help-block" ng-messages="form.description.$error" role="alert">
+                <span ng-message="required">This field is required.</span>
+                <span ng-message="minlength">Length must be greater than or equal to 0.</span>
+                <span ng-message="maxlength">Length must be lower than or equal to 250.</span>
+              </span>
+              <!-- /Errors -->
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+
+      <uib-tab heading="Details">
+        <div class="margin-top">
+          <div ng-switch="$ctrl.entry.itemType">
+            <div ng-switch-when="BHACOMPONENT">
+              <!-- Bha Component -->
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name0.$invalid && form.name0.$touched, 'has-success': form.name0.$valid && form.name0.$touched }">
+                <label for="name0" class="col-4 col-form-label">Name</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="name0" id="name0" placeholder="" ng-model="$ctrl.detail.name" required minlength="0" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.name0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="minlength">Length must be greater than or equal to 0.</span>
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('name')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.model0.$invalid && form.model0.$touched, 'has-success': form.model0.$valid && form.model0.$touched }">
+                <label for="model0" class="col-4 col-form-label">Model</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="model0" id="model0" placeholder="" ng-model="$ctrl.detail.model" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.model0.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('model')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.innerDiameter0.$invalid && form.innerDiameter0.$touched, 'has-success': form.innerDiameter0.$valid && form.innerDiameter0.$touched }">
+                <label for="innerDiameter0" class="col-4 col-form-label">Inner Diamater</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="innerDiameter0" id="innerDiameter0" placeholder="" ng-model="$ctrl.detail.innerDiameter" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.innerDiameter0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.outerDiameter0.$invalid && form.outerDiameter0.$touched, 'has-success': form.outerDiameter0.$valid && form.outerDiameter0.$touched }">
+                <label for="outerDiameter0" class="col-4 col-form-label">Outer Diameter</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="outerDiameter0" id="outerDiameter0" placeholder="" ng-model="$ctrl.detail.outerDiameter" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.outerDiameter0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.length0.$invalid && form.length0.$touched, 'has-success': form.length0.$valid && form.length0.$touched }">
+                <label for="length0" class="col-4 col-form-label">Length</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="length0" id="length0" placeholder="" ng-model="$ctrl.detail.length" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.length0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.nominalWeight0.$invalid && form.nominalWeight0.$touched, 'has-success': form.nominalWeight0.$valid && form.nominalWeight0.$touched }">
+                <label for="nominalWeight0" class="col-4 col-form-label">Nominal Weight</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="nominalWeight0" id="nominalWeight0" placeholder="" ng-model="$ctrl.detail.nominalWeight" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.nominalWeight0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.dryWeight0.$invalid && form.dryWeight0.$touched, 'has-success': form.dryWeight0.$valid && form.dryWeight0.$touched }">
+                <label for="dryWeight0" class="col-4 col-form-label">Dry Weight</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="dryWeight0" id="dryWeight0" placeholder="" ng-model="$ctrl.detail.dryWeight" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.dryWeight0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.maxTorque0.$invalid && form.maxTorque0.$touched, 'has-success': form.maxTorque0.$valid && form.maxTorque0.$touched }">
+                <label for="maxTorque0" class="col-4 col-form-label">Max. Torque</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="maxTorque0" id="maxTorque0" placeholder="" ng-model="$ctrl.detail.maxTorque" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.maxTorque0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.topConnectorSize0.$invalid && form.topConnectorSize0.$touched, 'has-success': form.topConnectorSize0.$valid && form.topConnectorSize0.$touched }">
+                <label for="topConnectorSize0" class="col-4 col-form-label">Top Connector Size</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="topConnectorSize0" id="topConnectorSize0" placeholder="" ng-model="$ctrl.detail.topConnectorSize" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.topConnectorSize0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.topConnectorType0.$invalid && form.topConnectorType0.$touched, 'has-success': form.topConnectorType0.$valid && form.topConnectorType0.$touched }">
+                <label for="topConnectorType0" class="col-4 col-form-label">Top Connector Type</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="topConnectorType0" id="topConnectorType0" placeholder="" ng-model="$ctrl.detail.topConnectorType" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.topConnectorType0.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.topConnector0.$invalid && form.topConnector0.$touched, 'has-success': form.topConnector0.$valid && form.topConnector0.$touched }">
+                <label for="topConnector0" class="col-4 col-form-label">Top Connector</label>
+                <div class="col-6">
+                  <select class="form-control" name="topConnector0" id="topConnector0" placeholder="" ng-model="$ctrl.detail.topConnector" required ng-options="item as item for item in ['Pin', 'Box']">
+                  </select>
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.topConnector0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bottomConnectorSize0.$invalid && form.bottomConnectorSize0.$touched, 'has-success': form.bottomConnectorSize0.$valid && form.bottomConnectorSize0.$touched }">
+                <label for="bottomConnectorSize0" class="col-4 col-form-label">Bottom Connector Size</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="bottomConnectorSize0" id="bottomConnectorSize0" placeholder="" ng-model="$ctrl.detail.bottomConnectorSize" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bottomConnectorSize0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bottomConnectorType0.$invalid && form.bottomConnectorType0.$touched, 'has-success': form.bottomConnectorType0.$valid && form.bottomConnectorType0.$touched }">
+                <label for="bottomConnectorType0" class="col-4 col-form-label">Bottom Connector Type</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="bottomConnectorType0" id="bottomConnectorType0" placeholder="" ng-model="$ctrl.detail.bottomConnectorType" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bottomConnectorType0.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bottomConnector0.$invalid && form.bottomConnector0.$touched, 'has-success': form.bottomConnector0.$valid && form.bottomConnector0.$touched }">
+                <label for="bottomConnector0" class="col-4 col-form-label">Bottom Connector</label>
+                <div class="col-6">
+                  <select class="form-control" name="bottomConnector0" id="bottomConnector0" placeholder="" ng-model="$ctrl.detail.bottomConnector" required ng-options="item as item for item in ['Pin', 'Box']">
+                  </select>
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bottomConnector0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.fishNeckOuterDiameter0.$invalid && form.fishNeckOuterDiameter0.$touched, 'has-success': form.fishNeckOuterDiameter0.$valid && form.fishNeckOuterDiameter0.$touched }">
+                <label for="fishNeckOuterDiameter0" class="col-4 col-form-label">Fish Neck Outer Diameter</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="fishNeckOuterDiameter0" id="fishNeckOuterDiameter0" placeholder="" ng-model="$ctrl.detail.fishNeckOuterDiameter" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.fishNeckOuterDiameter0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.fishNeckLength0.$invalid && form.fishNeckLength0.$touched, 'has-success': form.fishNeckLength0.$valid && form.fishNeckLength0.$touched }">
+                <label for="fishNeckLength0" class="col-4 col-form-label">Fish Neck Length</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="fishNeckLength0" id="fishNeckLength0" placeholder="" ng-model="$ctrl.detail.fishNeckLength" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.fishNeckLength0.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row hug-bottom has-feedback" ng-class="{ 'has-error': form.description0.$invalid && form.description0.$touched, 'has-success': form.description0.$valid && form.description0.$touched }">
+                <label for="description0" class="col-4 col-form-label">Description</label>
+                <div class="col-7">
+                  <textarea class="form-control resize-vertical" type="text" name="description0" id="description0" placeholder="" ng-model="$ctrl.detail.description" maxlength="250" rows="4"></textarea>
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.description0.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 250.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('description')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+              <!-- /Bha Component -->
+            </div>
+
+
+            <div ng-switch-when="BIT">
+              <!-- Drill Bit -->
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name1.$invalid && form.name1.$touched, 'has-success': form.name1.$valid && form.name1.$touched }">
+                <label for="name1" class="col-4 col-form-label">Name</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="name1" id="name1" placeholder="" ng-model="$ctrl.detail.name" required minlength="0" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.name1.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="minlength">Length must be greater than or equal to 0.</span>
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('name')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.model1.$invalid && form.model1.$touched, 'has-success': form.model1.$valid && form.model1.$touched }">
+                <label for="model1" class="col-4 col-form-label">Model</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="model1" id="model1" placeholder="" ng-model="$ctrl.detail.model" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.model1.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('model')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bitType1.$invalid && form.bitType1.$touched, 'has-success': form.bitType1.$valid && form.bitType1.$touched }">
+                <label for="bitType1" class="col-4 col-form-label">Type</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="bitType1" id="bitType1" placeholder="" ng-model="$ctrl.detail.bitType" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bitType1.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.size1.$invalid && form.size1.$touched, 'has-success': form.size1.$valid && form.size1.$touched }">
+                <label for="size1" class="col-4 col-form-label">Size</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="size1" id="size1" placeholder="" ng-model="$ctrl.detail.size" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.size1.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.gauge1.$invalid && form.gauge1.$touched, 'has-success': form.gauge1.$valid && form.gauge1.$touched }">
+                <label for="gauge1" class="col-4 col-form-label">Gauge</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="gauge1" id="gauge1" placeholder="" ng-model="$ctrl.detail.gauge" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.gauge1.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bearingStyle1.$invalid && form.bearingStyle1.$touched, 'has-success': form.bearingStyle1.$valid && form.bearingStyle1.$touched }">
+                <label for="bearingStyle1" class="col-4 col-form-label">Bearing Style</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="bearingStyle1" id="bearingStyle1" placeholder="" ng-model="$ctrl.detail.bearingStyle" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bearingStyle1.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bearingSeal1.$invalid && form.bearingSeal1.$touched, 'has-success': form.bearingSeal1.$valid && form.bearingSeal1.$touched }">
+                <label for="bearingSeal1" class="col-4 col-form-label">Bearing Seal</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="bearingSeal1" id="bearingSeal1" placeholder="" ng-model="$ctrl.detail.bearingSeal" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bearingSeal1.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.numberOfJets1.$invalid && form.numberOfJets1.$touched, 'has-success': form.numberOfJets1.$valid && form.numberOfJets1.$touched }">
+                <label for="numberOfJets1" class="col-4 col-form-label">Number of Jets</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="numberOfJets1" id="numberOfJets1" placeholder="" ng-model="$ctrl.detail.numberOfJets" step="1" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.numberOfJets1.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="step">This field must be an integer value.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.diameter1.$invalid && form.diameter1.$touched, 'has-success': form.diameter1.$valid && form.diameter1.$touched }">
+                <label for="diameter1" class="col-4 col-form-label">Diameter</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="diameter1" id="diameter1" placeholder="" ng-model="$ctrl.detail.diameter" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.diameter1.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row hug-bottom has-feedback" ng-class="{ 'has-error': form.description1.$invalid && form.description1.$touched, 'has-success': form.description1.$valid && form.description1.$touched }">
+                <label for="description1" class="col-4 col-form-label">Description</label>
+                <div class="col-7">
+                  <textarea class="form-control resize-vertical" type="text" name="description1" id="description1" placeholder="" ng-model="$ctrl.detail.description" maxlength="250" rows="4"></textarea>
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.description1.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 250.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('description')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+              <!-- /Drill Bit -->
+            </div>
+
+
+            <div ng-switch-when="MOTOR">
+              <!-- Motor -->
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name2.$invalid && form.name2.$touched, 'has-success': form.name2.$valid && form.name2.$touched }">
+                <label for="name2" class="col-4 col-form-label">Name</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="name2" id="name2" placeholder="" ng-model="$ctrl.detail.name" required minlength="0" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.name2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="minlength">Length must be greater than or equal to 0.</span>
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('name')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.model2.$invalid && form.model2.$touched, 'has-success': form.model2.$valid && form.model2.$touched }">
+                <label for="model2" class="col-4 col-form-label">Model</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="model2" id="model2" placeholder="" ng-model="$ctrl.detail.model" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.model2.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('model')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.displacement2.$invalid && form.displacement2.$touched, 'has-success': form.displacement2.$valid && form.displacement2.$touched }">
+                <label for="displacement2" class="col-4 col-form-label">Displacement</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="displacement2" id="displacement2" placeholder="" ng-model="$ctrl.detail.displacement" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.displacement2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.minFlowRate2.$invalid && form.minFlowRate2.$touched, 'has-success': form.minFlowRate2.$valid && form.minFlowRate2.$touched }">
+                <label for="minFlowRate2" class="col-4 col-form-label">Min. Flow Rate</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="minFlowRate2" id="minFlowRate2" placeholder="" ng-model="$ctrl.detail.minFlowRate" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.minFlowRate2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.maxFlowRate2.$invalid && form.maxFlowRate2.$touched, 'has-success': form.maxFlowRate2.$valid && form.maxFlowRate2.$touched }">
+                <label for="maxFlowRate2" class="col-4 col-form-label">Max. Flow Rate</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="maxFlowRate2" id="maxFlowRate2" placeholder="" ng-model="$ctrl.detail.maxFlowRate" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.maxFlowRate2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.maxWOB2.$invalid && form.maxWOB2.$touched, 'has-success': form.maxWOB2.$valid && form.maxWOB2.$touched }">
+                <label for="maxWOB2" class="col-4 col-form-label">Max. WOB</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="maxWOB2" id="maxWOB2" placeholder="" ng-model="$ctrl.detail.maxWOB" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.maxWOB2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.maxDiffPressure2.$invalid && form.maxDiffPressure2.$touched, 'has-success': form.maxDiffPressure2.$valid && form.maxDiffPressure2.$touched }">
+                <label for="maxDiffPressure2" class="col-4 col-form-label">Max. Difference Pressure</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="maxDiffPressure2" id="maxDiffPressure2" placeholder="" ng-model="$ctrl.detail.maxDiffPressure" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.maxDiffPressure2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.maxTorque2.$invalid && form.maxTorque2.$touched, 'has-success': form.maxTorque2.$valid && form.maxTorque2.$touched }">
+                <label for="maxTorque2" class="col-4 col-form-label">Max. Torque</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="maxTorque2" id="maxTorque2" placeholder="" ng-model="$ctrl.detail.maxTorque" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.maxTorque2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.maxPower2.$invalid && form.maxPower2.$touched, 'has-success': form.maxPower2.$valid && form.maxPower2.$touched }">
+                <label for="maxPower2" class="col-4 col-form-label">Max. Power</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="maxPower2" id="maxPower2" placeholder="" ng-model="$ctrl.detail.maxPower" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.maxPower2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.length2.$invalid && form.length2.$touched, 'has-success': form.length2.$valid && form.length2.$touched }">
+                <label for="length2" class="col-4 col-form-label">Length</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="length2" id="length2" placeholder="" ng-model="$ctrl.detail.length" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.length2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.weight2.$invalid && form.weight2.$touched, 'has-success': form.weight2.$valid && form.weight2.$touched }">
+                <label for="weight2" class="col-4 col-form-label">Weight</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="weight2" id="weight2" placeholder="" ng-model="$ctrl.detail.weight" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.weight2.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bendType2.$invalid && form.bendType2.$touched, 'has-success': form.bendType2.$valid && form.bendType2.$touched }">
+                <label for="bendType2" class="col-4 col-form-label">Bend Type</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="bendType2" id="bendType2" placeholder="" ng-model="$ctrl.detail.bendType" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bendType2.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row hug-bottom has-feedback" ng-class="{ 'has-error': form.description2.$invalid && form.description2.$touched, 'has-success': form.description2.$valid && form.description2.$touched }">
+                <label for="description2" class="col-4 col-form-label">Description</label>
+                <div class="col-7">
+                  <textarea class="form-control resize-vertical" type="text" name="description2" id="description2" placeholder="" ng-model="$ctrl.detail.description" maxlength="250" rows="4"></textarea>
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.description2.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 250.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('description')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+              <!-- /Motor -->
+            </div>
+
+            <div ng-switch-when="WATERPUMP">
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.name3.$invalid && form.name3.$touched, 'has-success': form.name3.$valid && form.name3.$touched }">
+                <label for="name3" class="col-4 col-form-label">Name</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="name3" id="name3" placeholder="" ng-model="$ctrl.detail.name" required minlength="0" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.name3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="minlength">Length must be greater than or equal to 0.</span>
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('name')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.model3.$invalid && form.model3.$touched, 'has-success': form.model3.$valid && form.model3.$touched }">
+                <label for="model3" class="col-4 col-form-label">Model</label>
+                <div class="col-6">
+                  <input class="form-control" type="text" name="model3" id="model3" placeholder="" ng-model="$ctrl.detail.model" maxlength="50">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.model3.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 50.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('model')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.poundsPerSquareInch3.$invalid && form.poundsPerSquareInch3.$touched, 'has-success': form.poundsPerSquareInch3.$valid && form.poundsPerSquareInch3.$touched }">
+                <label for="poundsPerSquareInch3" class="col-4 col-form-label">Pounds Per Square Inch</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="poundsPerSquareInch3" id="poundsPerSquareInch3" placeholder="" ng-model="$ctrl.detail.poundsPerSquareInch" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.poundsPerSquareInch3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.efficiency3.$invalid && form.efficiency3.$touched, 'has-success': form.efficiency3.$valid && form.efficiency3.$touched }">
+                <label for="efficiency3" class="col-4 col-form-label">Efficiency</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="efficiency3" id="efficiency3" placeholder="" ng-model="$ctrl.detail.efficiency" required min="0" max="100">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.efficiency3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.equivalentCirculatingDensity3.$invalid && form.equivalentCirculatingDensity3.$touched, 'has-success': form.equivalentCirculatingDensity3.$valid && form.equivalentCirculatingDensity3.$touched }">
+                <label for="equivalentCirculatingDensity3" class="col-4 col-form-label">Equivalent Circulating Density</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="equivalentCirculatingDensity3" id="equivalentCirculatingDensity3" placeholder="" ng-model="$ctrl.detail.equivalentCirculatingDensity" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.equivalentCirculatingDensity3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.annularVelocityDrillPipe3.$invalid && form.annularVelocityDrillPipe3.$touched, 'has-success': form.annularVelocityDrillPipe3.$valid && form.annularVelocityDrillPipe3.$touched }">
+                <label for="annularVelocityDrillPipe3" class="col-4 col-form-label">Annular Velocity Drill Pipe</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="annularVelocityDrillPipe3" id="annularVelocityDrillPipe3" placeholder="" ng-model="$ctrl.detail.annularVelocityDrillPipe" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.annularVelocityDrillPipe3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.annularVelocityDrillCollar3.$invalid && form.annularVelocityDrillCollar3.$touched, 'has-success': form.annularVelocityDrillCollar3.$valid && form.annularVelocityDrillCollar3.$touched }">
+                <label for="annularVelocityDrillCollar3" class="col-4 col-form-label">Annular Velocity Drill Collar</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="annularVelocityDrillCollar3" id="annularVelocityDrillCollar3" placeholder="" ng-model="$ctrl.detail.annularVelocityDrillCollar" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.annularVelocityDrillCollar3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.bitHHP3.$invalid && form.bitHHP3.$touched, 'has-success': form.bitHHP3.$valid && form.bitHHP3.$touched }">
+                <label for="bitHHP3" class="col-4 col-form-label">Bit HHP</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="bitHHP3" id="bitHHP3" placeholder="" ng-model="$ctrl.detail.bitHHP" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.bitHHP3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row has-feedback" ng-class="{ 'has-error': form.pumpHHP3.$invalid && form.pumpHHP3.$touched, 'has-success': form.pumpHHP3.$valid && form.pumpHHP3.$touched }">
+                <label for="pumpHHP3" class="col-4 col-form-label">Pump HHP</label>
+                <div class="col-4">
+                  <input class="form-control" type="number" name="pumpHHP3" id="pumpHHP3" placeholder="" ng-model="$ctrl.detail.pumpHHP" required min="0">
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.pumpHHP3.$error" role="alert">
+                    <span ng-message="required">This field is required.</span>
+                    <span ng-message="min">Value must be greater than or equal to 0.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+              </div>
+
+              <div class="form-group row hug-bottom has-feedback" ng-class="{ 'has-error': form.description3.$invalid && form.description3.$touched, 'has-success': form.description3.$valid && form.description3.$touched }">
+                <label for="description3" class="col-4 col-form-label">Description</label>
+                <div class="col-7">
+                  <textarea class="form-control resize-vertical" type="text" name="description3" id="description3" placeholder="" ng-model="$ctrl.detail.description" maxlength="250" rows="4"></textarea>
+                  <!-- Errors -->
+                  <span class="help-block" ng-messages="form.description3.$error" role="alert">
+                    <span ng-message="maxlength">Length must be lower than or equal to 250.</span>
+                  </span>
+                  <!-- /Errors -->
+                </div>
+                <div class="col-1">
+                  <i class="fa fa-fw fa-copy pinter fa-lg btn-copy" ng-click="$ctrl.copy('description')" title="Copy from Catalog Entry"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </uib-tab>
+    </uib-tabset>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">Cancel</button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.save()" ng-disabled="form.$invalid || $ctrl.isSaving || $ctrl.validatePicklists()">
+      <i class="fa fa-fw fa-save"></i> Create
+    </button>
+  </div>
+</form>
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,149 @@
+<div class="actions-bar hug">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('activity_type', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Activity Type
+  </button>
+
+  <div class="pull-right">
+    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button>
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<div class="table-frame">
+  <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+    <table class="table table-hover table-cross-highlight" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col width="30%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col width="4.6%">
+        <col>
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data">
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td title="'Name'" filter="{ name: 'text' }" sortable="'name'" class="row-textarea">
+            <strong>{{ item.name | available }}</strong>
+            <span class="small text-muted" editable-textarea="item.tooltip" e-rows="4" onbeforesave="$ctrl.save($data, 'tooltip', item)" e-maxlength="250" edit-disabled="!$ctrl.session.can('activity_type', 'edit')">
+              ({{ item.tooltip | available }})
+            </span>
+          </td>
+
+          <td title="'Code'" sortable="'code'" class="text-center">
+            <span editable-text="item.code" onbeforesave="$ctrl.save($data, 'code', item)" edit-disabled="!$ctrl.session.can('activity_type', 'edit')" e-required e-maxlength="10">
+              {{ item.code | available }}
+            </span>
+          </td>
+
+          <td title="'ToHr'" header-title="'Total Hours'" sortable="'calculateTotalHours'" class="text-center" uib-tooltip="{{ item.name }}: Total Hours" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.calculateTotalHours, 'calculateTotalHours', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.calculateTotalHours, 'fa-circle-thin text-muted': !item.calculateTotalHours}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.calculateTotalHours" ng-change="$ctrl.save(item.calculateTotalHours, 'calculateTotalHours', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'ToF'" header-title="'Total Footage'" sortable="'calculateTotalFootage'" class="text-center" uib-tooltip="{{ item.name }}: Total Footage" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.calculateTotalFootage, 'calculateTotalFootage', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.calculateTotalFootage, 'fa-circle-thin text-muted': !item.calculateTotalFootage}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.calculateTotalFootage" ng-change="$ctrl.save(item.calculateTotalFootage, 'calculateTotalFootage', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'DP'" header-title="'Drilling Parameters'" sortable="'hasDrillingParameters'" class="text-center" uib-tooltip="{{ item.name }}: Drilling Parameters" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.hasDrillingParameters, 'hasDrillingParameters', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.hasDrillingParameters, 'fa-circle-thin text-muted': !item.hasDrillingParameters}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.hasDrillingParameters" ng-change="$ctrl.save(item.hasDrillingParameters, 'hasDrillingParameters', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'ROP'" header-title="'ROP'" sortable="'calculateROP'" class="text-center" uib-tooltip="{{ item.name }}: ROP" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.calculateROP, 'calculateROP', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.calculateROP, 'fa-circle-thin text-muted': !item.calculateROP}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.calculateROP" ng-change="$ctrl.save(item.calculateROP, 'calculateROP', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'SlHr'" header-title="'Sliding Hours'" sortable="'slidingHours'" class="text-center" uib-tooltip="{{ item.name }}: Sliding Hours" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.slidingHours, 'slidingHours', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.slidingHours, 'fa-circle-thin text-muted': !item.slidingHours}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.slidingHours" ng-change="$ctrl.save(item.slidingHours, 'slidingHours', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'SlF'" header-title="'Sliding Footage'" sortable="'slidingFootage'" class="text-center" uib-tooltip="{{ item.name }}: Sliding Footage" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.slidingFootage, 'slidingFootage', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.slidingFootage, 'fa-circle-thin text-muted': !item.slidingFootage}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.slidingFootage" ng-change="$ctrl.save(item.slidingFootage, 'slidingFootage', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'SlROP'" header-title="'Sliding ROP'" sortable="'slidingROP'" class="text-center" uib-tooltip="{{ item.name }}: Sliding ROP" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.slidingROP, 'slidingROP', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.slidingROP, 'fa-circle-thin text-muted': !item.slidingROP}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.slidingROP" ng-change="$ctrl.save(item.slidingROP, 'slidingROP', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+        <!--  <td title="'Sl%'" header-title="'Sliding Percentage'" sortable="'slidingPercentage'" class="text-center" uib-tooltip="{{ item.name }}: Sliding Percentage" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.slidingPercentage, 'slidingPercentage', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.slidingPercentage, 'fa-circle-thin text-muted': !item.slidingPercentage}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.slidingPercentage" ng-change="$ctrl.save(item.slidingPercentage, 'slidingPercentage', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          <!--</td>-->
+
+          <td title="'RoHr'" header-title="'Rotating Hours'" sortable="'rotatingHours'" class="text-center" uib-tooltip="{{ item.name }}: Rotating Hours" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.rotatingHours, 'rotatingHours', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.rotatingHours, 'fa-circle-thin text-muted': !item.rotatingHours}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.rotatingHours" ng-change="$ctrl.save(item.rotatingHours, 'rotatingHours', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'RoF'" header-title="'Rotating Footage'" sortable="'rotatingFootage'" class="text-center" uib-tooltip="{{ item.name }}: Rotating Footage" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.rotatingFootage, 'rotatingFootage', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.rotatingFootage, 'fa-circle-thin text-muted': !item.rotatingFootage}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.rotatingFootage" ng-change="$ctrl.save(item.rotatingFootage, 'rotatingFootage', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'RoROP'" header-title="'Rotating ROP'" sortable="'rotatingROP'" class="text-center" uib-tooltip="{{ item.name }}: Rotating ROP" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.rotatingROP, 'rotatingROP', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.rotatingROP, 'fa-circle-thin text-muted': !item.rotatingROP}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.rotatingROP" ng-change="$ctrl.save(item.rotatingROP, 'rotatingROP', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+         <!-- <td title="'Ro%'" header-title="'Rotating Percentage'" sortable="'rotatingPercentage'" class="text-center" uib-tooltip="{{ item.name }}: Rotating Percentage" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.rotatingPercentage, 'rotatingPercentage', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.rotatingPercentage, 'fa-circle-thin text-muted': !item.rotatingPercentage}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.rotatingPercentage" ng-change="$ctrl.save(item.rotatingPercentage, 'rotatingPercentage', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          <!--</td>-->
+
+          <td title="'CiHr'" header-title="'Circulating Hours'" sortable="'circulatingHours'" class="text-center" uib-tooltip="{{ item.name }}: Circulating Hours" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.circulatingHours, 'circulatingHours', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.circulatingHours, 'fa-circle-thin text-muted': !item.circulatingHours}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.circulatingHours" ng-change="$ctrl.save(item.circulatingHours, 'circulatingHours', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'TrpHr'" header-title="'Tripping Hours'" sortable="'trippingHours'" class="text-center" uib-tooltip="{{ item.name }}: Tripping Hours" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.trippingHours, 'trippingHours', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.trippingHours, 'fa-circle-thin text-muted': !item.trippingHours}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.trippingHours" ng-change="$ctrl.save(item.trippingHours, 'trippingHours', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'BottHr'" header-title="'Bottom Hours'" sortable="'onBottomHours'" class="text-center" uib-tooltip="{{ item.name }}: Bottom Hours" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.onBottomHours, 'onBottomHours', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.onBottomHours, 'fa-circle-thin text-muted': !item.onBottomHours}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.onBottomHours" ng-change="$ctrl.save(item.onBottomHours, 'onBottomHours', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'BRTHr'" header-title="'BRT Hours'" sortable="'BRTHours'" class="text-center" uib-tooltip="{{ item.name }}: BRT Hours" tooltip-append-to-body="true">
+            <i ng-click="$ctrl.toggle(item.BRTHours, 'BRTHours', item)" class="fa fa-fw fa-lg pointer" ng-class="{ 'fa-check-circle text-success': item.BRTHours, 'fa-circle-thin text-muted': !item.BRTHours}"></i>
+            <!-- <toggle on="On" off="Off" onstyle="btn-success" ng-model="item.BRTHours" ng-change="$ctrl.save(item.BRTHours, 'BRTHours', item)" size="btn-xs" ng-disabled="!$ctrl.session.can('activity_type', 'edit')"></toggle> -->
+          </td>
+
+          <td title="'Active?'" sortable="'isActive'" class="text-center">
+            <toggle ng-model="item.isActive" ng-change="$ctrl.save(item.isActive, 'isActive', item)" size="btn-xs" ng-disabled="!($ctrl.session.can('activity_type', 'activate') && $ctrl.session.can('activity_type', 'deactivate'))"></toggle>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+

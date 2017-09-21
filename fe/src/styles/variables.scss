@@ -1,2 +1,44 @@
-// Sidebar width
-$sidebar-width: 70px;
+// Colors
+$color-1: #D32F2F;
+$color-2: #46bfbd;
+$color-3: #fdb45c;
+$color-4: #FF6F00;
+$color-5: #2E7D32;
+$color-6: #0091EA;
+$color-7: #5E35B1;
+$color-8: #FF4081;
+$color-9: #D500F9;
+$color-10: #8BC34A;
+
+// Footer
+$footer-height: 50px;
+
+// Sidebar
+$sidebar-bg: #2f323a;
+$sidebar-width: 65px;
+$expanded-sidebar-width: 180px;
+$sidebar-expand-animation: 0.25s;
+$sidebar-option-height: 50px;
+
+$sidebar-option-bg: transparent;
+$sidebar-option-color: #aaa;
+$sidebar-option-bg-hover: darken($sidebar-bg, 8%);
+$sidebar-option-color-hover: #fff;
+$sidebar-option-bg-active: transparent;
+$sidebar-option-color-active: $brand-primary;
+
+$sidebar-option-border: solid 1px #333;
+
+$sidebar-sub-menu-bg: darken($sidebar-bg, 8%);
+$sidebar-sub-menu-color: #aaa;
+$sidebar-sub-menu-bg-hover: $brand-primary;
+$sidebar-sub-menu-color-hover: #fff;
+$sidebar-sub-menu-bg-active: #333;
+$sidebar-sub-menu-color-active: $brand-warning;
+
+$sidebar-caret-bg: transparent;
+$sidebar-caret-color: #aaa;
+$sidebar-caret-bg-hover: lighten($brand-primary, 10%);
+$sidebar-caret-color-hover: #fff;
+$sidebar-caret-bg-open: darken($sidebar-bg, 8%);
+$sidebar-caret-color-open: #fff;

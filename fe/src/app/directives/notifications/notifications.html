@@ -1,0 +1,172 @@
+<li class="dropdown dropdown-notifications">
+  <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-click="$ctrl.NotificationsService.reset()">
+    <i data-count="{{ $ctrl.NotificationsService.counter }}" class="fa fa-bell notification-icon"></i>
+  </a>
+
+  <div class="dropdown-container">
+    <div class="dropdown-toolbar">
+      <div class="dropdown-toolbar-actions">
+        <a href="">Mark all as read</a>
+      </div>
+      <h3 class="dropdown-toolbar-title">Notifications ({{ $ctrl.notifications.length | number }})</h3>
+    </div>
+
+    <ul class="dropdown-menu" ng-click="$event.stopPropagation()">
+      <not-found expression="!$ctrl.notifications.length" message="There are no notifications yet."></not-found>
+
+      <li ng-repeat="item in $ctrl.notifications" class="notification notification-{{ item.status }}">
+        <div class="media">
+          <div class="media-left">
+            <div class="media-object">
+              <img src="http://lorempixel.com/50/50/food/1" class="circle" alt="Profile picture">
+            </div>
+          </div>
+          <div class="media-body">
+            <div ng-switch="item.type">
+              <div ng-switch-when="comment">
+                <!-- Comment -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a> commented on <a href="">{{ item.mention.name }}</a>
+                </strong>
+                <div class="notification-desc">{{ item.content }}</div>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /Comment -->
+              </div>
+              <div ng-switch-when="fail">
+                <!-- fail -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a> has a failure
+                </strong>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /fail -->
+              </div>
+              <div ng-switch-when="approvement">
+                <!-- approvement -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a> need to be approved
+                </strong>
+                <div class="notification-desc">
+                  <p>{{ item.content }}</p>
+                  <button class="btn btn-primary btn-outline btn-sm"><i class="fa fa-fw fa-check"></i> Approve</button>
+                  <button class="btn btn-danger btn-outline btn-sm">Decline</button>
+                </div>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /approvement -->
+              </div>
+              <div ng-switch-when="sync">
+                <!-- sync -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a> was recently synced
+                </strong>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /sync -->
+              </div>
+              <div ng-switch-when="status">
+                <!-- status -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a>'s status was changed to {{ item.mention.name }}
+                </strong>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /status -->
+              </div>
+              <div ng-switch-when="sidetrack">
+                <!-- sidetrack -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a> has a new sidetrack
+                </strong>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /sidetrack -->
+              </div>
+              <div ng-switch-when="mention">
+                <!-- mention -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a> mentioned you in a comment
+                </strong>
+                <div class="notification-desc">{{ item.content }}</div>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /mention -->
+              </div>
+              <div ng-switch-when="attachment">
+                <!-- attachment -->
+                <strong class="notification-title">
+                  <a href="">{{ item.user.name }}</a> has a new attachment
+                </strong>
+                <div class="notification-meta">
+                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
+                </div>
+                <!-- /attachment -->
+              </div>
+              <div ng-switch-default>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </li>
+
+      <!-- <li class="notification notification-warning">
+        <div class="media">
+          <div class="media-left">
+            <div class="media-object">
+             <img src="http://lorempixel.com/50/50/food/" class="circle" alt="Name">
+            </div>
+          </div>
+          <div class="media-body">
+            <strong class="notification-title">
+              <a href="">Nikola Tesla</a> resolved <a href="">T-14 - Awesome stuff</a>
+            </strong>
+
+            <div class="notification-desc">
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Autem, aut quas omnis quaerat ea. Sunt, nemo, molestiae! Minima, culpa labore quam illum eveniet dolorum distinctio possimus, vero ducimus deserunt rem.</p>
+              <button class="btn btn-primary btn-outline btn-sm"><i class="fa fa-fw fa-check"></i> Approve</button>
+              <button class="btn btn-danger btn-outline btn-sm">Decline</button>
+            </div>
+
+            <div class="notification-meta">
+              <small class="timestamp">27/Oct/2015 @ 08:00</small>
+            </div>
+
+          </div>
+        </div>
+      </li>
+
+      <li class="notification">
+        <div class="media">
+          <div class="media-left">
+            <div class="media-object">
+             <img src="http://lorempixel.com/50/50/food/" class="circle" alt="Name">
+            </div>
+          </div>
+          <div class="media-body">
+            <strong class="notification-title">
+              <a href="">James Bond</a> resolved <a href="">B-007 - Desolve Spectre organization</a>
+            </strong>
+
+            <div class="notification-meta">
+              <small class="timestamp">01/Sept/2015 @ 08:00</small>
+            </div>
+
+          </div>
+        </div>
+      </li> -->
+    </ul>
+
+    <div class="dropdown-footer text-center">
+      <a href="">View All</a>
+    </div>
+  </div>
+</li>

@@ -1,0 +1,77 @@
+<div class="actions-bar hug">
+  <button class="btn btn-primary btn-outline pull-left margin-sm-right" ng-click="$ctrl.create()" ng-if="$ctrl.session.can('client', 'create')">
+    <i class="fa fa-fw fa-plus"></i> Create Client
+  </button>
+
+  <div class="pull-left">
+    <search change="$ctrl.load(query)" placeholder="Enter your search.." allow-empty-search="true"></search>
+  </div>
+
+  <div class="pull-right">
+    <!-- <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filters</button> -->
+    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Reload</button>
+  </div>
+</div>
+
+<!-- <div class="table-responsive" cg-busy="$ctrl.loadingPromise">
+  <table class="table table-striped table-bordered table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+    <colgroup>
+      <col>
+      <col width="100%">
+      <col>
+    </colgroup>
+    <tbody>
+      <tr ng-repeat="item in $data">
+        <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+        <td title="'Name'" filter="{ name: 'text' }" sortable="'name'">
+          <a href="" drilldown="{ title: item.name, component: 'clientsView', id: item.id }">{{ item.name | available }}</a>
+        </td>
+
+        <td>
+          <comments id="item.id" button-class="btn-default btn-xs"></comments>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div> -->
+
+<div id="client-cards" class="margin-sm overflow-hidden">
+  <div class="row" cg-busy="$ctrl.loadingPromise">
+    <div class="col-4 col-xl-3" ng-repeat="item in $ctrl.data">
+      <div class="media margin-sm-bottom">
+        <div class="media-left">
+          <a href="" change-picture="{{item.profilePicturePath}}" endpoint="clients/{{item.id}}/picture" load="$ctrl.load()" ng-disabled="!$ctrl.session.can('client', 'edit')">
+            <img ng-src="{{ item.profilePicturePath | defaultImage }}" alt="" class="circle client-pic">
+          </a>
+        </div>
+        <div class="media-body">
+          <h4 class="media-heading"><a href="" drilldown="{ title: item.name, component: 'clientsView', id: item.id }">{{ item.name | available }}</a></h4>
+          <strong>Emails:</strong>
+          <p ng-if="!item.emails" class="text-muted">Loading..</p>
+          <p ng-if="item.emails.length == 0" class="text-muted">There are no emails for this client.</p>
+          <ul class="list-unstyled">
+            <li ng-repeat="email in item.emails | limitTo: 1">
+              {{ email.emailAddress | available }}
+              <span class="label label-danger pull-right" ng-if="item.emails.length-1 > 0">+{{item.emails.length-1 | number}}</span>
+            </li>
+          </ul>
+
+          <strong>Phones:</strong>
+          <p ng-if="!item.phones" class="text-muted">Loading..</p>
+          <p ng-if="item.phones.length == 0" class="text-muted">There are no phones for this client.</p>
+           <ul class="list-unstyled">
+            <li ng-repeat="phone in item.phones | limitTo: 1">
+              +{{ phone.countryCode | available }} ({{ phone.areaCode | available }}) {{ phone.phoneNumber | available }}
+              <span class="label label-danger pull-right" ng-if="item.phones.length-1 > 0">+{{item.phones.length-1 | number}}</span>
+            </li>
+          </ul>
+          <comments id="item.id" button-class="btn-default"></comments>
+          <attachment id="item.id" button-class="btn-default"></attachment>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ul uib-pagination total-items="$ctrl.searchParams.totalElements" ng-model="$ctrl.searchParams.page" ng-change="$ctrl.load()" previous-text="&lsaquo;" next-text="&rsaquo;" first-text="&laquo;" last-text="&raquo;" items-per-page="$ctrl.searchParams.size" ng-if="$ctrl.searchParams.totalElements > $ctrl.searchParams.size"></ul>
+</div>

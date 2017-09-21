@@ -1,0 +1,153 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <div class="actions-bar hug">
+     <button class="btn btn-primary btn-outline" ng-click="$ctrl.createWellboreShape()" ng-if="$ctrl.session.can('wellbore_shape', 'create')">
+        Create Shape
+      </button>
+
+      <button class="btn btn-primary btn-outline" ng-click="$ctrl.createTargetFormation()" ng-if="$ctrl.session.can('formation', 'create')">
+        Create Formation
+      </button>
+
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+      <comments id="$ctrl.data.id" button-class="btn-default"></comments>
+      <attachment id="$ctrl.data.id" button-class="btn-default"></attachment>
+    </div>
+  </div>
+  <!-- /Main actions -->
+
+  <div class="margin-sm">
+    <div class="row">
+      <collapsable-panel></collapsable-panel>
+
+      <!-- Job board -->
+      <div class="col-12 col-lg-4 col-xl-3">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Wellbore Information
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div class="dashboard-body">
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Well</div>
+                <div class="col-8 dashboard-input">
+                  <a href="" drilldown="{ title: $ctrl.data.well.name, component: 'wellsView', id: $ctrl.data.well.id }">{{ $ctrl.data.well.name | available }}</a>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Parent</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.parentWellbore" e-uib-typeahead="wellbore as wellbore.name for wellbore in $ctrl.wellbores | filter:$viewValue | limitTo:8" onshow="$ctrl.getWellbores()" onbeforesave="$ctrl.updateParentWellbore($data)" edit-disabled="!$ctrl.session.can('wellbore', 'edit')" e-typeahead-min-length="0">
+                    {{ $ctrl.data.parentWellbore.name | available }}
+                  </span>
+
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Name</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.name" onbeforesave="$ctrl.save($data, 'name')" edit-disabled="!$ctrl.session.can('well', 'edit')" e-minlength="2" e-maxlength="50" edit-disabled="!$ctrl.session.can('wellbore', 'edit')">
+                    {{ $ctrl.data.name | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Wellbore Shape</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.wellboreShape" e-ng-options="wellboreShape as wellboreShape.itemValue for wellboreShape in $ctrl.wellboreShapes" onshow="$ctrl.getWellboreShapes()" onbeforesave="$ctrl.save($data, 'wellboreShape')" edit-disabled="!$ctrl.session.can('wellbore', 'edit')" e-required>
+                    {{ $ctrl.data.wellboreShape.itemValue | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Tie-In Depth</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-number="$ctrl.data.tieInDepth" e-step="any" onbeforesave="$ctrl.save($data, 'tieInDepth')" e-min="0" e-max="{{ $ctrl.data.totalDepth }}" edit-disabled="!$ctrl.session.can('wellbore', 'edit')">
+                    {{ $ctrl.data.tieInDepth | number | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Total Depth</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-number="$ctrl.data.totalDepth" e-step="any" onbeforesave="$ctrl.save($data, 'totalDepth')" e-min="{{ $ctrl.data.tieInDepth }}" edit-disabled="!$ctrl.session.can('wellbore', 'edit')">
+                    {{ $ctrl.data.totalDepth | number | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Vertical Section Direction</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-number="$ctrl.data.verticalSectionDirection" e-step="any" onbeforesave="$ctrl.save($data, 'verticalSectionDirection')" e-min="0" e-min="360" edit-disabled="!$ctrl.session.can('wellbore', 'edit')">
+                    {{ $ctrl.data.verticalSectionDirection | number | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Mag. Declin.</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-number="ctrl.data.magDeclin" e-step="any" onbeforesave="$ctrl.save($data, 'magDeclin')" edit-disabled="!$ctrl.session.can('wellbore', 'edit')">
+                    {{ ctrl.data.magDeclin | number | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">North Reference</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.northReference" e-ng-options="northReference as northReference for northReference in ['TRUE', 'GRID']" onbeforesave="$ctrl.save($data, 'northReference')" edit-disabled="!$ctrl.session.can('wellbore', 'edit')" e-required>
+                    {{ $ctrl.data.northReference | available }}
+                  </span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Target Formation</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.targetFormation" e-ng-options="targetFormation as targetFormation.itemValue for targetFormation in $ctrl.targetFormations" onshow="$ctrl.getTargetFormations()" onbeforesave="$ctrl.save($data, 'targetFormation')" edit-disabled="!$ctrl.session.can('wellbore', 'edit')" e-required>
+                    {{ $ctrl.data.targetFormation.itemValue | available }}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Body -->
+        </div>
+      </div>
+      <!-- /Job board -->
+
+      <!-- Tabs -->
+      <div class="col">
+        <div class="frame expand hug" cg-busy="$ctrl.loadingPromise">
+          <scrollable-tabset auto-recalculate="true">
+            <uib-tabset justified="false">
+              <uib-tab index="0" heading="Formations">
+                <formations-list job="$ctrl.job" wellbore="$ctrl.data"></formations-list>
+              </uib-tab>
+              <uib-tab index="1" heading="Surveys">
+                <surveys-list job="$ctrl.job" wellbore="$ctrl.data"></surveys-list>
+              </uib-tab>
+              <uib-tab index="2" heading="Casings">
+                <casings-list job="$ctrl.job" wellbore="$ctrl.data" ></casings-list>
+              </uib-tab>
+            </uib-tabset>
+          </scrollable-tabset>
+        </div>
+      </div>
+      <!-- /Tabs -->
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -32,8 +32,8 @@
       opacity: 1;
       visibility: visible; }
     .ng-table th.sortable.sort-desc, .ng-table th.sortable.sort-asc {
-      background-color: rgba(141, 192, 219, 0.25);
-      text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); }
+      background-color: darken(#f9f9f9, 5%);
+      /* text-shadow: 0 1px 1px rgba(255, 255, 255, 0.75); */ }
       .ng-table th.sortable.sort-desc .sort-indicator:after, .ng-table th.sortable.sort-asc .sort-indicator:after {
         margin-top: -2px; }
       .ng-table th.sortable.sort-desc .sort-indicator:before, .ng-table th.sortable.sort-asc .sort-indicator:before {
@@ -113,7 +113,16 @@
       display: block; } }
 
 .ng-table-pagination {
-  margin-top: 0; }
+  margin: 0;
+}
+
+div[ng-table-pagination] {
+  background-color: #fff;
+  // border-top: dotted 1.5px #ddd;
+  // padding-top: 10px;
+  // padding-bottom: 10px;
+  @include clearfix();
+}
 
 .ng-table-group-selector:before,
 .ng-table-group-selector:after,

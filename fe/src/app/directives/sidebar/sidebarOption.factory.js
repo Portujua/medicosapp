@@ -1,34 +1,22 @@
 angular.module('app')
-  .factory('SidebarOption', (Auth) => {
+  .factory('SidebarOption', (Auth, TabManagerService) => {
 
     class SidebarOption extends BaseFactory {
-      /**
-       *        id: unique identifier (Default: "item-" + POSITION_IN_THE_LIST)
-       *        name: name of the item
-       *        order: the order of the item (int)
-       *        icon
-       *        [route]: where to go
-       *        [callback]: what to do
-       *        [type]: option|button
-       *        [className]: btn-warning|btn-danger, etc.
-       *        [module]
-       *        [permission]
-       *        isDisabled
-       */
-      constructor({ id = null, name = null, order = null, icon = null, route = null, callback = null, type = 'option', className = 'btn-primary', module = null, permission = null, promise = null, isDisabled = false, isFixed = false }) {
-        // Base
-        super({ id, name, order, icon, route, callback, type, className, module, permission, promise, isDisabled, isFixed });
 
-        // If there is a promise
-        if (!_.isEmpty(this.promise)) {
-          // Loading state
-          this.isLoading = true;
-          // When the promise finished
-          this.promise.finally((response) => {
-            this.promise = null;
-            this.isLoading = false;
-          });
+      constructor({ id = null, title = null, order = null, icon = null, callback = null, module = null, permission = null, isFixed = true, menu = [], collapsed = true, isDisabled = false, tab = { component: null }, color = 'color-0' }) {
+
+        menu = _.map(menu, (value) => new SidebarOption(value));
+
+        if (_.isEmpty(tab.id)) {
+          tab.id = tab.component;
         }
+
+        if (_.isEmpty(color) && !_.isEmpty(tab) && !_.isEmpty(tab.color)) {
+          color = tab.color;
+        }
+
+        // Base
+        super({ id, title, order, icon, callback, module, permission, isFixed, menu, isDisabled, tab, color });
       }
 
       fill(list) {
@@ -60,25 +48,14 @@ angular.module('app')
 
         // Creating a fake id. to see if it was already added
         this._signature = angular.toJson({
-          name: this.name,
+          title: this.title,
           icon: this.icon,
-          route: this.route,
-          className: this.className,
+          component: _.isEmpty(this.tab) ? null : this.tab.component,
         });
 
         let itExists = _.findWhere(list, { _signature: this._signature });
 
         return !itExists;
-      }
-
-      enable() {
-        this.isDisabled = false;
-        return this;
-      }
-
-      disable() {
-        this.isDisabled = true;
-        return this;
       }
 
       can() {
@@ -88,19 +65,16 @@ angular.module('app')
         return Auth.getSession().can(this.module, this.permission);
       }
 
-      setPromise(promise) {
-        this.promise = promise;
-
-        if (!_.isEmpty(this.promise)) {
-          // Loading state
-          this.isLoading = true;
-          // When the promise finished
-          this.promise.finally((response) => {
-            this.promise = null;
-            this.isLoading = false;
-          });
-        }
-        return this;
+      open() {
+        TabManagerService.add({
+          id: this.tab.id,
+          title: this.tab.title || this.title,
+          component: this.tab.component,
+          icon: this.tab.icon,
+          isPinned: this.tab.isPinned,
+          order: this.tab.order,
+          color: this.tab.color,
+        });
       }
     };
 

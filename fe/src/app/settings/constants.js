@@ -7,7 +7,7 @@ angular.module('app')
    * - date of release
    */
   .constant('APP_INFO', {
-    name: 'Basic App',
+    name: 'DDM',
     version: 'v0.0.1',
     day: 1,
     month: 1,
@@ -38,7 +38,7 @@ angular.module('app')
      * The environment to be used. Options: testing|distribution
      * @type {String}
      */
-    _environment: 'testing',
+    _environment: 'local',
 
     /**
      * Testing and distribution configuration
@@ -47,10 +47,26 @@ angular.module('app')
      */
     testing: {
       version  : '',
-      port     : '8080',
+      port     : '80',
+      protocol : 'http',
+      host     : 'api.ddm.wattotech.com',
+      prefix   : '',
+    },
+
+    qa: {
+      version  : '',
+      port     : '',
+      protocol : 'http',
+      host     : 'api.ddm.wattotech.com',
+      prefix   : '',
+    },
+
+    local: {
+      version  : '',
+      port     : '',
       protocol : 'http',
       host     : 'localhost',
-      prefix   : 'basicapp/api',
+      prefix   : 'medicos/be',
     },
 
     /**

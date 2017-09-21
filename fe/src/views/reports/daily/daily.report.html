@@ -1,0 +1,1297 @@
+<div class="modal-header">
+  <h3 class="modal-title pull-left">Daily Reports</h3>
+  <div class="pull-right">
+    <button class="btn btn-default" type="button" print-area="print-content">
+      <i class="fa fa-fw fa-print"></i>
+    </button>
+  </div>
+</div>
+<div class="modal-body bg-dark expand" cg-busy="$ctrl.loadingPromise">
+  <div id="print-content">
+    <page>
+      <!-- Report Header -->
+      <div class="report-header">
+        <table>
+          <tr>
+            <td class="text-bottom">
+              <h3>Daily Report <small>March 27, 2017 (1/2)</small></h3>
+            </td>
+            <td class="text-bottom text-right">
+              <img class="report-logo visible-print-inline-block" src="../images/logo.png" alt="Logo"/>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- /Report Header -->
+
+      <!-- Report sub-header -->
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <colgroup>
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+            </colgroup>
+            <thead>
+              <th class="text-center">
+                <div class="report-title">Job Number</div>
+                <strong class="report-18">100016</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Customer</div>
+                <strong class="report-18">Shell</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Well Name</div>
+                <strong class="report-18">Martha 2</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Rig Name</div>
+                <strong class="report-18">Xtreme H78</strong>
+              </th>
+            </thead>
+            <tr>
+              <td>
+                <div class="report-title">State</div>
+                <strong>Texas</strong>
+              </td>
+              <td>
+                <div class="report-title">County/Parish</div>
+                <strong>Cherokee</strong>
+              </td>
+              <td>
+                <div class="report-title">Field</div>
+                <strong>Cotton Valley</strong>
+              </td>
+              <td>
+                <div class="report-title">API #</div>
+                <strong>N/A</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="report-title">Company Man</div>
+                <strong>Lucas Napoli</strong>
+              </td>
+              <td>
+                <div class="report-title">Coordinator</div>
+                <strong>Amir Salous</strong>
+              </td>
+              <td>
+                <div class="report-title">Lead Directional</div>
+                <strong>Christiam Mena</strong>
+              </td>
+              <td>
+                <div class="report-title">Night Directional</div>
+                <strong>Omar Gonzalez</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="report-title">Lead MWD</div>
+                <strong>Carla Navas</strong>
+              </td>
+              <td>
+                <div class="report-title">Night MWD</div>
+                <strong>Mariano Benes</strong>
+              </td>
+              <td>
+                <div class="report-title">Daily Cost</div>
+                <strong>$7,650.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Cummulative Cost</div>
+                <strong>$193,003.00</strong>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /Report sub-header -->
+
+      <!-- Drilling Summary -->
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <colgroup>
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+            </colgroup>
+            <thead>
+              <th colspan="8">Drilling Summary</th>
+            </thead>
+            <tr>
+              <td>
+                <div class="report-title">Start Depth</div>
+                <strong>15,016</strong>
+              </td>
+              <td>
+                <div class="report-title">End Depth</div>
+                <strong>15,305</strong>
+              </td>
+              <td>
+                <div class="report-title">Below Rotary Hours</div>
+                <strong>24.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Circulating Hours</div>
+                <strong>19.50</strong>
+              </td>
+              <td>
+                <div class="report-title">Total Footage</div>
+                <strong>289.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Total Drilled Hours</div>
+                <strong>19.08</strong>
+              </td>
+              <td>
+                <div class="report-title">Avg. Total ROP</div>
+                <strong>15.14</strong>
+              </td>
+              <td>
+                <div class="report-title">Percent Drilled</div>
+                <strong>79.51%</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="report-title">Rotating Footage</div>
+                <strong>273.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Rotary Hours</div>
+                <strong>19.08</strong>
+              </td>
+              <td>
+                <div class="report-title">Avg. Rotary ROP</div>
+                <strong>17.14</strong>
+              </td>
+              <td>
+                <div class="report-title">Percent Rotary</div>
+                <strong>94.51%</strong>
+              </td>
+              <td>
+                <div class="report-title">Sliding Footage</div>
+                <strong>16.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Sliding Hours</div>
+                <strong>3.08</strong>
+              </td>
+              <td>
+                <div class="report-title">Avg. Sliding ROP</div>
+                <strong>5.14</strong>
+              </td>
+              <td>
+                <div class="report-title">Percent Sliding</div>
+                <strong>5.51%</strong>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /Drilling Summary -->
+
+      <div class="row">
+        <!-- Drilling parameters -->
+        <div class="col-6">
+          <table>
+            <colgroup>
+              <col width="40%">
+              <col width="5%">
+              <col width="5%">
+              <col width="40%">
+              <col width="5%">
+              <col width="5%">
+            </colgroup>
+            <thead>
+              <th class="text-center">Drilling Parameters</th>
+              <th class="text-center">Min</th>
+              <th class="text-center">Max</th>
+              <th></th>
+              <th class="text-center">Min</th>
+              <th class="text-center">Max</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">WOB</div>
+                </td>
+                <td class="text-center">
+                  <strong>20</strong>
+                </td>
+                <td class="text-center">
+                  <strong>35</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">SPP Off Bottom</div>
+                </td>
+                <td class="text-center">
+                  <strong>2350</strong>
+                </td>
+                <td class="text-center">
+                  <strong>2650</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Pick Up</div>
+                </td>
+                <td class="text-center">
+                  <strong>340</strong>
+                </td>
+                <td class="text-center">
+                  <strong>340</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">SPP On Bottom</div>
+                </td>
+                <td class="text-center">
+                  <strong>2475</strong>
+                </td>
+                <td class="text-center">
+                  <strong>2750</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Stack Off</div>
+                </td>
+                <td class="text-center">
+                  <strong>290</strong>
+                </td>
+                <td class="text-center">
+                  <strong>290</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">Delta Pressure</div>
+                </td>
+                <td class="text-center">
+                  <strong>100</strong>
+                </td>
+                <td class="text-center">
+                  <strong>125</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Rot. Off Bottom</div>
+                </td>
+                <td class="text-center">
+                  <strong>310</strong>
+                </td>
+                <td class="text-center">
+                  <strong>310</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">Flow Rate</div>
+                </td>
+                <td class="text-center">
+                  <strong>504</strong>
+                </td>
+                <td class="text-center">
+                  <strong>544</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Bottom Hole Temp</div>
+                </td>
+                <td class="text-center">
+                  <strong>240</strong>
+                </td>
+                <td class="text-center">
+                  <strong>241</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">SPM</div>
+                </td>
+                <td class="text-center">
+                  <strong>120</strong>
+                </td>
+                <td class="text-center">
+                  <strong>130</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /Drilling parameters -->
+
+        <div class="col-6">
+          <!-- Casing -->
+          <table style="margin-bottom: 10px">
+            <colgroup>
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+            </colgroup>
+            <thead>
+              <th colspan="4">Last Casing</th>
+            </thead>
+            <tr>
+              <td class="text-center">
+                <div class="report-title">Top</div>
+                <strong>N/A</strong>
+              </td>
+
+              <td class="text-center">
+                <div class="report-title">Shoe</div>
+                <strong>N/A</strong>
+              </td>
+
+              <td class="text-center">
+                <div class="report-title">ID</div>
+                <strong>0</strong>
+              </td>
+
+              <td class="text-center">
+                <div class="report-title">OD</div>
+                <strong>0</strong>
+              </td>
+            </tr>
+          </table>
+          <!-- /Casing -->
+
+          <!-- Surveys -->
+          <table>
+            <colgroup>
+              <col width="15%">
+              <col width="28.3%">
+              <col width="28.3%">
+              <col width="28.3%">
+            </colgroup>
+            <thead>
+              <th class="text-center">Surveys</th>
+              <th class="text-center">MD</th>
+              <th class="text-center">Incl</th>
+              <th class="text-center">Azm</th>
+            </thead>
+            <tr>
+              <th class="text-center">In</th>
+
+              <td class="text-center">
+                <strong>14,974</strong>
+              </td>
+              <td class="text-center">
+                <strong>91.10</strong>
+              </td>
+              <td class="text-center">
+                <strong>354.90</strong>
+              </td>
+            </tr>
+
+            <tr class="text-center">
+              <th class="text-center">Out</th>
+
+              <td class="text-center">
+                <strong>15,291</strong>
+              </td>
+              <td class="text-center">
+                <strong>91.00</strong>
+              </td>
+              <td class="text-center">
+                <strong>354.50</strong>
+              </td>
+            </tr>
+          </table>
+          <!-- /Surveys -->
+        </div>
+      </div>
+
+      <!-- Comments -->
+      <div class="row">
+        <div class="col-12">
+          <table class="spacing">
+            <colgroup>
+              <col width="50%">
+              <col>
+              <col width="50%">
+            </colgroup>
+            <tr>
+              <th>BHA's</th>
+              <td class="table-break"></td>
+              <th>General Comments</th>
+            </tr>
+            <tr>
+              <td class="text-top">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum reprehenderit quis, magnam repellat, quos est repellendus omnis veniam magni sit ipsam deserunt perspiciatis voluptas libero, enim expedita, quaerat ab eos.</td>
+              <td class="table-break"></td>
+              <td class="text-top">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit repellendus tempora omnis ab, voluptatem maiores dolor. Quaerat, quas deserunt. Consequuntur nihil, quibusdam nulla. Hic unde perferendis quas, incidunt recusandae. Cum.</td>
+            </tr>
+
+            <tr>
+              <td class="table-break"></td>
+              <td class="table-break"></td>
+              <td class="table-break"></td>
+            </tr>
+
+            <tr>
+              <th>24 Hours Summary</th>
+              <td class="table-break"></td>
+              <th>Next 24 Hours Plan</th>
+            </tr>
+            <tr>
+              <td class="text-top">TIH, Drill Lateral. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus temporibus ipsum optio aliquid tempora quaerat placeat facere dicta repudiandae earum illum dolorem.</td>
+              <td class="table-break"></td>
+              <td class="text-top">Drill Lateral</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /Comments -->
+
+      <!-- Mud -->
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <colgroup>
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="text-center">Mud Checks</th>
+                <th class="text-center">Time</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Weight</th>
+                <th class="text-center">Viscosity</th>
+                <th class="text-center">PV</th>
+                <th class="text-center">YP</th>
+                <th class="text-center">Temperature</th>
+                <th class="text-center">% Water</th>
+                <th class="text-center">% Oil</th>
+                <th class="text-center">% LGS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">19/Mar/2017</td>
+                <td class="text-center">03:19</td>
+                <td class="text-center">WBM</td>
+                <td class="text-center">10.2</td>
+                <td class="text-center">48</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /Mud -->
+
+      <!-- Activities -->
+      <div class="row">
+        <div class="col-12">
+          <table class="hug">
+            <colgroup>
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="30%">
+            </colgroup>
+            <thead>
+              <th class="text-center">Activity Code</th>
+              <th class="text-center">Start Time</th>
+              <th class="text-center">End Time</th>
+              <th class="text-center">Hours</th>
+              <th class="text-center">Start Depth</th>
+              <th class="text-center">End Depth</th>
+              <th class="text-center">Comments</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">TIH</td>
+                <td class="text-center">00:00</td>
+                <td class="text-center">03:30</td>
+                <td class="text-center">3.50</td>
+                <td class="text-center">15,016</td>
+                <td class="text-center">15,016</td>
+                <td>TIH</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rotating</td>
+                <td class="text-center">03:30</td>
+                <td class="text-center">04:20</td>
+                <td class="text-center">0.83</td>
+                <td class="text-center">15,016</td>
+                <td class="text-center">15,024</td>
+                <td>(WOB=25;GPM=504;RPM=55;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Sliding</td>
+                <td class="text-center">04:20</td>
+                <td class="text-center">05:05</td>
+                <td class="text-center">0.75</td>
+                <td class="text-center">15,024</td>
+                <td class="text-center">15,031</td>
+                <td>(WOB=25;GPM=504;TFO=170;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Circulating</td>
+                <td class="text-center">05:05</td>
+                <td class="text-center">05:30</td>
+                <td class="text-center">0.42</td>
+                <td class="text-center">15,031</td>
+                <td class="text-center">15,031</td>
+                <td>Circulating Gas</td>
+              </tr>
+              <tr>
+                <td class="text-center">Sliding</td>
+                <td class="text-center">05:30</td>
+                <td class="text-center">06:40</td>
+                <td class="text-center">1.17</td>
+                <td class="text-center">15,031</td>
+                <td class="text-center">15,034</td>
+                <td>(WOB=25;GPM=504;TFO=170;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rotating</td>
+                <td class="text-center">06:40</td>
+                <td class="text-center">10:30</td>
+                <td class="text-center">3.83</td>
+                <td class="text-center">15,034</td>
+                <td class="text-center">15,088</td>
+                <td>(WOB=25;GPM=504;RPM=55;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Sliding</td>
+                <td class="text-center">10:30</td>
+                <td class="text-center">11:40</td>
+                <td class="text-center">1.17</td>
+                <td class="text-center">15,088</td>
+                <td class="text-center">15,094</td>
+                <td>(WOB=25;GPM=504;TFO=180;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rotating</td>
+                <td class="text-center">11:40</td>
+                <td class="text-center">13:00</td>
+                <td class="text-center">1.33</td>
+                <td class="text-center">15,094</td>
+                <td class="text-center">15,119</td>
+                <td>(WOB=25;GPM=504;RPM=55;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rig Service-Inhole</td>
+                <td class="text-center">13:00</td>
+                <td class="text-center">14:00</td>
+                <td class="text-center">1.00</td>
+                <td class="text-center">15,119</td>
+                <td class="text-center">15,119</td>
+                <td>Rig Service-Inhole</td>
+              </tr>
+              <tr>
+                <td class="text-center">Stand By</td>
+                <td class="text-center">13:00</td>
+                <td class="text-center">15:00</td>
+                <td class="text-center">1.00</td>
+                <td class="text-center">15,119</td>
+                <td class="text-center">15,119</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam eaque, magni perferendis assumenda quis sapiente provident modi deserunt.</td>
+              </tr>
+              <tr>
+                <td class="text-center">Stand By</td>
+                <td class="text-center">15:00</td>
+                <td class="text-center">16:00</td>
+                <td class="text-center">1.00</td>
+                <td class="text-center">15,119</td>
+                <td class="text-center">15,119</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /Activities -->
+    </page>
+
+    <div class="report-divider hidden-print"></div>
+    <div class="report-break"></div>
+
+    <page>
+      <!-- Report Header -->
+      <div class="report-header">
+        <table>
+          <tr>
+            <td class="text-bottom">
+              <h3>Daily Report <small>March 28, 2017 (2/2)</small></h3>
+            </td>
+            <td class="text-bottom text-right">
+              <img class="report-logo visible-print-inline-block" src="../images/logo.png" alt="Logo"/>
+            </td>
+          </tr>
+        </table>
+      </div>
+      <!-- /Report Header -->
+
+      <!-- Report sub-header -->
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <colgroup>
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+            </colgroup>
+            <thead>
+              <th class="text-center">
+                <div class="report-title">Job Number</div>
+                <strong class="report-18">100016</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Customer</div>
+                <strong class="report-18">Shell</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Well Name</div>
+                <strong class="report-18">Martha 2</strong>
+              </th>
+
+              <th class="text-center">
+                <div class="report-title">Rig Name</div>
+                <strong class="report-18">Xtreme H78</strong>
+              </th>
+            </thead>
+            <tr>
+              <td>
+                <div class="report-title">State</div>
+                <strong>Texas</strong>
+              </td>
+              <td>
+                <div class="report-title">County/Parish</div>
+                <strong>Cherokee</strong>
+              </td>
+              <td>
+                <div class="report-title">Field</div>
+                <strong>Cotton Valley</strong>
+              </td>
+              <td>
+                <div class="report-title">API #</div>
+                <strong>N/A</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="report-title">Company Man</div>
+                <strong>Lucas Napoli</strong>
+              </td>
+              <td>
+                <div class="report-title">Coordinator</div>
+                <strong>Amir Salous</strong>
+              </td>
+              <td>
+                <div class="report-title">Lead Directional</div>
+                <strong>Christiam Mena</strong>
+              </td>
+              <td>
+                <div class="report-title">Night Directional</div>
+                <strong>Omar Gonzalez</strong>
+              </td>
+            </tr>
+            <tr>
+              <td>
+                <div class="report-title">Lead MWD</div>
+                <strong>Carla Navas</strong>
+              </td>
+              <td>
+                <div class="report-title">Night MWD</div>
+                <strong>Mariano Benes</strong>
+              </td>
+              <td>
+                <div class="report-title">Daily Cost</div>
+                <strong>$7,650.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Cummulative Cost</div>
+                <strong>$193,003.00</strong>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /Report sub-header -->
+
+      <!-- Drilling Summary -->
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <colgroup>
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+              <col width="12.5%">
+            </colgroup>
+            <thead>
+              <th colspan="8">Drilling Summary</th>
+            </thead>
+            <tr>
+              <td>
+                <div class="report-title">Start Depth</div>
+                <strong>15,016</strong>
+              </td>
+              <td>
+                <div class="report-title">End Depth</div>
+                <strong>15,305</strong>
+              </td>
+              <td>
+                <div class="report-title">Below Rotary Hours</div>
+                <strong>24.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Circulating Hours</div>
+                <strong>19.50</strong>
+              </td>
+              <td>
+                <div class="report-title">Total Footage</div>
+                <strong>289.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Total Drilled Hours</div>
+                <strong>19.08</strong>
+              </td>
+              <td>
+                <div class="report-title">Avg. Total ROP</div>
+                <strong>15.14</strong>
+              </td>
+              <td>
+                <div class="report-title">Percent Drilled</div>
+                <strong>79.51%</strong>
+              </td>
+            </tr>
+
+            <tr>
+              <td>
+                <div class="report-title">Rotating Footage</div>
+                <strong>273.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Rotary Hours</div>
+                <strong>19.08</strong>
+              </td>
+              <td>
+                <div class="report-title">Avg. Rotary ROP</div>
+                <strong>17.14</strong>
+              </td>
+              <td>
+                <div class="report-title">Percent Rotary</div>
+                <strong>94.51%</strong>
+              </td>
+              <td>
+                <div class="report-title">Sliding Footage</div>
+                <strong>16.00</strong>
+              </td>
+              <td>
+                <div class="report-title">Sliding Hours</div>
+                <strong>3.08</strong>
+              </td>
+              <td>
+                <div class="report-title">Avg. Sliding ROP</div>
+                <strong>5.14</strong>
+              </td>
+              <td>
+                <div class="report-title">Percent Sliding</div>
+                <strong>5.51%</strong>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /Drilling Summary -->
+
+      <div class="row">
+        <!-- Drilling parameters -->
+        <div class="col-6">
+          <table>
+            <colgroup>
+              <col width="40%">
+              <col width="5%">
+              <col width="5%">
+              <col width="40%">
+              <col width="5%">
+              <col width="5%">
+            </colgroup>
+            <thead>
+              <th class="text-center">Drilling Parameters</th>
+              <th class="text-center">Min</th>
+              <th class="text-center">Max</th>
+              <th></th>
+              <th class="text-center">Min</th>
+              <th class="text-center">Max</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">WOB</div>
+                </td>
+                <td class="text-center">
+                  <strong>20</strong>
+                </td>
+                <td class="text-center">
+                  <strong>35</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">SPP Off Bottom</div>
+                </td>
+                <td class="text-center">
+                  <strong>2350</strong>
+                </td>
+                <td class="text-center">
+                  <strong>2650</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Pick Up</div>
+                </td>
+                <td class="text-center">
+                  <strong>340</strong>
+                </td>
+                <td class="text-center">
+                  <strong>340</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">SPP On Bottom</div>
+                </td>
+                <td class="text-center">
+                  <strong>2475</strong>
+                </td>
+                <td class="text-center">
+                  <strong>2750</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Stack Off</div>
+                </td>
+                <td class="text-center">
+                  <strong>290</strong>
+                </td>
+                <td class="text-center">
+                  <strong>290</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">Delta Pressure</div>
+                </td>
+                <td class="text-center">
+                  <strong>100</strong>
+                </td>
+                <td class="text-center">
+                  <strong>125</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Rot. Off Bottom</div>
+                </td>
+                <td class="text-center">
+                  <strong>310</strong>
+                </td>
+                <td class="text-center">
+                  <strong>310</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">Flow Rate</div>
+                </td>
+                <td class="text-center">
+                  <strong>504</strong>
+                </td>
+                <td class="text-center">
+                  <strong>544</strong>
+                </td>
+              </tr>
+
+              <tr>
+                <td class="text-right">
+                  <div class="report-title text-center">Bottom Hole Temp</div>
+                </td>
+                <td class="text-center">
+                  <strong>240</strong>
+                </td>
+                <td class="text-center">
+                  <strong>241</strong>
+                </td>
+
+                <td class="text-right">
+                  <div class="report-title text-center">SPM</div>
+                </td>
+                <td class="text-center">
+                  <strong>120</strong>
+                </td>
+                <td class="text-center">
+                  <strong>130</strong>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <!-- /Drilling parameters -->
+
+        <div class="col-6">
+          <!-- Casing -->
+          <table style="margin-bottom: 10px">
+            <colgroup>
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+              <col width="25%">
+            </colgroup>
+            <thead>
+              <th colspan="4">Last Casing</th>
+            </thead>
+            <tr>
+              <td class="text-center">
+                <div class="report-title">Top</div>
+                <strong>N/A</strong>
+              </td>
+
+              <td class="text-center">
+                <div class="report-title">Shoe</div>
+                <strong>N/A</strong>
+              </td>
+
+              <td class="text-center">
+                <div class="report-title">ID</div>
+                <strong>0</strong>
+              </td>
+
+              <td class="text-center">
+                <div class="report-title">OD</div>
+                <strong>0</strong>
+              </td>
+            </tr>
+          </table>
+          <!-- /Casing -->
+
+          <!-- Surveys -->
+          <table>
+            <colgroup>
+              <col width="15%">
+              <col width="28.3%">
+              <col width="28.3%">
+              <col width="28.3%">
+            </colgroup>
+            <thead>
+              <th class="text-center">Surveys</th>
+              <th class="text-center">MD</th>
+              <th class="text-center">Incl</th>
+              <th class="text-center">Azm</th>
+            </thead>
+            <tr>
+              <th class="text-center">In</th>
+
+              <td class="text-center">
+                <strong>14,974</strong>
+              </td>
+              <td class="text-center">
+                <strong>91.10</strong>
+              </td>
+              <td class="text-center">
+                <strong>354.90</strong>
+              </td>
+            </tr>
+
+            <tr class="text-center">
+              <th class="text-center">Out</th>
+
+              <td class="text-center">
+                <strong>15,291</strong>
+              </td>
+              <td class="text-center">
+                <strong>91.00</strong>
+              </td>
+              <td class="text-center">
+                <strong>354.50</strong>
+              </td>
+            </tr>
+          </table>
+          <!-- /Surveys -->
+        </div>
+      </div>
+
+      <!-- Comments -->
+      <div class="row">
+        <div class="col-12">
+          <table class="spacing">
+            <colgroup>
+              <col width="50%">
+              <col>
+              <col width="50%">
+            </colgroup>
+            <tr>
+              <th>BHA's</th>
+              <td class="table-break"></td>
+              <th>General Comments</th>
+            </tr>
+            <tr>
+              <td class="text-top">
+                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum reprehenderit quis, magnam repellat, quos est repellendus omnis veniam magni sit ipsam deserunt perspiciatis voluptas libero, enim expedita, quaerat ab eos.
+              </td>
+              <td class="table-break"></td>
+              <td class="text-top">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit repellendus tempora omnis ab, voluptatem maiores dolor. Quaerat, quas deserunt. Consequuntur nihil, quibusdam nulla. Hic unde perferendis quas, incidunt recusandae. Cum.</td>
+            </tr>
+
+            <tr>
+              <td class="table-break"></td>
+              <td class="table-break"></td>
+              <td class="table-break"></td>
+            </tr>
+
+            <tr>
+              <th>24 Hours Summary</th>
+              <td class="table-break"></td>
+              <th>Next 24 Hours Plan</th>
+            </tr>
+            <tr>
+              <td class="text-top">TIH, Drill Lateral. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus temporibus ipsum optio aliquid tempora quaerat placeat facere dicta repudiandae earum illum dolorem.</td>
+              <td class="table-break"></td>
+              <td class="text-top">Drill Lateral</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+      <!-- /Comments -->
+
+      <!-- Mud -->
+      <div class="row">
+        <div class="col-12">
+          <table>
+            <colgroup>
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+              <col width="9.09%">
+            </colgroup>
+            <thead>
+              <tr>
+                <th class="text-center">Mud Checks</th>
+                <th class="text-center">Time</th>
+                <th class="text-center">Type</th>
+                <th class="text-center">Weight</th>
+                <th class="text-center">Viscosity</th>
+                <th class="text-center">PV</th>
+                <th class="text-center">YP</th>
+                <th class="text-center">Temp.</th>
+                <th class="text-center">% Water</th>
+                <th class="text-center">% Oil</th>
+                <th class="text-center">% LGS</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">19/Mar/2017</td>
+                <td class="text-center">03:19</td>
+                <td class="text-center">WBM</td>
+                <td class="text-center">10.2</td>
+                <td class="text-center">48</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+                <td class="text-center">0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /Mud -->
+
+      <!-- Activities -->
+      <div class="row">
+        <div class="col-12">
+          <table class="hug">
+            <colgroup>
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="14%">
+              <col width="30%">
+            </colgroup>
+            <thead>
+              <th class="text-center">Activity Code</th>
+              <th class="text-center">Start Time</th>
+              <th class="text-center">End Time</th>
+              <th class="text-center">Hours</th>
+              <th class="text-center">Start Depth</th>
+              <th class="text-center">End Depth</th>
+              <th class="text-center">Comments</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="text-center">TIH</td>
+                <td class="text-center">00:00</td>
+                <td class="text-center">03:30</td>
+                <td class="text-center">3.50</td>
+                <td class="text-center">15,016</td>
+                <td class="text-center">15,016</td>
+                <td>TIH</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rotating</td>
+                <td class="text-center">03:30</td>
+                <td class="text-center">04:20</td>
+                <td class="text-center">0.83</td>
+                <td class="text-center">15,016</td>
+                <td class="text-center">15,024</td>
+                <td>(WOB=25;GPM=504;RPM=55;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Sliding</td>
+                <td class="text-center">04:20</td>
+                <td class="text-center">05:05</td>
+                <td class="text-center">0.75</td>
+                <td class="text-center">15,024</td>
+                <td class="text-center">15,031</td>
+                <td>(WOB=25;GPM=504;TFO=170;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Circulating</td>
+                <td class="text-center">05:05</td>
+                <td class="text-center">05:30</td>
+                <td class="text-center">0.42</td>
+                <td class="text-center">15,031</td>
+                <td class="text-center">15,031</td>
+                <td>Circulating Gas</td>
+              </tr>
+              <tr>
+                <td class="text-center">Sliding</td>
+                <td class="text-center">05:30</td>
+                <td class="text-center">06:40</td>
+                <td class="text-center">1.17</td>
+                <td class="text-center">15,031</td>
+                <td class="text-center">15,034</td>
+                <td>(WOB=25;GPM=504;TFO=170;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rotating</td>
+                <td class="text-center">06:40</td>
+                <td class="text-center">10:30</td>
+                <td class="text-center">3.83</td>
+                <td class="text-center">15,034</td>
+                <td class="text-center">15,088</td>
+                <td>(WOB=25;GPM=504;RPM=55;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Sliding</td>
+                <td class="text-center">10:30</td>
+                <td class="text-center">11:40</td>
+                <td class="text-center">1.17</td>
+                <td class="text-center">15,088</td>
+                <td class="text-center">15,094</td>
+                <td>(WOB=25;GPM=504;TFO=180;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rotating</td>
+                <td class="text-center">11:40</td>
+                <td class="text-center">13:00</td>
+                <td class="text-center">1.33</td>
+                <td class="text-center">15,094</td>
+                <td class="text-center">15,119</td>
+                <td>(WOB=25;GPM=504;RPM=55;DP=125)</td>
+              </tr>
+              <tr>
+                <td class="text-center">Rig Service-Inhole</td>
+                <td class="text-center">13:00</td>
+                <td class="text-center">14:00</td>
+                <td class="text-center">1.00</td>
+                <td class="text-center">15,119</td>
+                <td class="text-center">15,119</td>
+                <td>Rig Service-Inhole</td>
+              </tr>
+              <tr>
+                <td class="text-center">Stand By</td>
+                <td class="text-center">13:00</td>
+                <td class="text-center">15:00</td>
+                <td class="text-center">1.00</td>
+                <td class="text-center">15,119</td>
+                <td class="text-center">15,119</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Totam eaque, magni perferendis assumenda quis sapiente provident modi deserunt.</td>
+              </tr>
+              <tr>
+                <td class="text-center">Stand By</td>
+                <td class="text-center">15:00</td>
+                <td class="text-center">16:00</td>
+                <td class="text-center">1.00</td>
+                <td class="text-center">15,119</td>
+                <td class="text-center">15,119</td>
+                <td>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <!-- /Activities -->
+    </page>
+    <!-- Fin reporte -->
+  </div>
+</div>
+<div class="modal-footer">
+  <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()">
+    Close
+  </button>
+  <button class="btn btn-default" type="button" print-area="print-content">
+    <i class="fa fa-fw fa-print"></i> Print
+  </button>
+</div>

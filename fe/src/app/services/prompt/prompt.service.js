@@ -5,9 +5,14 @@ class PromptService {
     this.$uibModal = $uibModal;
   }
 
-  open({ text = '', title = 'Prompt', comfirmButtonText = 'Ok', cancelButtonText = 'Cancel', size = '', keyboard = true, backdrop = 'static', inputs = [] }) {
+  open({ text = '', title = 'Prompt', confirmButtonText = 'Ok', cancelButtonText = 'Cancel', size = '', keyboard = true, backdrop = 'static', inputs = [], selects = [] }) {
 
     if (!_.isArray(inputs)) {
+      console.error('"inputs" must be an array.');
+      return;
+    }
+
+    if (!_.isArray(selects)) {
       console.error('"inputs" must be an array.');
       return;
     }
@@ -24,9 +29,11 @@ class PromptService {
       resolve: {
         text: () => text,
         title: () => title,
-        comfirmButtonText: () => comfirmButtonText,
+        confirmButtonText: () => confirmButtonText,
         cancelButtonText: () => cancelButtonText,
-        inputs: () => inputs
+        inputs: () => inputs,
+        selects: () => selects,
+        isCollapsable: () => size.indexOf('compose') > -1
       }
     });
 
@@ -35,7 +42,9 @@ class PromptService {
 };
 
 class PromptController {
-  constructor($uibModalInstance, text, title, comfirmButtonText, cancelButtonText, inputs) {
+  constructor($uibModalInstance, text, title, confirmButtonText, cancelButtonText, inputs, selects, isCollapsable) {
+    this.isCollapsable = isCollapsable;
+    
     this.options = {
       label: null,
       type: 'text',
@@ -47,13 +56,27 @@ class PromptController {
       minlength: 0,
       max: null,
       min: null,
-      step: 1,
+      step: 'any',
       pattern: null,
       petternErrorMessage: 'The structure of the field is wrong.',
       required: true,
       extraInputClasses: '',
       extraLabelClasses: '',
       compareTo: null,
+    }
+
+    this.selectOptions = {
+      label: null,
+      map: null,
+      placeholder: null,
+      value: null,
+      required: true,
+      extraInputClasses: '',
+      extraLabelClasses: '',
+      compareTo: null,
+      idField: 'id',
+      nameField: 'name',
+      data: []
     }
 
     for (let i = 0; i < inputs.length; i++) {
@@ -63,16 +86,28 @@ class PromptController {
       }
     }
 
+    for (let i = 0; i < selects.length; i++) {
+      selects[i] = this.getSelect(selects[i]);
+      if (_.isEmpty(selects[i].map)) {
+        selects[i].map = i;
+      }
+    }
+
     this.$uibModalInstance = $uibModalInstance;
     this.text = text;
     this.title = title;
-    this.comfirmButtonText = comfirmButtonText;
+    this.confirmButtonText = confirmButtonText;
     this.cancelButtonText = cancelButtonText;
     this.inputs = inputs;
+    this.selects = selects;
   }
 
   getInput(opts) {
     return _.defaults({}, opts, _.clone(this.options));
+  }
+
+  getSelect(opts) {
+    return _.defaults({}, opts, _.clone(this.selectOptions));
   }
 
   ok() {
@@ -85,7 +120,24 @@ class PromptController {
       r.length++;
     }
 
-    this.$uibModalInstance.close(r.length > 1 ? r : r[0]);
+    for (let i = 0; i < this.selects.length; i++) {
+      if (_.isNull(this.selects[i].idField) && !_.isObject(this.selects[i].value)) {
+        r[this.selects[i].map] = JSON.parse(this.selects[i].value);
+      }
+      else {
+        r[this.selects[i].map] = this.selects[i].value;
+      }
+
+      r.length++;
+    }
+
+    r = r.length > 1 ? r : r[0];
+
+    if (_.isObject(r)) {
+      delete r.length;
+    }
+
+    this.$uibModalInstance.close(r);
   }
 
   cancel() {

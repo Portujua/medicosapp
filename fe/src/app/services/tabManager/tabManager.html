@@ -1,0 +1,27 @@
+<!-- Multiple tabs -->
+<scrollable-tabset id="tabManager" api="TabManagerService.api">
+  <uib-tabset active="TabManagerService.active" justified="false" class="main-tabs">
+    <uib-tab index="tab._id" ng-repeat="tab in TabManagerService.getTabs()" disable="tab.disabled" classes="{{ tab.isThin ? 'thin' : '' }} {{ tab.color }}" select="select()">
+      <!-- Heading -->
+      <uib-tab-heading>
+        <div class="row no-gutters">
+          <div class="col-10" title="{{ tab.title }}">
+            <i ng-if="tab.icon" class="fa fa-fw" ng-class="tab.icon"></i>
+            <span class="tab-title">
+              <i class="fa fa-fw fa-square" ng-class="tab.color" ng-if="tab.color"></i>
+              {{ tab.title }}
+            </span>
+          </div>
+          <div class="col-2">
+            <span ng-if="!tab.isPinned" class="pointer close-tab" ng-click="TabManagerService._close($event, tab)">
+              <i class="fa fa-fw fa-times-circle"></i>
+            </span>
+          </div>
+        </div>
+      </uib-tab-heading>
+      <!-- Body: -->
+      <div id="{{ tab._id }}" class="tab-body" ng-class="{ 'padding': tab.hasPadding }" ng-include="tab._templateName"></div>
+    </uib-tab>
+  </uib-tabset>
+</scrollable-tabset>
+<!-- /Multiple tabs -->

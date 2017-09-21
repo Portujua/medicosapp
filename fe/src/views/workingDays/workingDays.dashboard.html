@@ -1,0 +1,74 @@
+<div cg-busy="$ctrl.loadingPromise">
+  <div class="actions-bar hug">
+    <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()" >
+      <i class="fa fa-fw fa-plus"></i> Create Day
+    </button>
+
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i> Reload</button>
+    </div>
+  </div>
+
+  <div class="padding-sm bordered-bottom">
+    <picker ng-model="$ctrl.currentDay" picker-list="$ctrl.days" picker-on-change="$ctrl.setDay($item)" subtitle-attr="date" picker-icon="fa-calendar" select-last-item="true"></picker>
+  </div>
+
+  <!-- <div class="summary margin-sm-lr margin-sm-top hug-bottom">
+    <div class="row align-items-center">
+      <div class="col-6 col-xl-3">
+        <div class="summary-total margin-sm-bottom">
+          <div class="summary-label">Total Footage</div>
+          <h1>{{ $ctrl.currentDay.summary.totalFootage | number }}</h1>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="summary-total margin-sm-bottom">
+          <div class="summary-label">Total Time</div>
+          <h1>{{ $ctrl.currentDay.summary.totalTime | number:2 }}</h1>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="summary-total margin-sm-bottom">
+          <div class="summary-label">Drilling Time</div>
+          <h1>{{ $ctrl.currentDay.summary.totalDrillingTime | number:2 }} <small>({{ $ctrl.currentDay.summary.totalDrillingTimePerc | number:2 }}%)</small></h1>
+        </div>
+      </div>
+      <div class="col-6 col-xl-3">
+        <div class="summary-text margin-sm-bottom">
+          <div class="summary-label">Daily Comments</div>
+          <p>{{ $ctrl.currentDay.dailyComments | available }}</p>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div class="margin-sm">
+    <scrollable-tabset auto-recalculate="true">
+      <uib-tabset justified="true" type="pills">
+        <!-- Activities -->
+        <uib-tab index="0" heading="Activities">
+          <div class="margin-sm-top">
+            <activities-list job="$ctrl.job" day="$ctrl.currentDay"></activities-list>
+          </div>
+        </uib-tab>
+        <!-- /Activities -->
+        <!-- Daily Costs -->
+        <uib-tab index="1" heading="Daily Costs">
+          <div class="margin-sm-top">
+          <daily-cost-list job="$ctrl.job" day="$ctrl.currentDay"></daily-cost-list>
+          </div>
+        </uib-tab>
+        <!-- /Daily Costs -->
+        <!-- Muds -->
+        <uib-tab index="2" heading="Mud Checks">
+          <div class="margin-sm-top">
+            <muds-list job="$ctrl.job" day="$ctrl.currentDay"></muds-list>
+          </div>
+        </uib-tab>
+        <!-- /Muds -->
+      </uib-tabset>
+    </scrollable-tabset>
+
+  </div>
+
+</div>
