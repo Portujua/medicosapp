@@ -1,0 +1,75 @@
+.cg-busy {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1001;
+}
+.cg-busy-animation.ng-hide-add,
+.cg-busy-animation.ng-hide-remove {
+  transition: all .3s ease;
+  display: block !important;
+}
+.cg-busy-animation.ng-hide-remove {
+  opacity: 0;
+  transform: translate(0, -40px);
+}
+.cg-busy-animation.ng-hide-remove.ng-hide-remove-active {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.cg-busy-animation.ng-hide-add {
+  opacity: 1;
+  transform: translate(0, 0);
+}
+.cg-busy-animation.ng-hide-add.ng-hide-add-active {
+  opacity: 0;
+  transform: translate(0, -40px);
+}
+.cg-busy-backdrop { background-color: #fff; }
+
+.cg-busy-backdrop-animation.ng-hide-add,
+.cg-busy-backdrop-animation.ng-hide-remove {
+  transition: opacity .3s ease;
+  display: block !important;
+}
+.cg-busy-backdrop-animation.ng-hide { opacity: 0; }
+
+/* All styles below are for the default template. */
+.busy-wrapper {
+  text-align: center;
+  color: #888;
+  position: relative;
+
+  .busy-message {
+    text-align: center;
+    position: absolute;
+    width: 100%;
+    top: calc(50% - 10px);
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

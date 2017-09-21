@@ -1,0 +1,31 @@
+#toast-container .toast {
+  box-shadow: none;
+  border-radius: 0;
+}
+#toast-container .toast:hover {
+  box-shadow: none;
+}
+progress-bar {
+  height: 4px;
+  background-color: #428bca;
+  opacity: 1;
+}
+.toast {
+  background-color: #030303;
+}
+.toast-success {
+  border-left: solid #51A351 10px;
+  background-color: #222;
+}
+.toast-error {
+  border-left: solid #BD362F 10px;
+  background-color: #222;
+}
+.toast-info {
+  border-left: solid #2F96B4 10px;
+  background-color: #222;
+}
+.toast-warning {
+  border-left: solid #F89406 10px;
+  background-color: #222;
+}

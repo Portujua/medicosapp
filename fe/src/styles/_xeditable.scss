@@ -1,0 +1,19 @@
+table .editable-wrap,
+table .editable-controls {
+  width: 100% !important;
+  textarea,
+  select,
+  input {
+    width: calc(100% - 78px) !important;
+    min-width: 170px;
+  }
+}
+
+table .editable-controls.form-group .editable-input:not(.editable-has-buttons) {
+  width: 100% !important;
+}
+
+.editable {
+  border-bottom-style: dotted;
+  color: inherit;
+}

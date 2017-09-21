@@ -1,0 +1,9 @@
+#root-container {
+  overflow-x: hidden;
+  padding-top: $navbar-height + 10px/* ($grid-gutter-width-base / 2) */;
+  padding-left: $sidebar-width;
+
+  .breadcrumb {
+    margin-bottom: 10px;
+  }
+}

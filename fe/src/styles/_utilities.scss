@@ -1,0 +1,222 @@
+$font-size-base: 14px !default;
+//** Unit-less `line-height` for use in components like buttons.
+$line-height-base: 1.428571429 !default; // 20/14
+//** Computed "line-height" (`font-size` * `line-height`) for use with `margin`, `padding`, etc.
+$line-height-computed: floor(($font-size-base * $line-height-base)) !default; // ~20px
+
+// Clearfix
+//
+// For modern browsers
+// 1. The space content is one way to avoid an Opera bug when the
+//    contenteditable attribute is included anywhere else in the document.
+//    Otherwise it causes space to appear at the top and bottom of elements
+//    that are clearfixed.
+// 2. The use of `table` rather than `block` is only necessary if using
+//    `:before` to contain the top-margins of child elements.
+//
+// Source: http://nicolasgallagher.com/micro-clearfix-hack/
+
+@mixin clearfix() {
+  &:before,
+  &:after {
+    content: " "; // 1
+    display: table; // 2
+  }
+  &:after {
+    clear: both;
+  }
+}
+
+@mixin center-block() {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+// CSS image replacement
+//
+// Heads up! v3 launched with only `.hide-text()`, but per our pattern for
+// mixins being reused as classes with the same name, this doesn't hold up. As
+// of v3.0.1 we have added `.text-hide()` and deprecated `.hide-text()`.
+//
+// Source: https://github.com/h5bp/html5-boilerplate/commit/aa0396eae757
+
+// Deprecated as of v3.0.1 (has been removed in v4)
+@mixin hide-text() {
+  font: 0/0 a;
+  color: transparent;
+  text-shadow: none;
+  background-color: transparent;
+  border: 0;
+}
+
+// New mixin to use as of v3.0.1
+@mixin text-hide() {
+  @include hide-text;
+}
+
+// Floats
+// -------------------------
+
+.clearfix {
+  @include clearfix;
+}
+.center-block {
+  @include center-block;
+}
+.pull-right {
+  float: right !important;
+}
+.pull-left {
+  float: left !important;
+}
+
+
+// Toggling content
+.hide {
+  display: none !important;
+}
+.show {
+  display: block !important;
+}
+.invisible {
+  visibility: hidden;
+}
+.text-hide {
+  @include text-hide;
+}
+
+
+// Hide from screenreaders and browsers
+.hidden {
+  display: none !important;
+}
+
+
+// For Affix plugin
+.affix {
+  position: fixed;
+}
+
+
+// Cursors
+.pointer { cursor: pointer; }
+.move { cursor: move; }
+
+// Text
+.uppercase { text-transform: uppercase; }
+.lowercase { text-transform: lowercase; }
+
+// Displays
+.inline { display: inline !important; }
+.inline-block { display: inline-block !important; }
+.block { display: block !important;  }
+
+// Remove margins
+.hug { margin: 0 !important; }
+.hug-top { margin-top: 0 !important; }
+.hug-right { margin-right: 0 !important; }
+.hug-bottom { margin-bottom: 0 !important; }
+.hug-left { margin-left: 0 !important; }
+.hug-lr { margin-left: 0 !important; margin-right: 0 !important; }
+.hug-tb { margin-top: 0 !important; margin-bottom: 0 !important; }
+
+// Block
+.centered { margin: 0 auto; display: block; }
+
+// Borders
+.borderless { border: none !important; }
+.borderless-top { border-top: none !important; }
+.borderless-right { border-right: none !important; }
+.borderless-bottom { border-bottom: none !important; }
+.borderless-left { border-left: none !important; }
+.borderless-tb { border-top: none !important; border-bottom: none !important; }
+.borderless-lr { border-left: none !important; border-right: none !important; }
+
+.dotted { border-style: dotted; }
+.dashed { border-style: dashed; }
+
+// Remove paddings
+.expand { padding: 0 !important; }
+.expand-top { padding-top: 0 !important; }
+.expand-right { padding-right: 0 !important; }
+.expand-bottom { padding-bottom: 0 !important; }
+.expand-left { padding-left: 0 !important; }
+.expand-tb { padding-top: 0 !important; padding-bottom: 0 !important; }
+.expand-lr { padding-left: 0 !important; padding-right: 0 !important; }
+
+// Add margins
+@mixin margins($name: '', $multiplier: 1) {
+  @if ($name != '') {
+    $name: '-#{$name}';
+  }
+
+  .margin#{$name} { margin: ($line-height-computed * $multiplier) !important; }
+  .margin#{$name}-bottom { margin-bottom: ($line-height-computed * $multiplier) !important; }
+  .margin#{$name}-right { margin-right: ($line-height-computed * $multiplier) !important; }
+  .margin#{$name}-top { margin-top: ($line-height-computed * $multiplier) !important; }
+  .margin#{$name}-left { margin-left: ($line-height-computed * $multiplier) !important; }
+  .margin#{$name}-lr {
+    margin-left: ($line-height-computed * $multiplier) !important;
+    margin-right: ($line-height-computed * $multiplier) !important;
+  }
+  .margin#{$name}-tb {
+    margin-top: ($line-height-computed * $multiplier) !important;
+    margin-bottom: ($line-height-computed * $multiplier) !important;
+  }
+}
+
+@include margins();
+@include margins('xs', 1/3);
+@include margins('sm', 0.5);
+@include margins('lg', 1.5);
+
+// Textarea
+textarea {
+  &.resize-none { resize: none; }
+  &.resize-vertical { resize: vertical; }
+  &.resize-horizontal { resize: horizontal; }
+}
+
+// Add border
+.bordered { border: 1px solid #ddd; }
+.bordered-top { border-top: 1px solid #ddd; }
+.bordered-bottom { border-bottom: 1px solid #ddd; }
+.bordered-left { border-left: 1px solid #ddd; }
+.bordered-right { border-right: 1px solid #ddd; }
+.bordered-tb { border-top: 1px solid #ddd; border-bottom: 1px solid #ddd; }
+.bordered-lr { border-left: 1px solid #ddd; border-right: 1px solid #ddd; }
+
+// Font
+.bold, .strong { font-weight: bold; }
+.regular, .normal { font-weight: normal; }
+
+// Shapes
+.circle { border-radius: 9999px !important; }
+
+// Alignment
+.text-left { text-align: left !important; }
+.text-right { text-align: right !important; }
+.text-center { text-align: center !important; }
+.text-justify { text-align: justify !important; }
+.text-nowrap { white-space: nowrap !important; }
+
+td.text-top, th.text-top { vertical-align: top !important; }
+td.text-middle, th.text-middle { vertical-align: middle !important; }
+td.text-bottom, th.text-bottom { vertical-align: bottom !important; }
+
+// Transformation
+.text-lowercase { text-transform: lowercase !important; }
+.text-uppercase { text-transform: uppercase !important; }
+.text-capitalize { text-transform: capitalize !important; }
+
+// Contextual colors
+.text-muted { color: #777 !important; }
+.text-white { color: #fff !important; }
+.text-black { color: #000 !important; }
+
+// Text size
+.small { font-size: 85% !important; }
+
+
+

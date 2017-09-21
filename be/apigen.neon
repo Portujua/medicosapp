@@ -1,0 +1,13 @@
+source: [src]           # directory(-ies) to scan PHP files from
+destination: docs       # destination directory to generate API docs in
+visibilityLevels: [public,private,protected]
+annotationGroups: [todo, deprecated] # array
+title: "RESTejl Docs"
+baseUrl: http://github.com/Portujua/restejl
+exclude: [tests]
+extensions: [php] # array
+#overwrite: true
+#templateConfig: vendor/apigen/apigen/theme-bootstrap/src/config.neon # string
+
+# templates parameters
+#googleAnalytics: 123

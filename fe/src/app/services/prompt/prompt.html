@@ -1,0 +1,32 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title" ng-bind-html="$ctrl.title"></h3>
+  </div>
+
+  <div class="modal-body">
+    <div ng-if="$ctrl.text" ng-bind-html="$ctrl.text" ng-class="{ 'margin-sm-bottom': $ctrl.inputs.length }"></div>
+
+    <div ng-repeat="item in $ctrl.inputs track by $index">
+      <div class="form-group" ng-class="{ 'has-error': !item.value, 'has-success': item.value, 'hug-bottom': $last }">
+  	    <label ng-if="item.label" ng-bind-html="item.label" class="{{ item.extraLabelClasses }}" for="{{ item.map }}"></label>
+
+        <input type="{{ item.type }}" class="form-control {{ item.extraInputClasses }}" placeholder="{{ item.placeholder }}" ng-model="item.value" autofocus step="{{ item.step }}" name="{{ item.map }}" id="{{ item.map }}" value="{{ item.value }}" maxlength="{{ item.maxlength }}" minlength="{{ item.minlength }}" ng-min="item.min" ng-max="item.max" ng-pattern="item.pattern" ng-required="item.required" compare-to="$ctrl.inputs[item.compareTo].value">
+
+        <span class="help-block" ng-messages="form[item.map].$error" role="alert">
+          <span ng-message="required">This field is required.</span>
+          <span ng-message="minlength">Length must be greater than {{ item.minlength }}.</span>
+          <span ng-message="min">Length must be greater than {{ item.minlength }}.</span>
+          <span ng-message="maxlength">Length must be lower than {{ item.maxlength }}.</span>
+          <span ng-message="max">Length must be lower than {{ item.maxlength }}.</span>
+          <span ng-message="compareTo">Field doesn't match.</span>
+          <span ng-message="pattern" ng-bind-html="item.petternErrorMessage"></span>
+        </span>
+  	  </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-bind-html="$ctrl.cancelButtonText"></button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.ok()" ng-bind-html="$ctrl.comfirmButtonText" ng-disabled="form.$invalid"></button>
+  </div>
+</form>

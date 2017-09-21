@@ -1,0 +1,1 @@
+phpdoc.bat -d src -t docs --template="clean"

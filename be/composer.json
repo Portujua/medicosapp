@@ -1,0 +1,31 @@
+{
+  "name": "RESTejl",
+  "description": "Basic RESTful service setup",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Eduardo Lorenzo",
+      "email": "ejlorenzo19@gmail.com"
+    }
+  ],
+  "require": {
+    "slim/slim": "2.*",
+    "slim/extras": "*",
+    "slim/middleware": "*",
+    "monolog/monolog": "*",
+    "j4mie/paris": "*",
+    "flynsarmy/slim-monolog": "*",
+    "phpdocumentor/phpdocumentor": "2.*",
+    "usmanhalalit/pixie": "2.*@dev"
+  },
+  "archive": {
+    "exclude": ["vendor", ".DS_Store", "*.log"]
+  },
+  "autoload": {
+    "psr-0": {
+      "API": "lib/"
+    }
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}

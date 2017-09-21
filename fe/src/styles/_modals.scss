@@ -1,0 +1,30 @@
+@for $i from 10 through 95 {
+  .modal-#{$i}p {
+    width: $i * 1%;
+  }
+}
+
+.modal-header {
+  // border: none;
+}
+
+.modal-body {
+  overflow-y: auto;
+
+  @media screen and (min-height: 460px) {
+    // Laptop
+    max-height: 465px;
+  }
+
+  @media screen and (min-height: 950px) {
+    // HD
+    max-height: 730px;
+  }
+}
+
+.modal-footer {
+  padding: 7px 10px;
+  background: #f9f9f9;
+  border-bottom-left-radius: $border-radius-base;
+  border-bottom-right-radius: $border-radius-base;
+}

@@ -1,0 +1,8 @@
+bower_components
+node_modules
+*.sublime-project
+*.sublime-workspace
+.sass-cache
+dist
+.temp
+src/app/_includes.scss

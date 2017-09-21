@@ -1,0 +1,55 @@
+.uib-daypicker,
+.uib-monthpicker,
+.uib-yearpicker {
+  table {
+    background-color: #fff;
+
+    th {
+      small {
+        padding-top: 10px;
+        padding-bottom: 10px;
+        display: inline-block;
+      }
+    }
+
+    .text-center {
+      background-color: #eee;
+    }
+
+    .btn {
+      border: none !important;
+
+      span {
+        &.text-info {
+          color: #000;
+          font-weight: bold;
+        }
+        &.text-muted {
+          color: #ccc !important;
+        }
+      }
+
+      &.btn-info.active {
+        background-color: $brand-primary;
+        font-weight: bold;
+        .text-info {
+          color: #fff;
+        }
+      }
+    }
+  }
+}
+
+.uib-datepicker-popup {
+  padding: 0;
+
+  .uib-button-bar {
+    padding-top: 0;
+    border-top: solid 1px #ddd;
+
+    .btn {
+      margin-top: 6px;
+      margin-bottom: 6px;
+    }
+  }
+}

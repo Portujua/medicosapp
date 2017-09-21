@@ -1,0 +1,7 @@
+div[ui-view].ng-enter {
+  animation: zoomIn 0.3s;
+}
+
+div[ui-view].ng-leave {
+  animation: zoomOut 0.3s;
+}

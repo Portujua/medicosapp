@@ -1,0 +1,55 @@
+<div id="sidebar">
+  <!-- Buttons -->
+  <div class="margin-sm-tb">
+    <button ng-repeat="item in SidebarService.getButtons()"
+            class="btn btn-circle btn-lg margin-sm-tb"
+            ng-class="item.className"
+            ng-click="item.callback()"
+            uib-tooltip="{{ item.name }}" tooltip-placement="right" tooltip-append-to-body="true"
+            ng-if="item.can()"
+            ng-disabled="item.isLoading || item.isDisabled">
+      <span ng-switch="item.isLoading">
+        <span ng-switch-when="true">
+          <i class="fa fa-spin fa-spinner"></i>
+        </span>
+        <span ng-switch-default>
+          <i class="fa" ng-class="item.icon"></i>
+        </span>
+      </span>
+    </button>
+  </div>
+  <!-- /Buttons -->
+
+  <ul class="list-unstyled">
+    <li ng-repeat="item in SidebarService.getOptions()" title="{{ item.name }}">
+      <span ng-switch="item.route">
+        <span ng-switch-when="null">
+          <!-- Without route -->
+          <a href="" ng-click="item.callback()" uib-tooltip="{{ item.name }}" tooltip-placement="bottom" tooltip-append-to-body="true" ng-if="item.can()" ng-disabled="item.isLoading || item.isDisabled">
+            <span ng-switch="item.isLoading">
+              <span ng-switch-when="true">
+                <i class="fa fa-lg fa-fw fa-spin fa-spinner"></i>
+              </span>
+              <span ng-switch-default>
+                <i class="fa fa-lg fa-fw" ng-class="item.icon"></i>
+              </span>
+            </span>
+          </a>
+        </span>
+        <span ng-switch-default>
+          <!-- With route -->
+          <a href="" ui-sref="{{ item.route }}" ng-click="item.callback()" uib-tooltip="{{ item.name }}" tooltip-placement="right" tooltip-append-to-body="true" ng-if="item.can()" ng-disabled="item.isLoading || item.isDisabled">
+            <span ng-switch="item.isLoading">
+              <span ng-switch-when="true">
+                <i class="fa fa-lg fa-fw fa-spin fa-spinner"></i>
+              </span>
+              <span ng-switch-default>
+                <i class="fa fa-lg fa-fw" ng-class="item.icon"></i>
+              </span>
+            </span>
+          </a>
+        </span>
+      </span>
+    </li>
+  </ul>
+</div>

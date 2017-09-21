@@ -1,0 +1,19 @@
+.col-form-label {
+  line-height: $input-height-base;
+  margin-bottom: 0;
+  text-align: right;
+}
+
+.form-control:focus {
+  // Removing glow when is focused
+  box-shadow: none !important;
+}
+
+.form-group label:not([class='radio-inline']):not([class='checkbox-inline']) {
+  color: #707070;
+}
+
+.help-block {
+  margin-bottom: 0;
+  font-size: 83%;
+}
