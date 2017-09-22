@@ -7,14 +7,14 @@ angular.module('app')
         super({ id, username, token, name, role, email, profilePicturePath, expirationTime, isActive });
 
         // Sort permissions
-        this.role.permission = _.sortBy(this.role.permission, (entity) => entity.entityName);
+        // this.role.permission = _.sortBy(this.role.permission, (entity) => entity.entityName);
 
-        _.each(this.role.permission, (value) => {
-          // Sort actions
-          value.sysAction = _.sortBy(value.sysAction, (action) => action.actionName);
-          // Uppercase to all entity
-          value.entityName = _.isEmpty(value.entityName) || !_.isString(value.entityName) ? null : value.entityName.toUpperCase();
-        });
+        // _.each(this.role.permission, (value) => {
+        //   // Sort actions
+        //   value.sysAction = _.sortBy(value.sysAction, (action) => action.actionName);
+        //   // Uppercase to all entity
+        //   value.entityName = _.isEmpty(value.entityName) || !_.isString(value.entityName) ? null : value.entityName.toUpperCase();
+        // });
       }
 
       // Permissions

@@ -50,5 +50,6 @@ foreach ($dirs as $folder) {
 }
 
 $app->response()->header('Content-Type', 'application/json');
+$app->response()->header('Access-Control-Allow-Origin', '*');
 
 $app->run();
