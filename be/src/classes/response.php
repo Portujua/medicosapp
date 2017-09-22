@@ -6,7 +6,18 @@
 	* @author Eduardo Lorenzo <ejlorenzo19@gmail.com>
 	* @since 18/09/2019
 	* @license MIT
-  */
+	*/
+	
+	define("STATUS_OK", 200);
+	define("STATUS_CREATED", 201);
+	define("STATUS_BAD_REQUEST", 400);
+	define("STATUS_UNAUTHORIZED", 401);
+	define("STATUS_FORBIDDEN", 403);
+	define("STATUS_NOT_FOUND", 404);
+	define("STATUS_METHOD_NOT_ALLOWED", 405);
+	define("STATUS_TIMEOUT", 408);
+	define("STATUS_INTERNAL_SERVER_ERROR", 500);
+	define("STATUS_NOT_IMPLEMENTED", 501);
 
   /**
 	* Base response class
@@ -110,6 +121,10 @@
 		*/
 		public static function getBaseInternalError($message = "There has been an error.", $jsonParse = true) {
 			return new Response($message, STATUS_INTERNAL_SERVER_ERROR);
+		}
+
+		public static function getBaseMethodNotAllowed($message = "Method not allowed.", $jsonParse = true) {
+			return new Response($message, STATUS_METHOD_NOT_ALLOWED);
 		}
   }
 ?>

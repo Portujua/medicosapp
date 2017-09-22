@@ -1,55 +1,67 @@
 <?php
-define("STATUS_OK", 200);
-define("STATUS_CREATED", 201);
-define("STATUS_BAD_REQUEST", 400);
-define("STATUS_UNAUTHORIZED", 401);
-define("STATUS_FORBIDDEN", 403);
-define("STATUS_NOT_FOUND", 404);
-define("STATUS_METHOD_NOT_ALLOWED", 405);
-define("STATUS_TIMEOUT", 408);
-define("STATUS_INTERNAL_SERVER_ERROR", 500);
-define("STATUS_NOT_IMPLEMENTED", 501);
+	function loadFiles($folder) {
+		$files = array_filter(glob($folder), 'is_file');
+		
+		foreach ($files as $f)
+		{
+			if (strpos($f, 'BaseEntity.php') !== false) continue;
 
-require 'vendor/autoload.php';
-
-$config = array(
-	'driver'    => 'mysql',
-	'host'      => 'localhost',
-	'database'  => 'medicos',
-	'username'  => 'root',
-	'password'  => '21115476',
-	'charset'   => 'utf8',
-);
-
-new \Pixie\Connection('mysql', $config, 'QB');
-
-require 'src/config/util.php';
-require 'src/config/filter.php';
-require 'src/config/response.php';
-require 'src/config/session.php';
-require 'src/config/db.php';
-require 'src/routes/base.php';
-require 'src/config/pageable.php';
-
-$app = new \Slim\Slim;
-
-// Routes
-$dirs = array_filter(glob('src/routes/*'), 'is_dir');
-
-foreach ($dirs as $folder) {
-	$files = array_diff(scandir($folder), array('.', '..'));
-
-	foreach ($files as $f)
-	{
-		if ($f == 'base.php') continue;
-
-		$path = $folder . '/' . $f;
-
-		require $path;
+			$path = $f;
+			$GLOBALS['includes'][] = $path;
+		}
 	}
-}
 
-$app->response()->header('Content-Type', 'application/json');
-$app->response()->header('Access-Control-Allow-Origin', '*');
+	function load($folders) {
+		if (is_string($folders)) {
+			$folders = [$folders];
+		}
 
-$app->run();
+		foreach ($folders as $folderPath) {
+			loadFiles($folderPath);
+
+			// Load files inside folders
+			$dirs = array_filter(glob($folderPath), 'is_dir');
+			
+			foreach ($dirs as $folder) {
+				loadFiles($folder."/*");
+			}
+		}
+	}
+
+	$GLOBALS['includes'] = array();
+
+	include 'vendor/autoload.php';
+	include 'src/models/BaseEntity.php';
+
+	// Utils
+	load([
+		"src/utils/*",
+		"src/exceptions/*",
+		"src/config/*",
+		"src/classes/*",
+		"src/models/*",
+		"src/repositories/*",
+		"src/interfaces/*",
+		"src/services/*",
+	]);
+
+	foreach ($GLOBALS['includes'] as $inc) {
+		require $inc;
+	}
+
+	$GLOBALS['includes'] = array();
+
+	new \Pixie\Connection('mysql', Db::getConfiguration(), 'QB');
+	$app = new \Slim\Slim;
+
+	// Routes	
+	load("src/routes/*");
+
+	foreach ($GLOBALS['includes'] as $inc) {
+		require $inc;
+	}
+
+	$app->response()->header('Content-Type', 'application/json');
+	$app->response()->header('Access-Control-Allow-Origin', '*');
+
+	$app->run();

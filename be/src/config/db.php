@@ -1,19 +1,36 @@
 <?php
-	class Db {
-		private static $ignoreToken = false;
+	/**
+	* It contains all the Database Methods
+	*
+	* @package Configuration
+	* @author Eduardo Lorenzo <ejlorenzo19@gmail.com>
+	* @since 30/04/2017
+	* @license MIT
+	*/
 
-		private static $instance = null;
-		
-		private function __construct() {
-			
-		}
-	
-		public static function getInstance() {
-			if (Db::$instance == null) {
-				Db::$instance = new Db();
-			}
-	
-			return Db::$instance;
+	/**
+	* Database class
+	*
+	* Contains all methods and configuration needed for the database
+	*
+	* @method Array run(Query $query)
+	* @method Int getTotalElements(Query $query)
+	* @method Void startTransaction()
+	* @method Void commit()
+	* @method Void rollback()
+	*/
+	class Db {
+		private static $config = array(
+			'driver'    => 'mysql',
+			'host'      => 'localhost',
+			'database'  => 'medicos',
+			'username'  => 'root',
+			'password'  => '21115476',
+			'charset'   => 'utf8',
+		);
+
+		public static function getConfiguration() {
+			return self::$config;
 		}
 
 		/**
@@ -26,8 +43,8 @@
 		* @return Array - Returns the array containing the query result
 		*/
 		public static function run($sql) {
-			if (!Session::isActive() && !Db::$ignoreToken) {
-				return Response::getBaseUnauthorized();
+			if (!Session::isActive()) {
+				throw new MethodNotAllowedException();
 			}
 
 			return $sql->get();
@@ -65,7 +82,7 @@
 		* @return void
 		*/
 		public function startTransaction() {
-			Db::getInstance()->query("start transaction");
+			$this->db->query("start transaction");
 		}
 
 		/**
@@ -74,7 +91,7 @@
 		* @return void
 		*/
 		public function commit() {
-			Db::getInstance()->query("commit");
+			$this->db->query("commit");
 		}
 
 		/**
@@ -83,16 +100,7 @@
 		* @return void
 		*/
 		public function rollback() {
-			Db::getInstance()->query("rollback");
-		}
-
-		/**
-		* Sets wether it should ignore the session token or not
-		*
-		* @return void
-		*/
-		public static function setIgnoreToken($value) {
-			Db::getInstance()->$ignoreToken = $value;
+			$this->db->query("rollback");
 		}
 	}
 ?>

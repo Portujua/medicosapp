@@ -8,13 +8,13 @@ $app->group('/patients', function() use ($app){
 	$app->get('/', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
 
-		$response = new Response(Patient::getInstance()->list($pageable));
+		$response = new Response(PatientService::getInstance()->list($pageable));
 		$response->setSlim($app);
 		echo $response->getResponse();
   });
   
   $app->get('/:id', function($id) use ($app) {
-		$response = new Response(Patient::getInstance()->get($id));
+		$response = new Response(PatientService::getInstance()->find($id));
 		$response->setSlim($app);
 		echo $response->getResponse();
 	});
