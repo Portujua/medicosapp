@@ -102,7 +102,7 @@
 
 			$this->slim->response()->status($this->status);
 
-			return $jsonParse ? json_encode(["status" => $this->status, "data" => $this->data]) : $this->data;
+			return $jsonParse ? json_encode(["status" => $this->status, "data" => $this->data], JSON_NUMERIC_CHECK) : $this->data;
 		}
 
 		/**
