@@ -61,7 +61,7 @@
 		require $inc;
 	}
 
-	$app->response()->header('Content-Type', 'application/json');
+	$app->response()->header('Content-Type', $app->request->headers->get('Content-Type'));
 	$app->response()->header('Access-Control-Allow-Origin', '*');
 
 	$app->run();
