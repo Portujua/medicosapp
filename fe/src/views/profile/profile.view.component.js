@@ -1,7 +1,7 @@
 (() => {
   
   class ProfileViewController {
-    constructor(Auth, User, ProfileService, LocationService, PromptService, PhoneService) {
+    constructor(Auth, User, ProfileService, LocationService, PromptService, PhoneService, UserService) {
       this.data = new User(Auth.getSession());
       this.Auth = Auth;
       this.User = User;
@@ -9,6 +9,7 @@
       this.LocationService = LocationService;
       this.PromptService = PromptService;
       this.PhoneService = PhoneService;
+      this.UserService = UserService;
     }
 
     $onInit() {
@@ -39,7 +40,7 @@
     }
 
     save(data, field) {
-      return this.ProfileService.update(this.data.id, this.data.putPayload(field, data), true)
+      return this.UserService.update(this.data.id, this.data.putPayload(field, data), true)
         .then((response) => {
           response.data.token = this.data.token;
           this.Auth._setUser(response);

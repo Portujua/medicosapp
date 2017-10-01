@@ -131,6 +131,20 @@
         </div>
       </div>
       <!-- /board -->
+
+      <div class="col-12 col-lg-7 col-xl-8">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Mis suscripciones
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div ng-if="!$ctrl.data.suscripciones">
+              <span class="text-muted">No tienes suscripciones activas</span>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </div>

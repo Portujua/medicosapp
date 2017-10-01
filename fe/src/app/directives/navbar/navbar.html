@@ -24,7 +24,7 @@
       <!-- /Toggle sidebar -->
 
       <!-- Create button -->
-      <div class="navbar-form navbar-left">
+      <!-- <div class="navbar-form navbar-left">
         <div class="dropdown">
           <button class="btn btn-primary dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" uib-tooltip="Create..." tooltip-placement="bottom" tooltip-append-to-body="true">
             <i class="fa fa-fw fa-plus"></i>
@@ -38,7 +38,7 @@
             </li>
           </ul>
         </div>
-      </div>
+      </div> -->
       <!-- /Create button -->
 
       <!-- Close tabs -->
@@ -89,14 +89,14 @@
             <a href="" change-picture="{{ session.profilePicturePath }}" endpoint="{{ $ctrl.endPoint }}">
               <img class="profile-pic circle" ng-src="{{ session.profilePicturePath | defaultImage }}" alt="">
             </a>
-            <a href="" class="navbar-link bold"  drilldown="{ title: session.name , component: 'usersView', id: session.id }">{{ session.username | uppercase }}</a>
-            <small>({{ session.role.name }})</small>
+            <a href="" class="navbar-link bold">{{ session.usuario | lowercase }}</a>
+            <small>({{ session.es_medico ? 'Médico' : 'Paciente' }})</small>
           </span>
         </li>
         <!-- /Profile -->
 
         <!-- Options -->
-        <li class="dropdown">
+        <!-- <li class="dropdown">
           <a href="" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             <i class="fa fa-fw fa-cog"></i>
           </a>
@@ -111,7 +111,7 @@
              <li><a href="" drilldown="{ title: 'Basins', component: 'basinsList' }">Basins</a></li>
             <li><a href="" drilldown="{ title: 'Activity Types', component: 'activityTypesList' }">Activity Types</a></li>
           </ul>
-        </li>
+        </li> -->
         <!-- /Options -->
 
         <!-- Signout -->
@@ -120,11 +120,10 @@
             <i class="fa fa-fw fa-ellipsis-v"></i>
           </a>
           <ul class="dropdown-menu">
-            <li class="dropdown-header">Session administration</li>
-            <li><a href="" ng-click="$ctrl.openProfileModal()">My Profile</a></li>
-            <li><a href="" ng-click="$ctrl.openSettings()">Settings</a></li>
+            <li class="dropdown-header">Administración</li>
+            <li><a href="" ng-click="$ctrl.openProfile()">Mi perfil</a></li>
             <li role="separator" class="divider"></li>
-            <li><a href="" ui-sref="logout">Sign Out</a></li>
+            <li><a href="" ui-sref="logout">Salir</a></li>
           </ul>
         </li>
         <!-- /Signout -->

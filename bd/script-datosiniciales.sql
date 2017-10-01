@@ -5,7 +5,7 @@ insert into Telefono_Tipo (id, nombre) values
 	(uuid(), "Fax"),
 	(uuid(), "Otro");
 
-insert into Medico (id, nombre, apellido, usuario, contrasena, fecha_nacimiento, sexo, lugar, direccion, cedula, tipo_cedula) values (uuid(), "Administrador", "", "root", "root", "1993-03-19", "Masculino", 377, "UD-4 Sector Mucuritas", "21115476", "V");
+insert into Usuario (id, nombre, apellido, usuario, contrasena, fecha_nacimiento, sexo, lugar, direccion, cedula, tipo_cedula, es_medico) values (uuid(), "Administrador", "", "root", "root", "1993-03-19", "Masculino", 377, "UD-4 Sector Mucuritas", "21115476", "V", 1);
 
 insert into Tipo_Suscripcion (id, nombre, descripcion, costo, num_dias, cant_cons) values
 	(uuid(), "Basica", "Descripcion basica", 999, 30, 15),

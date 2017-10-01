@@ -3,11 +3,11 @@
     private static $instance = null;
 
     private $repository;
-    private $patientRepository;
+    private $userRepository;
 
     private function __construct() {
       $this->repository = new AuthRepository();
-      $this->patientRepository = new PatientRepository();
+      $this->userRepository = new UserRepository();
     }
 
     public static function getInstance() {
@@ -25,7 +25,7 @@
         $token = Session::generateId();
         Session::set($token);
 
-        $user = $this->patientRepository->find($result->id);
+        $user = $this->userRepository->find($result->id);
 
         return Util::mergeOptions($user, ["token" => $token], true);
       }

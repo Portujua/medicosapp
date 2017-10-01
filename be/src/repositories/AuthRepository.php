@@ -3,7 +3,7 @@
     private $table;
 
     public function __construct() {
-      $this->table = QB::table('Paciente');
+      $this->table = QB::table(User::$tableName);
     }
       
     /**

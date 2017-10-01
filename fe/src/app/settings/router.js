@@ -4,11 +4,11 @@
           .state('login', {
             url: '/',
             template: '<login></login>',
-            title: 'Sign in'
+            title: 'Entrar'
           })
           .state('logout', {
             url: '/logout',
-            title: 'Sign out',
+            title: 'Salir',
             controller: 'LogoutController',
             // The following line, is for routes that require authentication
             resolve: { authRequired: ['Auth', (a) => { return a.checkSession(); }] },
@@ -22,10 +22,10 @@
           .state('root.home', {
             url: '/home',
             template: '<home></home>',
-            title: 'Home',
+            title: 'Inicio',
             resolve: { authRequired: ['Auth', (a) => { return a.checkSession(); }] },
             // Breadcrumbs info
-            ncyBreadcrumb: { label: 'Home' }
+            ncyBreadcrumb: { label: 'Inicio' }
           });
 
         $urlRouterProvider.otherwise('/');

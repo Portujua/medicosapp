@@ -7,7 +7,7 @@ angular.module('app')
    * - date of release
    */
   .constant('APP_INFO', {
-    name: 'DDM',
+    name: 'Citas médicas',
     version: 'v0.0.1',
     day: 1,
     month: 10,

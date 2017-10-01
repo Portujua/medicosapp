@@ -10,31 +10,6 @@ create table Lugar (
 	foreign key (lugar) references Lugar(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
-create table Medico (
-	id varchar(36) not null,
-	nombre varchar(32) not null,
-	segundo_nombre varchar(32),
-	apellido varchar(32) not null,
-	segundo_apellido varchar(32),
-	tipo_cedula varchar(1),
-	cedula varchar(32),
-	email varchar(128),
-	usuario varchar(32),
-	contrasena varchar(32),
-	fecha_nacimiento date,
-	sexo varchar(10) not null,
-	estado_civil varchar(32),
-	estado tinyint(1) default 1,
-	lugar varchar(36) not null,
-	direccion varchar(256) not null,
-	cambiar_contrasena tinyint(1) default 0,
-	createdAt datetime default current_timestamp,
-	modifiedAt datetime on update current_timestamp,
-	primary key(id),
-	unique(cedula),
-	foreign key (lugar) references Lugar(id)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
-
 create table Telefono_Tipo (
 	id varchar(36) not null,
 	nombre varchar(128) not null,
@@ -43,7 +18,7 @@ create table Telefono_Tipo (
 	primary key(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
-create table Paciente (
+create table Usuario (
 	id varchar(36) not null,
 	nombre varchar(32) not null,
 	segundo_nombre varchar(32),
@@ -64,6 +39,7 @@ create table Paciente (
 	email_validado tinyint(1) default 0,
 	createdAt datetime default current_timestamp,
 	modifiedAt datetime on update current_timestamp,
+	es_medico tinyint(1) default 0,
 	primary key(id),
 	unique(cedula),
 	foreign key (lugar) references Lugar(id)
@@ -73,11 +49,12 @@ create table Telefono (
 	id varchar(36) not null,
 	tlf varchar(128) not null,
 	tipo varchar(36) not null,
-	dueno varchar(36),
+	usuario varchar(36) not null,
 	createdAt datetime default current_timestamp,
 	modifiedAt datetime on update current_timestamp,
 	primary key(id),
-	foreign key (tipo) references Telefono_Tipo(id)
+	foreign key (tipo) references Telefono_Tipo(id),
+	foreign key (usuario) references Usuario(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Log_Login (
@@ -100,7 +77,7 @@ create table Area (
 
 create table Medico_Area (
 	id varchar(36) not null,
-	medico varchar(36) not null references Medico(id),
+	usuario varchar(36) not null references Usuario(id),
 	area varchar(36) not null references Area(id),
 	createdAt datetime default current_timestamp,
 	modifiedAt datetime on update current_timestamp,
@@ -109,8 +86,8 @@ create table Medico_Area (
 
 create table Mensaje (
 	id varchar(36) not null,
-	paciente varchar(36) not null references Paciente(id),
-	medico varchar(36) not null references Medico(id),
+	paciente varchar(36) not null references Usuario(id),
+	medico varchar(36) not null references Usuario(id),
 	html text not null,
 	img longblob,
 	hora datetime,
@@ -124,7 +101,7 @@ create table Mensaje (
 
 create table Suscripcion (
 	id varchar(36) not null,
-	paciente varchar(36) not null references Paciente(id),
+	paciente varchar(36) not null references Usuario(id),
 	tipo_suscripcion varchar(36) not null references Tipo_Suscripcion(id),
 	empieza date not null,
 	termina date not null,

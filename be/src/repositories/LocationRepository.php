@@ -13,7 +13,7 @@
       if ($pageable != null) {
         // Search for keyword if available
         if ($pageable->hasKeyword()) {
-          foreach (User::getSearcheableFields() as $sf) {
+          foreach (Location::getSearcheableFields() as $sf) {
             $query->orWhere($sf, 'like', '%'.$pageable->getKeyword().'%');
           }
         }

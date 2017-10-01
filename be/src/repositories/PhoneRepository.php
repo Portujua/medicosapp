@@ -8,7 +8,7 @@
 
     public function list($pageable = null, $ownerId) {
       // Base query
-      $query = $this->table->where('dueno', $ownerId);
+      $query = $this->table->where('usuario', $ownerId);
 
       if ($pageable != null) {
         // Search for keyword if available
@@ -53,10 +53,10 @@
         $phone = $result[0];
 
         $phoneTypeRepository = new PhoneTypeRepository();
-        $patientRepository = new PatientRepository();
+        $userRepository = new UserRepository();
 
         $phone->tipo = $phoneTypeRepository->find($phone->tipo);
-        $phone->dueno = $patientRepository->find($phone->dueno);
+        $phone->usuario = $userRepository->find($phone->usuario);
 
         return $phone;
       }

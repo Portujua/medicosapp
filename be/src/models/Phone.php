@@ -18,7 +18,7 @@
         (new Field("id", false))->setDefaultValue(Util::uuid()),
         new Field("tlf", false, true),
         new Field("tipo", false),
-        new Field("dueno"),
+        new Field("usuario"),
 			];
     }
 
