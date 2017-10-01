@@ -1,7 +1,7 @@
 <?php
 
-  class Patient extends BaseEntity {
-    static public $tableName = "Paciente";
+  class User extends BaseEntity {
+    static public $tableName = "Usuario";
 
     private $data;
     
@@ -35,6 +35,7 @@
         (new Field("email_validado"))->setDefaultValue('false'),
         (new Field("createdAt"))->setDefaultValue(QB::raw('now()')),
         (new Field("modifiedAt"))->setDefaultValue(QB::raw('now()')),
+        (new Field("es_medico"))->setDefaultValue(0),
 			];
     }
 
