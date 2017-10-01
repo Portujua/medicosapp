@@ -22,7 +22,7 @@ $app->group('', function() use ($app) {
 	/** Add new user */
 	$app->post('/patients/:patientId/phones', function($patientId) use ($app) {
     $data = json_decode($app->request->getBody(), true);
-		$data["dueno"] = $patientId;
+		$data["usuario"] = $patientId;
 
 		$response = new Response(
 			PhoneService::getInstance()->create(Util::createPayload(Phone::class, $data))
