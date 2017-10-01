@@ -10,6 +10,8 @@
 	
 	define("STATUS_OK", 200);
 	define("STATUS_CREATED", 201);
+	define("STATUS_ACCEPTED", 202);
+	define("STATUS_NO_CONTENT", 204);
 	define("STATUS_BAD_REQUEST", 400);
 	define("STATUS_UNAUTHORIZED", 401);
 	define("STATUS_FORBIDDEN", 403);
@@ -125,6 +127,14 @@
 
 		public static function getBaseMethodNotAllowed($message = "Method not allowed.", $jsonParse = true) {
 			return new Response($message, STATUS_METHOD_NOT_ALLOWED);
+		}
+
+		public static function getBaseNoContent($message = "No content found.", $jsonParse = true) {
+			return new Response($message, STATUS_NO_CONTENT);
+		}
+
+		public static function getBaseRecordNotFound($message = "Record not found.", $jsonParse = true) {
+			return new Response($message, STATUS_ACCEPTED);
 		}
   }
 ?>

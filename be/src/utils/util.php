@@ -68,6 +68,38 @@
 			return $base;
 		}
 
+		public static function fieldArrayToStringArray($arr) {
+			if (count($arr) == 0) {
+				return $arr;
+			}
+
+			if (!($arr[0] instanceof Field)) {
+				return $arr;
+			}
+
+			$newArray = [];
+
+			foreach ($arr as $f) {
+				$newArray[$f->getName()] = $f->getDefaultValue();
+			}
+
+			return $newArray;
+		}
+
+		public static function simplify($data) {
+			if (!is_array($data)) {
+				return $data;
+			}
+
+			foreach ($data as $k => $v) {
+				if (is_array($v)) {
+					$data[$k] = $v['id'];
+				}
+			}
+
+			return $data;
+		}
+
 		/**
 		* Merges passed data into base data structure. If $addNew is true it will add new fields if not present.
 		*
@@ -76,7 +108,9 @@
 		* @return Array - Returns an array with $vals values copied into the base structure
 		*/
 		static public function createPayload($class, $vals = [], $addNew = false) {
-			return Util::mergeOptions($class::$base, $vals, $addNew);
+			$payload = Util::mergeOptions(self::fieldArrayToStringArray($class::getBase()), self::simplify($vals), $addNew);
+
+			return $payload;
 		}
 
 		/**
@@ -88,7 +122,7 @@
 		* @return Array - Returns an array with $vals values copied into the base structure
 		*/
 		static public function putPayload($class, $data) {
-			return Util::mergeOptions($class::$base, $data, true);
+			return Util::mergeOptions(self::fieldArrayToStringArray($class::getBase()), self::simplify($data), true);
 		}
 
 		/**
@@ -101,7 +135,25 @@
 		*/
 		static public function patchPayload($class, $pkVal, $data) {
 			$patch = Util::mergeOptions([], [$class::$pk => $pkVal], true);
-			return Util::mergeOptions($patch, $data, true);
+			return Util::mergeOptions($patch, self::simplify($data), true);
+		}
+
+		public static function uuid() {
+			return sprintf('%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
+			// 32 bits for "time_low"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff),
+			// 16 bits for "time_mid"
+			mt_rand(0, 0xffff),
+			// 16 bits for "time_hi_and_version",
+			// four most significant bits holds version number 4
+			mt_rand(0, 0x0fff) | 0x4000,
+			// 16 bits, 8 bits for "clk_seq_hi_res",
+			// 8 bits for "clk_seq_low",
+			// two most significant bits holds zero and one for variant DCE1.1
+			mt_rand(0, 0x3fff) | 0x8000,
+			// 48 bits for "node"
+			mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
+			);
 		}
   }
 ?>

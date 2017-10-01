@@ -6,7 +6,7 @@
     private $data;
     
     public function __construct($data = []) {
-			$this->data = Util::mergeOptions(self::$base, $data);
+			$this->data = Util::mergeOptions(Util::fieldArrayToStringArray(self::getBase()), $data);
 		}
 
 		public function get($field = null) {
@@ -15,7 +15,7 @@
 
 		public static function getBase() {
 			return [
-        new Field("id", false),
+        (new Field("id", false))->setDefaultValue(Util::uuid()),
         new Field("nombre", false, true),
         new Field("segundo_nombre", true, true),
         new Field("apellido", false, true),
@@ -32,11 +32,11 @@
         new Field("lugar", false),
         new Field("direccion", false, true),
         new Field("cambiar_contrasena"),
-        new Field("email_validado"),
-        new Field("createdAt"),
-        new Field("modifiedAt"),
+        (new Field("email_validado"))->setDefaultValue('false'),
+        (new Field("createdAt"))->setDefaultValue(QB::raw('now()')),
+        (new Field("modifiedAt"))->setDefaultValue(QB::raw('now()')),
 			];
-		}
+    }
 
 		public static function getSearcheableFields() {
 			$sfs = array();

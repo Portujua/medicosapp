@@ -41,5 +41,72 @@
         return Response::getBaseInternalError($ex->getMessage());
       }
     }
+
+    public function create($data) {
+      try {
+        $id = $this->repository->add($data);
+        $patient = new Patient($this->repository->find($id));
+
+        return $patient->get();
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
+    public function update($data) {
+      try {
+        $this->repository->update($data);
+        $patient = new Patient($this->repository->find($data[Patient::$pk]));
+
+        return $patient->get();
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
+    public function patch($data) {
+      try {
+        $this->repository->patch($data);
+        $patient = new Patient($this->repository->find($data[Patient::$pk]));
+
+        return $patient->get();
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
+    public function delete($data) {
+      try {
+        if (is_array($this->find($data[Patient::$pk]))) {
+          $this->repository->delete($data);
+
+          return "Record deleted successfully";
+        }
+        else {
+          throw new RecordNotFoundException();
+        }
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (RecordNotFoundException $ex) {
+        return Response::getBaseRecordNotFound($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
   }
 ?>

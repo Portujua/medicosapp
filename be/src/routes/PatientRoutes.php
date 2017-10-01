@@ -19,49 +19,49 @@ $app->group('/patients', function() use ($app){
 		echo $response->getResponse();
 	});
 
-	// /** Add new user */
-	// $app->post('/', function() use ($app) {
-	// 	$data = json_decode($app->request->getBody(), true);
+	/** Add new user */
+	$app->post('/', function() use ($app) {
+		$data = json_decode($app->request->getBody(), true);
 
-	// 	$response = new Response(
-	// 		$patient->add(User::createPayload($data))
-	// 	);
-	// 	$response->setSlim($app);
-	// 	echo $response->getResponse();
-	// });
+		$response = new Response(
+			PatientService::getInstance()->create(Util::createPayload(Patient::class, $data))
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
 
-	// /** Update user by username */
-	// $app->put('/', function() use ($app) {
-	// 	$data = json_decode($app->request->getBody(), true);
+	/** Update user by username */
+	$app->put('/', function() use ($app) {
+		$data = json_decode($app->request->getBody(), true);
 
-	// 	$response = new Response(
-	// 		$patient->update(User::putPayload($data))
-	// 	);
-	// 	$response->setSlim($app);
-	// 	echo $response->getResponse();
-	// });
+		$response = new Response(
+			PatientService::getInstance()->update(Util::putPayload(Patient::class, $data))
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
 
-	// /** Update user by username */
-	// $app->patch('/:id', function($id) use ($app) {
-	// 	$data = json_decode($app->request->getBody(), true);
+	/** Update user by username */
+	$app->patch('/:id', function($id) use ($app) {
+		$data = json_decode($app->request->getBody(), true);
 
-	// 	$response = new Response(
-	// 		$patient->patch(User::patchPayload($id, $data))
-	// 	);
-	// 	$response->setSlim($app);
-	// 	echo $response->getResponse();
-	// });
+		$response = new Response(
+			PatientService::getInstance()->patch(Util::patchPayload(Patient::class, $id, $data))
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
 
-	// /** Delete user by params */
-	// $app->delete('/', function() use ($app) {
-	// 	$data = json_decode($app->request->getBody(), true);
+	/** Delete user by params */
+	$app->delete('/', function() use ($app) {
+		$data = json_decode($app->request->getBody(), true);
 
-	// 	$response = new Response(
-	// 		$patient->delete($data)
-	// 	);
-	// 	$response->setSlim($app);
-	// 	echo $response->getResponse();
-	// });
+		$response = new Response(
+			PatientService::getInstance()->delete($data)
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
 });
 
 ?>

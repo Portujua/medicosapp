@@ -78,36 +78,38 @@
       }
     }
 
-    // public function add($data) {
-    //   if (!Session::isActive()) {
-    //     throw new MethodNotAllowedException();
-    //   }
+    public function add($data) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
 
-    //   return $this->table->insert($data);
-    // }
+      $this->table->insert($data);
 
-    // public function update($data) {
-    //   if (!Session::isActive()) {
-    //     throw new MethodNotAllowedException();
-    //   }
+      return $data['id'];
+    }
 
-    //   $this->table->where(User::$pk, $data[User::$pk])->update($data);
-    // }
+    public function update($data) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
 
-    // public function patch($data) {
-    //   if (!Session::isActive()) {
-    //     throw new MethodNotAllowedException();
-    //   }
+      $this->table->where(Patient::$pk, $data[Patient::$pk])->update($data);
+    }
 
-    //   $this->table->where(User::$pk, $data[User::$pk])->update($data);
-    // }
+    public function patch($data) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
 
-    // public function delete($data) {
-    //   if (!Session::isActive()) {
-    //     throw new MethodNotAllowedException();
-    //   }
+      $this->table->where(Patient::$pk, $data[Patient::$pk])->update($data);
+    }
 
-    //   $this->table->where(User::$pk, $data[User::$pk])->delete();
-    // }
+    public function delete($data) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      $this->table->where(Patient::$pk, $data[Patient::$pk])->delete();
+    }
   }
 ?>
