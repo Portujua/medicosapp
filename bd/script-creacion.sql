@@ -157,3 +157,8 @@ create table Token (
 	modifiedAt datetime on update current_timestamp,
 	primary key(id), unique(token)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+create table Session (
+	token varchar(128) not null,
+	createdAt datetime default current_timestamp
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;

@@ -91,12 +91,12 @@
       $this->table->where(Phone::$pk, $data[Phone::$pk])->update($data);
     }
 
-    public function delete($data) {
+    public function delete($id) {
       if (!Session::isActive()) {
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(Phone::$pk, $data[Phone::$pk])->delete();
+      $this->table->where(Phone::$pk, $id)->delete();
     }
   }
 ?>

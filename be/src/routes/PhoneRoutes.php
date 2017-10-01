@@ -22,7 +22,7 @@ $app->group('', function() use ($app) {
 	/** Add new user */
 	$app->post('/patients/:patientId/phones', function($patientId) use ($app) {
     $data = json_decode($app->request->getBody(), true);
-    $data["dueno"] = $patientId;
+		$data["dueno"] = $patientId;
 
 		$response = new Response(
 			PhoneService::getInstance()->create(Util::createPayload(Phone::class, $data))
@@ -54,11 +54,9 @@ $app->group('', function() use ($app) {
 	});
 
 	/** Delete user by params */
-	$app->delete('/phones', function() use ($app) {
-		$data = json_decode($app->request->getBody(), true);
-
+	$app->delete('/phones/:id', function($id) use ($app) {
 		$response = new Response(
-			PhoneService::getInstance()->delete($data)
+			PhoneService::getInstance()->delete($id)
 		);
 		$response->setSlim($app);
 		echo $response->getResponse();

@@ -86,7 +86,7 @@
 			return $newArray;
 		}
 
-		public static function simplify($data, $allowDeeperLevels = true) {
+		public static function simplify($data, $allowDeeperLevels = true, $onlyObjects = false) {
 			if (!is_array($data)) {
 				return $data;
 			}
@@ -98,6 +98,9 @@
 					$newData[$k] = $v['id'];
 				}
 				else if ($k == "id") {
+					$newData[$k] = $v;
+				}
+				else if ($onlyObjects) {
 					$newData[$k] = $v;
 				}
 			}
@@ -113,7 +116,7 @@
 		* @return Array - Returns an array with $vals values copied into the base structure
 		*/
 		static public function createPayload($class, $vals = [], $addNew = false) {
-			$payload = Util::mergeOptions(self::fieldArrayToStringArray($class::getBase()), self::simplify($vals), $addNew);
+			$payload = Util::mergeOptions(self::fieldArrayToStringArray($class::getBase()), self::simplify($vals, true, true), $addNew);
 
 			return $payload;
 		}
@@ -140,7 +143,7 @@
 		*/
 		static public function patchPayload($class, $pkVal, $data) {
 			$patch = Util::mergeOptions([], [$class::$pk => $pkVal], true);
-			return Util::mergeOptions($patch, self::simplify($data), true);
+			return Util::mergeOptions($patch, self::simplify($data, true, true), true);
 		}
 
 		public static function uuid() {

@@ -39,11 +39,15 @@ angular.module('app')
       return response;
     });
 
+    $httpProvider.defaults.useXDomain = true;
+    delete $httpProvider.defaults.headers.common['X-Requested-With'];
+
     $httpProvider.interceptors.push(['$q', '$location', '$injector', ($q, $location, $injector) => {
       return {
         request: (config) => {
           let Auth = $injector.get('Auth');
-          config.headers['X-Auth-Token'] = Auth.getToken();
+          config.headers['Content-Type'] = 'application/json';
+          config.headers['Auth-Token'] = Auth.getToken();
 
           return config || $q.when(config);
         },
@@ -62,7 +66,7 @@ angular.module('app')
             type = 'warning';
 
             if (_.isEmpty(Auth.getSession())) {
-              textContent = 'Wrong username/password combination.';
+              textContent = 'Usuario o contraseña incorrectos.';
             } else {
               textContent = 'Your session has expired. Re-enter your credentials.';
               // Despues de mostrar el mensaje redirijo
@@ -128,10 +132,10 @@ angular.module('app')
           // Message
           switch (type) {
             case 'warning':
-              toastr.warning(textContent, 'Warning');
+              toastr.warning(textContent, 'Información');
               break;
             default:
-              toastr.error(textContent, 'Message');
+              toastr.error(textContent, 'Mensaje');
           }
 
           console.error('Failed with', rejection.status);

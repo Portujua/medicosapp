@@ -1,6 +1,6 @@
 <?php
 
-$app->group('/phones/types', function() use ($app){
+$app->group('/phone-types', function() use ($app){
 	$authToken = $app->request->headers->get('Auth-Token');
 	Session::setLastToken($authToken);
 

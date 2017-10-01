@@ -13,17 +13,7 @@ class Auth {
   }
 
   _setUser(response) {
-    this._session = new this.Session({
-      username: response.data.username,
-      email: response.data.email,
-      name: response.data.name,
-      expirationTime: response.data.expirationTime,
-      resetPassword: response.data.resetPassword,
-      id: response.data.id,
-      role: response.data.role,
-      profilePicturePath: response.data.profilePicturePath,
-      token: response.headers('X-Auth-Token'),
-    });
+    this._session = new this.Session(!_.isUndefined(response.data.data) ? response.data.data : response.data);
 
     this.saveSession();
 

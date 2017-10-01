@@ -85,15 +85,15 @@
       }
     }
 
-    public function delete($data) {
+    public function delete($id) {
       try {
-        $exists = $this->find($data[Phone::$pk]);
+        $exists = $this->find($id);
 
         if ($exists instanceof Response) {
           return $exists;
         }
         else if (is_array($exists) || is_object($exists)) {
-          $this->repository->delete(Util::simplify($data, false));
+          $this->repository->delete($id);
 
           return "Record deleted successfully";
         }

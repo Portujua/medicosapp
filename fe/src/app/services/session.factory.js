@@ -2,19 +2,9 @@ angular.module('app')
   .factory('Session', (StorageService) => {
 
     class Session extends BaseFactory {
-      constructor({ id = null, username = null, token = null, name = null, role = null, email = null, profilePicturePath = null, expirationTime = 60, isActive = true }) {
+      constructor({ apellido = null, cambiar_contrasena = null, cedula = null, createdAt = null, modifiedAt = null, direccion = null, email = null, email_validado = null, estado = null, estado_civil = null, fecha_nacimiento = null, id = null, lugar = null, nombre = null, segundo_apellido = null, segundo_nombre = null, sexo = null, tipo_cedula = null, token = null, usuario = null }) {
         // Parent
-        super({ id, username, token, name, role, email, profilePicturePath, expirationTime, isActive });
-
-        // Sort permissions
-        // this.role.permission = _.sortBy(this.role.permission, (entity) => entity.entityName);
-
-        // _.each(this.role.permission, (value) => {
-        //   // Sort actions
-        //   value.sysAction = _.sortBy(value.sysAction, (action) => action.actionName);
-        //   // Uppercase to all entity
-        //   value.entityName = _.isEmpty(value.entityName) || !_.isString(value.entityName) ? null : value.entityName.toUpperCase();
-        // });
+        super({ apellido, cambiar_contrasena, cedula, createdAt, modifiedAt, direccion, email, email_validado, estado, estado_civil, fecha_nacimiento, id, lugar, nombre, segundo_apellido, segundo_nombre, sexo, tipo_cedula, token, usuario });
       }
 
       // Permissions
@@ -40,20 +30,6 @@ angular.module('app')
         }
 
         return false;
-      }
-
-      printPermissions() {
-        let table = _.reduce(this.role.permission, (memo, entity, key, list) => {
-          _.each(entity.sysAction, (action) => {
-            memo.push({
-              entity: entity.entityName,
-              action: action.actionName,
-            });
-          });
-          return memo;
-        }, []);
-
-        console.table(table);
       }
     };
 

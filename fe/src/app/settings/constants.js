@@ -10,7 +10,7 @@ angular.module('app')
     name: 'DDM',
     version: 'v0.0.1',
     day: 1,
-    month: 1,
+    month: 10,
     year: 2017,
     // NOTE: do not touch this
     get date() {

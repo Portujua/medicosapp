@@ -87,8 +87,13 @@
 
     public function delete($data) {
       try {
-        if (is_array($this->find($data[Patient::$pk]))) {
-          $this->repository->delete($data);
+        $exists = $this->find($data[Patient::$pk]);
+
+        if ($exists instanceof Response) {
+          return $exists;
+        }
+        else if (is_array($exists) || is_object($exists)) {
+          $this->repository->delete(Util::simplify($data, false));
 
           return "Record deleted successfully";
         }

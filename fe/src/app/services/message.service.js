@@ -10,15 +10,15 @@ class Message {
   }
 
   create(entity = 'element') {
-    this.show(`The <b>"${entity}"</b> was created successfully.`);
+    this.show(`<b>"${entity}"</b> ha sido creado con éxito.`);
   }
 
   update(entity = 'element') {
-    this.show(`The <b>"${entity}"</b> was updated successfully.`);
+    this.show(`<b>"${entity}"</b> ha sido actualizado con éxito.`);
   }
 
   delete(entity = 'element') {
-    this.show(`The <b>"${entity}"</b> was deleted successfully.`);
+    this.show(`<b>"${entity}"</b> ha sido eliminado con éxito.`);
   }
 
   toggle() {

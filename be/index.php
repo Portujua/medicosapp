@@ -61,7 +61,10 @@
 		require $inc;
 	}
 
-	$app->response()->header('Content-Type', $app->request->headers->get('Content-Type'));
+	//$app->response()->header('Content-Type', $app->request->headers->get('Content-Type'));
+	$app->response()->header('Content-Type', 'application/json');
 	$app->response()->header('Access-Control-Allow-Origin', '*');
+	$app->response()->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+	$app->response()->header('Access-Control-Allow-Headers', 'Auth-Token, Content-Type');
 
 	$app->run();

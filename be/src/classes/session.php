@@ -30,13 +30,16 @@
     */
     private static $adminToken = "AA99884a9af8100d53f352132cbad0206463fc7b76df3211ff1597a6a98f286625";
 
+    private static $table;
+
     /**
     * Starts the php session manager
     *
     * @return void
     */
     static private function start() {
-      @session_start();
+      //@session_start();
+      self::$table = QB::table("Session");
     }
 
     /**
@@ -47,29 +50,20 @@
     * @return Boolean - Returns true if exists and it's active, otherwise returns false
     */
     static public function isActive($token = null) {
-      Session::start();
+      self::start();      
 
       if ($token == null) {
-        $token = Session::$lastToken;
+        $token = self::$lastToken;
       }
 
-      if ($token == Session::$adminToken) {
+      if ($token == self::$adminToken) {
         return true;
       }
 
-      if (isset($_SESSION[$token])) {
-        // Refresh session time everytime a request is received
-        $timeNow = time();
-        $idleTime = $timeNow - $_SESSION[$token];
-        $_SESSION[$token] = $timeNow;
+      $sessionCheck = self::$table->where("token", $token)->get();
 
-        if ($idleTime > SESSION_TIMEOUT) {
-          Session::unset($token);
-          return false;
-        }
-        else {
-          return true;
-        }
+      if (count($sessionCheck) > 0) {
+        return true;
       }
 
       return false;
@@ -81,7 +75,7 @@
     * @return void
     */
     static public function setLastToken($token) {
-      Session::$lastToken = $token;
+      self::$lastToken = $token;
     }
 
     /**
@@ -90,16 +84,18 @@
     * @return void
     */
     static public function set($token = null) {
-      Session::start();
+      self::start();
 
       if ($token == null) {
-        $token = Session::$lastToken;
+        $token = self::$lastToken;
       }
       else {
-        Session::$lastToken = $token;
+        self::$lastToken = $token;
       }
 
-      $_SESSION[$token] = time();
+      self::$table->insert([
+        "token" => $token
+      ]);
     }
 
     /**
@@ -108,13 +104,13 @@
     * @return void
     */
     static public function unset($token = null) {
-      Session::start();
+      self::start();
 
       if ($token == null) {
-        $token = Session::$lastToken;
+        $token = self::$lastToken;
       }
 
-      unset($_SESSION[$token]);
+      self::$table->where("token", $token)->delete();
     }
 
     /**
