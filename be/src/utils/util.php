@@ -86,18 +86,23 @@
 			return $newArray;
 		}
 
-		public static function simplify($data) {
+		public static function simplify($data, $allowDeeperLevels = true) {
 			if (!is_array($data)) {
 				return $data;
 			}
 
+			$newData = [];
+
 			foreach ($data as $k => $v) {
-				if (is_array($v)) {
-					$data[$k] = $v['id'];
+				if (is_array($v) && $allowDeeperLevels) {
+					$newData[$k] = $v['id'];
+				}
+				else if ($k == "id") {
+					$newData[$k] = $v;
 				}
 			}
 
-			return $data;
+			return $newData;
 		}
 
 		/**

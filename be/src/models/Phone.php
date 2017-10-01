@@ -1,8 +1,8 @@
 <?php
 
-  class Location extends BaseEntity {
-    static public $tableName = "Lugar";
-    
+  class Phone extends BaseEntity {
+    static public $tableName = "Telefono";
+
     private $data;
     
     public function __construct($data = []) {
@@ -11,19 +11,16 @@
 
 		public function get($field = null) {
 			return $field == null ? $this->data : $this->data[$field];
-    }
-    
-    public static function getBase() {
-			return [
-        new Field("id", false),
-        new Field("nombre", false),
-        new Field("nombre_completo", false, true),
-        new Field("tipo", false),
-        new Field("lugar"),
-        new Field("createdAt"),
-        new Field("modifiedAt"),
-			];
 		}
+
+		public static function getBase() {
+			return [
+        (new Field("id", false))->setDefaultValue(Util::uuid()),
+        new Field("tlf", false, true),
+        new Field("tipo", false),
+        new Field("dueno"),
+			];
+    }
 
 		public static function getSearcheableFields() {
 			$sfs = array();

@@ -1,24 +1,24 @@
 <?php
-  class PatientService implements IPatientService {
+  class PhoneService implements IPhoneService {
     private static $instance = null;
 
     private $repository;
 
     private function __construct() {
-      $this->repository = new PatientRepository();
+      $this->repository = new PhoneRepository();
     }
 
     public static function getInstance() {
       if (self::$instance == null) {
-        self::$instance = new PatientService();
+        self::$instance = new PhoneService();
       }
 
       return self::$instance;
     }
 
-    public function list($pageable) {
+    public function list($pageable, $ownerId) {
       try {
-        return $this->repository->list($pageable);
+        return $this->repository->list($pageable, $ownerId);
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed();
@@ -43,9 +43,9 @@
     public function create($data) {
       try {
         $id = $this->repository->add($data);
-        $patient = new Patient($this->repository->find($id));
+        $phone = new Phone($this->repository->find($id));
 
-        return $patient->get();
+        return $phone->get();
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed($ex->getMessage());
@@ -58,9 +58,9 @@
     public function update($data) {
       try {
         $this->repository->update($data);
-        $patient = new Patient($this->repository->find($data[Patient::$pk]));
+        $phone = new Phone($this->repository->find($data[Phone::$pk]));
 
-        return $patient->get();
+        return $phone->get();
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed($ex->getMessage());
@@ -73,9 +73,9 @@
     public function patch($data) {
       try {
         $this->repository->patch($data);
-        $patient = new Patient($this->repository->find($data[Patient::$pk]));
+        $phone = new Phone($this->repository->find($data[Phone::$pk]));
 
-        return $patient->get();
+        return $phone->get();
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed($ex->getMessage());
@@ -87,8 +87,13 @@
 
     public function delete($data) {
       try {
-        if (is_array($this->find($data[Patient::$pk]))) {
-          $this->repository->delete($data);
+        $exists = $this->find($data[Phone::$pk]);
+
+        if ($exists instanceof Response) {
+          return $exists;
+        }
+        else if (is_array($exists) || is_object($exists)) {
+          $this->repository->delete(Util::simplify($data, false));
 
           return "Record deleted successfully";
         }

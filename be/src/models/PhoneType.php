@@ -1,7 +1,7 @@
 <?php
 
-  class Location extends BaseEntity {
-    static public $tableName = "Lugar";
+  class PhoneType extends BaseEntity {
+    static public $tableName = "Telefono_Tipo";
     
     private $data;
     
@@ -15,11 +15,8 @@
     
     public static function getBase() {
 			return [
-        new Field("id", false),
+        (new Field("id", false))->setDefaultValue(Util::uuid()),
         new Field("nombre", false),
-        new Field("nombre_completo", false, true),
-        new Field("tipo", false),
-        new Field("lugar"),
         new Field("createdAt"),
         new Field("modifiedAt"),
 			];

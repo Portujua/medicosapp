@@ -73,14 +73,11 @@ create table Telefono (
 	id varchar(36) not null,
 	tlf varchar(128) not null,
 	tipo varchar(36) not null,
-	medico varchar(36),
-	paciente varchar(36),
+	dueno varchar(36),
 	createdAt datetime default current_timestamp,
 	modifiedAt datetime on update current_timestamp,
 	primary key(id),
-	foreign key (tipo) references Telefono_Tipo(id),
-	foreign key (medico) references Medico(id),
-	foreign key (paciente) references Paciente(id)
+	foreign key (tipo) references Telefono_Tipo(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Log_Login (
