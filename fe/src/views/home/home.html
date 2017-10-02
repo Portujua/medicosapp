@@ -1,0 +1,144 @@
+<div class="dashboard">
+  <div class="margin-sm">
+    <div class="row">
+      <!-- Job board -->
+      <div class="col-12 col-lg-8 col-xl-8">
+        <div class="panel panel-default padding-sm">
+          <highchart id="chart1" config="$ctrl.chart"></highchart>
+
+          <div class="padding-sm" style="height: 35px;">
+            <small class="pull-left">
+              <b>Análisis de ventas: </b> se estima un 20% de incremento en las ventas del próximo año
+            </small>
+
+            <small class="pull-right">
+              <small>Actualizado el 01/10/2017</small>
+            </small>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12 col-lg-4 col-xl-4 summary">
+            <div class="panel panel-default summary-chip">
+              <div class="panel-heading">
+                Visitas
+                <small class="label label-primary pull-right">Hoy</small>
+              </div>
+
+              <div class="panel-body">
+                <p>{{ 293 | number:0 }}</p>
+                <div class="footer">
+                  <small>
+                    Nuevas
+                  </small>
+
+                  <small class="pull-right text-primary">
+                    23%<i class="fa fa-fw fa-level-up"></i>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4 col-xl-4 summary">
+            <div class="panel panel-default summary-chip">
+              <div class="panel-heading">
+                Consultas
+                <small class="label label-warning pull-right">Mensual</small>
+              </div>
+
+              <div class="panel-body">
+                <p>{{ 768 | number:0 }}</p>
+                <div class="footer">
+                  <small>
+                    Nuevas
+                  </small>
+
+                  <small class="pull-right text-warning">
+                    23%<i class="fa fa-fw fa-level-up"></i>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-12 col-lg-4 col-xl-4 summary">
+            <div class="panel panel-default summary-chip">
+              <div class="panel-heading">
+                Ingresos
+                <small class="label label-success pull-right">Anual</small>
+              </div>
+
+              <div class="panel-body">
+                <p>Bs. {{ 819547812 | number:0 }}</p>
+                <div class="footer">
+                  <small>
+                    Nuevas
+                  </small>
+
+                  <small class="pull-right text-success">
+                    19%<i class="fa fa-fw fa-level-up"></i>
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4 col-xl-4">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            Mensajes
+          </div>
+          <div class="panel-body">
+            <div class="message">
+              <img src="http://lorempixel.com/70/70/people/" class="img-circle pull-left">
+              <h4>
+                Pedro Pérez
+                <small class="pull-right text-muted">Hace 3h</small>
+              </h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur quae provident aliquam</p>
+            </div>
+
+            <div class="message">
+              <img src="http://lorempixel.com/70/70/sports/" class="img-circle pull-left">
+              <h4>
+                Carlos Mendoza
+                <small class="pull-right text-muted">Hace 19h</small>
+              </h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur quae provident aliquam</p>
+            </div>
+
+            <div class="message">
+              <img src="http://lorempixel.com/70/70/city/" class="img-circle pull-left">
+              <h4>
+                Daniela Lopez
+                <small class="pull-right text-muted">Hace 2d</small>
+              </h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur quae provident aliquam</p>
+            </div>
+
+            <div class="message">
+              <img src="http://lorempixel.com/70/70/fashion/" class="img-circle pull-left">
+              <h4>
+                Daniel Pereira
+                <small class="pull-right text-muted">Hace 2d</small>
+              </h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur quae provident aliquam</p>
+            </div>
+
+            <div class="message">
+              <img src="http://lorempixel.com/70/70/nightlife/" class="img-circle pull-left">
+              <h4>
+                Carina García
+                <small class="pull-right text-muted">Hace 2d</small>
+              </h4>
+              <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Consectetur quae provident aliquam</p>
+            </div>
+          </div>
+        </div>
+      </div>      
+    </div>
+  </div>
+</div>

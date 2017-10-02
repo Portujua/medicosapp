@@ -21,6 +21,7 @@
         new Field("descripcion", true, true),
         new Field("num_dias", false, true),
         new Field("cant_cons", false, true),
+        new Field("icono", false),
         (new Field("estado", false))->setDefaultValue(1),
         new Field("createdAt"),
         new Field("modifiedAt"),

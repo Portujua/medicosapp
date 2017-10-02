@@ -8,7 +8,7 @@
 
     public function list($pageable = null, $get = null) {
       // Base query
-      $query = $this->table;
+      $query = $this->table->orderBy("nombre", "asc");
 
       if ($pageable != null) {
         // Search for keyword if available

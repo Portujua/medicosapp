@@ -16,50 +16,28 @@ class NotificationsService {
     return this.$timeout(() => {
       let notifications = [
         new this.Notification({
-          user: { name: 'Dave Lister' },
-          mention: { name: '100015' },
+          user: { name: 'Lorean Daboin', img: 'http://lorempixel.com/50/50/people/1' },
+          mention: { name: 'Psicología' },
           type: 'comment',
           status: 'unread',
           content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime amet quod voluptate commodi laborum reiciendis repellat fuga architecto nihil quo, facilis possimus temporibus voluptatibus tempora. Optio blanditiis, quo quia tempora.'
         }),
         new this.Notification({
-          user: { name: '100012' },
-          type: 'sync',
-          status: 'unread',
-        }),
-        new this.Notification({
-          user: { name: 'Tour Hours: 12/May/2017 @ 00:00 to 06:00' },
+          user: { name: 'Tour Hours: 12/May/2017 @ 00:00 to 06:00', img: 'http://lorempixel.com/50/50/food/1' },
           mention: { name: '100015' },
           type: 'approvement',
           status: 'warning',
           content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime amet quod voluptate commodi laborum reiciendis repellat fuga architecto nihil quo, facilis possimus temporibus voluptatibus tempora. Optio blanditiis, quo quia tempora.'
         }),
         new this.Notification({
-          user: { name: '100012' },
+          user: { name: 'Daniel Pereira', img: 'http://lorempixel.com/50/50/sports/1' },
           type: 'fail',
           status: 'danger',
         }),
         new this.Notification({
-          user: { name: '100015' },
-          mention: { name: 'Standby' },
-          type: 'status',
-          status: 'unread',
-        }),
-        new this.Notification({
-          user: { name: '100015' },
-          type: 'sidetrack',
-          status: 'read',
-        }),
-        new this.Notification({
-          user: { name: 'Bazuka 3000' },
+          user: { name: 'Carina García', img: 'http://lorempixel.com/50/50/fashion/1' },
           type: 'attachment',
           status: 'read',
-        }),
-        new this.Notification({
-          user: { name: 'Dave Lister' },
-          type: 'mention',
-          status: 'unread',
-          content: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Maxime amet quod voluptate commodi laborum reiciendis repellat fuga architecto nihil quo, facilis possimus temporibus voluptatibus tempora. Optio blanditiis, quo quia tempora.'
         }),
       ];
 
