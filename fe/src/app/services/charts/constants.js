@@ -541,22 +541,22 @@ angular.module('app')
         name: 'Usabilidad',
         data: [{
           name: 'Firefox',
-          y: 31.5,
+          y: 398,
         }, {
           name: 'IE',
-          y: 11,
+          y: 149,
         }, {
           name: 'Chrome',
-          y: 45,
+          y: 628,
         }, {
           name: 'Safari',
-          y: 14.67,
+          y: 91,
         }, {
           name: 'Opera',
-          y: 0.91,
+          y: 17,
         }, {
-          name: 'Proprietary',
-          y: 0.5,
+          name: 'Otro',
+          y: 8,
         }],
       },
     ],
