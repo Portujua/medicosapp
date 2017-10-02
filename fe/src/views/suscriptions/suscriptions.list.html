@@ -33,7 +33,7 @@
           </td>
 
           <td title="'Descripción'" filter="{ descripcion: 'text' }" sortable="'descripcion'" class="text-center text-middle">
-            <span editable-text="item.descripcion" onbeforesave="$ctrl.save($data, 'descripcion', item)" e-required>{{ item.descripcion | available | s:'truncate':[50] }}</span>
+            <span editable-textarea="item.descripcion" onbeforesave="$ctrl.save($data, 'descripcion', item)" e-required>{{ item.descripcion | available | s:'truncate':[50] }}</span>
           </td>
 
           <td title="'Costo'" filter="{ costo: 'number' }" sortable="'costo'" class="text-center text-middle">
