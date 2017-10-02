@@ -1,14 +1,16 @@
 <?php
   class UserRepository {
-    private $table;
-
     public function __construct() {
-      $this->table = QB::table(User::$tableName);
+      
+    }
+
+    private function getTable() {
+      return QB::table(User::$tableName);
     }
 
     public function list($pageable = null, $get = null) {
       // Base query
-      $baseQuery = $this->table->where('usuario', '!=', 'root');
+      $baseQuery = $this->getTable()->where('usuario', '!=', 'root');
 
       if ($get == "patients") {
         $baseQuery->where("es_medico", 0);
@@ -60,11 +62,16 @@
       // Run the final query
       $result = Db::run($query);
 
-      // Add the locations
+      // Add the locations and the areas
       $locationRepository = new LocationRepository();
+      $areaRelationsRepository = new AreaRelationsRepository();
 
-      foreach ($result as $patient) {
-        $patient->lugar = $locationRepository->find($patient->lugar);
+      foreach ($result as $user) {
+        $user->lugar = $locationRepository->find($user->lugar);
+
+        if ($user->es_medico == '1') {
+          $user->areas = $areaRelationsRepository->findByUser($user->id);
+        }
       }
 
       return $pageable != null ? $pageable->getResponse($result) : $result;
@@ -79,7 +86,7 @@
     }
 
     public function find($id) {
-      $result = Db::run($this->table->where(User::$pk, '=', $id));
+      $result = Db::run($this->getTable()->where(User::$pk, '=', $id));
 
       if (count($result) > 0) {
         $user = $result[0];
@@ -101,7 +108,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->insert($data);
+      $this->getTable()->insert($data);
 
       return $data['id'];
     }
@@ -111,7 +118,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(User::$pk, $data[User::$pk])->update($data);
+      $this->getTable()->where(User::$pk, $data[User::$pk])->update($data);
     }
 
     public function patch($data) {
@@ -119,7 +126,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(User::$pk, $data[User::$pk])->update($data);
+      $this->getTable()->where(User::$pk, $data[User::$pk])->update($data);
     }
 
     public function delete($data) {
@@ -127,7 +134,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(User::$pk, $data[User::$pk])->delete();
+      $this->getTable()->where(User::$pk, $data[User::$pk])->delete();
     }
   }
 ?>

@@ -33,8 +33,11 @@
             {{ item.sexo | available }}
           </td>
 
-          <td title="'Áreas'" filter="{ areas: 'text' }" sortable="'areas'" class="text-center text-middle">
-            {{ item.areas | available }}
+          <td title="'Áreas'" class="text-center text-middle">
+            {{ item.areas ? '' : 'N/A' }}
+            <span ng-repeat="area in item.areas">
+              {{ area.nombre }}{{ $last ? '' : ', ' }}
+            </span>
           </td>
         </tr>
       </tbody>

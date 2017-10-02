@@ -1,14 +1,16 @@
 <?php
   class PhoneRepository {
-    private $table;
-
     public function __construct() {
-      $this->table = QB::table(Phone::$tableName);
+      
+    }
+
+    private function getTable() {
+      return QB::table(Phone::$tableName);
     }
 
     public function list($pageable = null, $ownerId) {
       // Base query
-      $query = $this->table->where('usuario', $ownerId);
+      $query = $this->getTable()->where('usuario', $ownerId);
 
       if ($pageable != null) {
         // Search for keyword if available
@@ -27,7 +29,7 @@
         $query->limit($pageable->getSize())->offset($pageable->getOffset());
 
         // Set the total elements for the pageable
-        $pageable->setTotalElements($this->table->count());
+        $pageable->setTotalElements($this->getTable()->count());
       }
 
       // Run the final query
@@ -45,7 +47,7 @@
 
     public function find($id) {
       $result = Db::run(
-        $this->table
+        $this->getTable()
           ->where(Phone::$pk, '=', $id)
         );
 
@@ -70,7 +72,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->insert($data);
+      $this->getTable()->insert($data);
 
       return $data['id'];
     }
@@ -80,7 +82,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(Phone::$pk, $data[Phone::$pk])->update($data);
+      $this->getTable()->where(Phone::$pk, $data[Phone::$pk])->update($data);
     }
 
     public function patch($data) {
@@ -88,7 +90,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(Phone::$pk, $data[Phone::$pk])->update($data);
+      $this->getTable()->where(Phone::$pk, $data[Phone::$pk])->update($data);
     }
 
     public function delete($id) {
@@ -96,7 +98,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(Phone::$pk, $id)->delete();
+      $this->getTable()->where(Phone::$pk, $id)->delete();
     }
   }
 ?>

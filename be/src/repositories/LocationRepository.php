@@ -1,14 +1,16 @@
 <?php
   class LocationRepository {
-    private $table;
-
     public function __construct() {
-      $this->table = QB::table(Location::$tableName);
+      
+    }
+    
+    private function getTable() {
+      return QB::table(Location::$tableName);
     }
 
     public function list($pageable = null) {
       // Base query
-      $query = $this->table;
+      $query = $this->getTable();
 
       if ($pageable != null) {
         // Search for keyword if available
@@ -27,7 +29,7 @@
         $query->limit($pageable->getSize())->offset($pageable->getOffset());
 
         // Set the total elements for the pageable
-        $pageable->setTotalElements($this->table->count());
+        $pageable->setTotalElements($this->getTable()->count());
       }
 
       // Run the final query
@@ -37,7 +39,7 @@
     }
 
     public function find($id) {
-      $result = Db::run($this->table->where(Location::$pk, '=', $id));
+      $result = Db::run($this->getTable()->where(Location::$pk, '=', $id));
 
       if (count($result) > 0) {
         return $result[0];

@@ -1,9 +1,11 @@
 <?php
   class AuthRepository {
-    private $table;
-
     public function __construct() {
-      $this->table = QB::table(User::$tableName);
+      
+    }
+
+    private function getTable() {
+      return QB::table(User::$tableName);
     }
       
     /**
@@ -13,7 +15,7 @@
     * @return JSONObject - Data result or error message, both as JSON format
     */
     public function login($data) {
-      $result = $this->table
+      $result = $this->getTable()
           ->select('id')
           ->where('usuario', '=', $data['username'])
           ->where('contrasena', '=', $data['password'])

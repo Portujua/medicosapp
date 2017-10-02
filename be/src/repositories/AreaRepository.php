@@ -1,14 +1,16 @@
 <?php
   class AreaRepository {
-    private $table;
-
     public function __construct() {
-      $this->table = QB::table(Area::$tableName);
+      
+    }
+
+    private function getTable() {
+      return QB::table(Area::$tableName);
     }
 
     public function list($pageable = null, $get = null) {
       // Base query
-      $query = $this->table->orderBy("nombre", "asc");
+      $query = $this->getTable()->orderBy("nombre", "asc");
 
       if ($pageable != null) {
         // Search for keyword if available
@@ -27,7 +29,7 @@
         $query->limit($pageable->getSize())->offset($pageable->getOffset());
 
         // Set the total elements for the pageable
-        $pageable->setTotalElements($this->table->count());
+        $pageable->setTotalElements($this->getTable()->count());
       }
 
       // Run the final query
@@ -37,7 +39,7 @@
     }
 
     public function find($id) {
-      $result = Db::run($this->table->where(Area::$pk, '=', $id));
+      $result = Db::run($this->getTable()->where(Area::$pk, '=', $id));
 
       if (count($result) > 0) {
         $area = $result[0];
@@ -54,7 +56,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->insert($data);
+      $this->getTable()->insert($data);
 
       return $data['id'];
     }
@@ -64,7 +66,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(Area::$pk, $data[Area::$pk])->update($data);
+      $this->getTable()->where(Area::$pk, $data[Area::$pk])->update($data);
     }
 
     public function patch($data) {
@@ -72,7 +74,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(Area::$pk, $data[Area::$pk])->update($data);
+      $this->getTable()->where(Area::$pk, $data[Area::$pk])->update($data);
     }
 
     public function delete($id) {
@@ -80,7 +82,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(Area::$pk, $id)->delete();
+      $this->getTable()->where(Area::$pk, $id)->delete();
     }
   }
 ?>

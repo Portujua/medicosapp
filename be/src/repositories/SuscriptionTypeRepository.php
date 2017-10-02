@@ -1,14 +1,16 @@
 <?php
   class SuscriptionTypeRepository {
-    private $table;
-
     public function __construct() {
-      $this->table = QB::table(SuscriptionType::$tableName);
+      
+    }
+
+    private function getTable() {
+      return QB::table(SuscriptionType::$tableName);
     }
 
     public function list($pageable = null) {
       // Base query
-      $query = $this->table->orderBy("costo", "asc");
+      $query = $this->getTable()->orderBy("costo", "asc");
 
       if ($pageable != null) {
         // Search for keyword if available
@@ -27,7 +29,7 @@
         $query->limit($pageable->getSize())->offset($pageable->getOffset());
 
         // Set the total elements for the pageable
-        $pageable->setTotalElements($this->table->count());
+        $pageable->setTotalElements($this->getTable()->count());
       }
 
       // Run the final query
@@ -37,7 +39,7 @@
     }
 
     public function find($id) {
-      $result = Db::run($this->table->where(SuscriptionType::$pk, '=', $id));
+      $result = Db::run($this->getTable()->where(SuscriptionType::$pk, '=', $id));
 
       if (count($result) > 0) {
         return $result[0];
@@ -52,7 +54,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->insert($data);
+      $this->getTable()->insert($data);
 
       return $data['id'];
     }
@@ -62,7 +64,7 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->table->where(SuscriptionType::$pk, $data[SuscriptionType::$pk])->update($data);
+      $this->getTable()->where(SuscriptionType::$pk, $data[SuscriptionType::$pk])->update($data);
     }
   }
 ?>

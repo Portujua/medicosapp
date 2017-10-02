@@ -1,14 +1,16 @@
 <?php
   class ChatRepository {
-    private $table;
-
     public function __construct() {
-      $this->table = QB::table(User::$tableName);
+      
+    }
+
+    private function getTable() {
+      return QB::table(User::$tableName);
     }
 
     public function list($pageable = null) {
       // Base query
-      $query = $this->table->where('usuario', '!=', 'root');
+      $query = $this->getTable()->where('usuario', '!=', 'root');
 
       if ($pageable != null) {
         // Search for keyword if available
@@ -27,7 +29,7 @@
         $query->limit($pageable->getSize())->offset($pageable->getOffset());
 
         // Set the total elements for the pageable
-        $pageable->setTotalElements($this->table->count());
+        $pageable->setTotalElements($this->getTable()->count());
       }
 
       // Run the final query
