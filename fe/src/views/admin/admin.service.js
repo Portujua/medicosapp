@@ -16,9 +16,9 @@
         icon: 'fa-cogs',
         tab: {
           component: 'adminView',
-          color: 'color-10'
+          color: 'color-7'
         },
-        color: 'color-10',
+        color: 'color-7',
       };
     }
   };
