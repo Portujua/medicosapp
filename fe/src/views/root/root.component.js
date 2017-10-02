@@ -28,7 +28,11 @@ class RootController {
     angular.module('app')['_invokeQueue'].forEach((value) => {
       if (value[1] === 'service') {
         if (_.isFunction(angular.element(document.body).injector().get(value[2][0]).getSidebarButton)) {
-          this.SidebarService.add(angular.element(document.body).injector().get(value[2][0]).getSidebarButton());
+          let btn = angular.element(document.body).injector().get(value[2][0]).getSidebarButton();
+          
+          if (!_.isNull(btn)) {
+            this.SidebarService.add(btn);
+          }
         }
 
         if (_.isFunction(angular.element(document.body).injector().get(value[2][0]).getNavbarButton)) {

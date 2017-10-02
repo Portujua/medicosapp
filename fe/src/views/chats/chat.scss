@@ -3,8 +3,8 @@
     font-size: 10px;
   }
 
-  @include table-row-variant('paciente', $color-6);
-  @include table-row-variant('medico', $color-4);
+  @include table-row-variant('paciente', $color-1);
+  @include table-row-variant('medico', $color-6);
   td.medico,
   td.paciente {
     color: #fff;

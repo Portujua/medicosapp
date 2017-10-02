@@ -131,7 +131,7 @@ class PromptController {
       r.length++;
     }
 
-    r = r.length > 1 ? r : r[0];
+    r = r.length > 0 ? r : r[0];
 
     if (_.isObject(r)) {
       delete r.length;

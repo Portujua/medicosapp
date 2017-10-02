@@ -1,0 +1,46 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <!-- <div class="actions-bar hug">
+  </div> -->
+  <!-- /Main actions -->
+
+  <div class="padding-sm">
+    <div class="suscription row panel padding-sm" ng-repeat="item in $ctrl.suscriptions">
+        <div class="col-md-2 text-center icon">
+          <i class="fa fa-fw {{ item.icono }}"></i>
+        </div>
+        
+        <div class="col-md-10 content">
+          <div class="header bold">
+            {{ item.nombre }} <small class="text-muted">{{ item.costo | currency:'Bs. ' }}</small>
+          </div>
+          
+          <div class="body">
+            <div class="description">
+                <span class="bold">Descripción: </span>
+                {{ item.descripcion }}
+            </div>
+
+            <div class="additional-info">
+              <div class="chip">
+                <p><i class="fa fa-fw fa-calendar"></i></p>
+                <p>{{ item.cant_cons | number }} días</p>
+              </div>
+
+              <div class="chip">
+                <p><i class="fa fa-fw fa-user-md"></i></p>
+                <p>{{ item.cant_cons | number }} consultas</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer">
+            <button class="btn btn-primary btn-sm">
+              <i class="fa fa-fw fa-shopping-cart"></i>
+              Comprar
+            </button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

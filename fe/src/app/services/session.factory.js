@@ -7,6 +7,10 @@ angular.module('app')
         super({ apellido, cambiar_contrasena, cedula, createdAt, modifiedAt, direccion, email, email_validado, estado, estado_civil, fecha_nacimiento, id, lugar, nombre, segundo_apellido, segundo_nombre, sexo, tipo_cedula, token, usuario });
       }
 
+      isAdmin() {
+        return this.token[0] === 'A' && this.token[1] === 'A' && this.token.length === 66 ? true : false;
+      }
+
       // Permissions
       can(entityName = null, action = null) {        
         if (_.isEmpty(entityName) || !_.isString(entityName)) {

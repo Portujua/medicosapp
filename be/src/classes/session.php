@@ -28,7 +28,7 @@
     *
     * @var String
     */
-    private static $adminToken = "AA99884a9af8100d53f352132cbad0206463fc7b76df3211ff1597a6a98f286625";
+    public static $adminToken = "AA99884a9af8100d53f352132cbad0206463fc7b76df3211ff1597a6a98f286625";
 
     private static $table;
 

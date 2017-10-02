@@ -1,0 +1,91 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Crear suscripción</h3>
+  </div>
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" >
+
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Nombre</label>
+      <div class="col-6">
+        <input type="text" name="nombre" id="nombre" class="form-control" ng-model="$ctrl.data.nombre" required placeholder="" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.nombre.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Descripción</label>
+      <div class="col-6">
+        <textarea name="descripcion" id="descripcion" class="form-control" ng-model="$ctrl.data.descripcion" placeholder=""></textarea>
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Costo (Bs.)</label>
+      <div class="col-6">
+        <input type="number" name="costo" id="costo" class="form-control" ng-model="$ctrl.data.costo" required placeholder="" min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.costo.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Número de días</label>
+      <div class="col-6">
+        <input type="number" name="num_dias" id="num_dias" class="form-control" ng-model="$ctrl.data.num_dias" required placeholder="" min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.num_dias.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Cantidad de consultas</label>
+      <div class="col-6">
+        <input type="number" name="cant_cons" id="cant_cons" class="form-control" ng-model="$ctrl.data.cant_cons" required placeholder="" min="0">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.cant_cons.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.name.$invalid && form.name.$touched, 'has-success': form.name.$valid && form.name.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Icono</label>
+      <div class="col-6">
+        <div class="btn-group">
+          <label class="btn btn-primary" name="icono" ng-model="$ctrl.data.icono" uib-btn-radio="icon" uncheckable required ng-repeat="icon in $ctrl.availableIcons">
+            <i class="fa fa-fw fa-{{ icon }}"></i>
+          </label>
+        </div>
+        
+        <!-- Errors -->
+        <br>
+        <p class="help-block" ng-messages="form.icono.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+        </p>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">Cancelar</button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.save()" ng-disabled="form.$invalid || $ctrl.isSaving"><i class="fa fa-fw fa-save"></i> Crear</button>
+  </div>
+</form>  

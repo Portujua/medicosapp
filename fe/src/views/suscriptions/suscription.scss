@@ -1,0 +1,52 @@
+.suscription {
+  min-height: 200px;
+
+  .icon {
+    font-size: 120px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+
+    .header {
+      font-size: 18px;
+    }
+  
+    .body {
+      margin-bottom: auto;
+
+      .additional-info {
+        padding-top: 15px;
+
+        .chip {
+          width: 100px;
+          border: 2px solid #ddd;
+          border-radius: 10px;
+          margin-right: 10px;
+          margin-bottom: 10px;
+          float: left;
+          text-align: center;
+          padding: 8px;
+
+          i {
+            font-size: 34px;
+          }
+
+          p {
+            font-size: 11px;
+
+            &:last-of-type {
+              margin-bottom: 0px;
+            }
+          }
+        }
+      }
+    }
+  }
+}

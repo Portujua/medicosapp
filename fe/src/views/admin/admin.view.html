@@ -1,0 +1,118 @@
+<div class="dashboard">
+    <!-- Main actions -->
+    <div class="actions-bar">
+    </div>
+    <!-- /Main actions -->
+  
+    <div class="margin-sm">
+      <div class="row">
+        <collapsable-panel></collapsable-panel>
+  
+        <!-- Job board -->
+        <div class="col-12 col-lg-4 col-xl-3">
+          <div id="job-view" class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+            <!-- Wizard -->
+            <!-- <div class="container-fluid">
+              <div class="wizard small row">
+                <a ng-repeat="s in $ctrl.statusList" class="col {{ s.color }} {{ $ctrl.getWizardClass(s.name) }}" ng-click="$ctrl.setStatus(s.name)" ng-disabled="$ctrl.data.jobStatus == s.name">
+                  <i class="fa fa-fw fa-check" ng-if="$ctrl.checkStates(s.name)"></i> {{ s.name | s:'humanize' }}
+                </a>
+              </div>
+            </div> -->
+            <!-- /Wizard -->
+  
+            <div class="bordered-bottom">
+              <div class="row no-gutters">
+                <div class="col-12">
+                  <div class="padding" uib-carousel active="0" interval="8000">
+                    <div uib-slide index="0">
+                      <sold-suscriptions></sold-suscriptions>
+                    </div>
+                    <div uib-slide index="1">
+                      <month-consultations></month-consultations>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <!-- Body -->
+            <div class="panel-body">
+              <div class="dashboard-body">
+                <div class="dashboard-group">
+                  <div class="col-12 text-left dashboard-label">Información del último mes</div>
+                </div>
+
+                <div class="dashboard-group">
+                  <div class="col-6 dashboard-label">Usuarios nuevos</div>
+                  <div class="col-6 dashboard-input">
+                    <span>
+                      19
+                    </span>
+                  </div>
+                </div>
+
+                <div class="dashboard-group">
+                  <div class="col-6 dashboard-label">Suscripciones vendidas</div>
+                  <div class="col-6 dashboard-input">
+                    <span>
+                      15
+                    </span>
+                  </div>
+                </div>
+
+                <div class="dashboard-group">
+                  <div class="col-6 dashboard-label">Consultas hechas</div>
+                  <div class="col-6 dashboard-input">
+                    <span>
+                      37
+                    </span>
+                  </div>
+                </div>
+
+                <div class="dashboard-group">
+                  <div class="col-6 dashboard-label">Total Bs.</div>
+                  <div class="col-6 dashboard-input">
+                    <span>
+                      {{ 1930319 | currency:'' }}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /Body -->
+          </div>
+        </div>
+        <!-- /Job board -->
+  
+        <!-- Tabs -->
+        <div class="col">
+          <div class="frame expand hug" cg-busy="$ctrl.loadingPromise">
+            <scrollable-tabset auto-recalculate="true">
+              <uib-tabset justified="true">
+                <!-- Daily -->
+                <uib-tab index="2" heading="Áreas">
+                  <area-list></area-list>
+                </uib-tab>
+                <!-- /Daily -->
+  
+                <!-- Rig -->
+                <uib-tab index="0" heading="Médicos">
+                  Medicos
+                </uib-tab>
+                <!-- /Rig -->
+  
+                <!-- Well and wellbores -->
+                <uib-tab index="1" heading="Suscripciones">
+                  <suscription-list></suscription-list>
+                </uib-tab>
+                <!-- /Well and wellbores -->
+              </uib-tabset>
+            </scrollable-tabset>
+  
+          </div>
+        </div>
+        <!-- /Tabs -->
+      </div>
+    </div>
+  </div>  

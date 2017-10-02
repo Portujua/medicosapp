@@ -1,0 +1,90 @@
+#jobsNew {
+  .related-elements {
+    // min-height: 80px;
+    margin-bottom: 20px;
+    .related-details {
+      padding: 15px;
+      background-color: #f9f9f9;
+    }
+  }
+}
+
+#job-view {
+  .carousel-control {
+    display: none;
+  }
+
+  .carousel-indicators {
+    position: inherit;
+    width: inherit;
+    margin: inherit;
+    bottom: inherit;
+    left: inherit;
+    li {
+      margin: 0 5px;
+      border-color: #888;
+      &.active {
+        width: 10px;
+        height: 10px;
+        background-color: #aaa;
+        border-color: #aaa;
+      }
+    }
+  }
+}
+
+#jobs-list {
+  @include table-row-variant('status-active', $brand-success);
+  @include table-row-variant('status-upcoming', $color-6);
+  @include table-row-variant('status-finished', $color-1);
+  @include table-row-variant('status-setting-up', $color-4);
+  @include table-row-variant('status-canceled', #333);
+  td.status-active,
+  td.status-upcoming,
+  td.status-finished,
+  td.status-setting-up,
+  td.status-canceled {
+    color: #fff;
+  }
+  .status-active { color: $brand-success; }
+  .status-upcoming { color: $color-6; }
+  .status-finished { color: $color-1; }
+  .status-setting-up { color: $color-4; }
+  .status-canceled { color: #333; }
+}
+
+#field-module {
+  overflow-x: hidden;
+  min-height: 500px;
+}
+
+#job-entry {
+  .carousel-control {
+    display: none;
+  }
+  .carousel-indicators {
+    position: inherit;
+    width: inherit;
+    margin: inherit;
+    bottom: inherit;
+    left: inherit;
+    li {
+      margin: 0 5px;
+      border-color: #888;
+      &.active {
+        width: 10px;
+        height: 10px;
+        background-color: #aaa;
+        border-color: #aaa;
+      }
+    }
+  }
+}
+
+
+/* IE11 border bug fixes... hooray! */
+
+_:-ms-fullscreen,
+ :root .wizard.small.left-arrow a:before {
+  left: -14px;
+}

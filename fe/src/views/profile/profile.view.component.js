@@ -1,7 +1,7 @@
 (() => {
   
   class ProfileViewController {
-    constructor(Auth, User, ProfileService, LocationService, PromptService, PhoneService, UserService) {
+    constructor(Auth, User, ProfileService, LocationService, PromptService, PhoneService, UserService, TabManagerService) {
       this.data = new User(Auth.getSession());
       this.Auth = Auth;
       this.User = User;
@@ -10,6 +10,7 @@
       this.PromptService = PromptService;
       this.PhoneService = PhoneService;
       this.UserService = UserService;
+      this.TabManagerService = TabManagerService;
     }
 
     $onInit() {
@@ -86,6 +87,10 @@
       this.PhoneService.delete(id).then((response) => {
         this.load();
       })
+    }
+
+    openSuscriptions() {
+      this.TabManagerService.add({ title: 'Suscripciones', component: 'suscriptionBList', color: 'color-1' })
     }
   }
   

@@ -1,0 +1,58 @@
+
+<!-- Main actions -->
+<div class="actions-bar hug">
+  <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()">
+      <i class="fa fa-fw fa-plus"></i> Crear Suscripción
+    </button>
+  
+    <div class="pull-right">
+      <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filtros</button>
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Refrescar</button>
+    </div>
+</div>
+<!-- /Main actions -->
+
+<div id="areas-list" class="table-frame" cg-busy="$ctrl.loadingPromise">
+  <div class="table-responsive">
+    <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+      <colgroup>
+        <col>
+        <col width="20%">
+        <col width="50%">
+        <col width="10%">
+        <col width="10%">
+        <col width="10%">
+        <col>
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $data" >
+          <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+          <td title="'Nombre'" filter="{ nombre: 'text' }" sortable="'nombre'" class="text-center text-middle">
+            <span editable-text="item.nombre" onbeforesave="$ctrl.save($data, 'nombre', item)" e-required>{{ item.nombre | available }}</span>
+          </td>
+
+          <td title="'Descripción'" filter="{ descripcion: 'text' }" sortable="'descripcion'" class="text-center text-middle">
+            <span editable-text="item.descripcion" onbeforesave="$ctrl.save($data, 'descripcion', item)" e-required>{{ item.descripcion | available | s:'truncate':[50] }}</span>
+          </td>
+
+          <td title="'Costo'" filter="{ costo: 'number' }" sortable="'costo'" class="text-center text-middle">
+            <span editable-number="item.costo" onbeforesave="$ctrl.save($data, 'costo', item)" e-required>{{ item.costo | available }}</span>
+          </td>
+
+          <td title="'# días'" filter="{ num_dias: 'number' }" sortable="'num_dias'" class="text-center text-middle">
+            <span editable-number="item.num_dias" onbeforesave="$ctrl.save($data, 'num_dias', item)" e-required>{{ item.num_dias | available }}</span>
+          </td>
+
+          <td title="'# consultas'" filter="{ cant_cons: 'number' }" sortable="'cant_cons'" class="text-center text-middle">
+            <span editable-number="item.cant_cons" onbeforesave="$ctrl.save($data, 'cant_cons', item)" e-required>{{ item.cant_cons | available }}</span>
+          </td>
+
+          <td title="'Estado'" filter="{ estado: 'text' }" sortable="'estado'" class="text-center text-middle">
+            <toggle ng-model="item.estado" ng-change="$ctrl.toggleActivation(item)" size="btn-xs" on="Activa" off="Desactivada"></toggle>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
