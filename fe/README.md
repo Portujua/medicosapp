@@ -1,12 +1,3 @@
-Scaffolar 2
-===========
-
-The AngularJS' scaffolding tool for single page websites.
-
-This project is an application skeleton for a typical AngularJS web app. You can use it to quickly bootstrap your angular webapp projects and dev environment for these projects.
-
-Scaffolar contains a sample AngularJS application and is preconfigured to install the Angular framework and a bunch of development and testing tools for instant web development gratification.
-
 ## Getting Started
 
 ### Prerequisites
@@ -26,9 +17,4 @@ Scaffolar contains a sample AngularJS application and is preconfigured to instal
 
 ## Build & development
 
-Run `grunt build` for building or `grunt build:serve` for building and preview.
-
-**Christiam Mena**
-
-- <http://twitter.com/xtiam57>
-- <http://github.com/xtiam57>
+Run `gulp build` for building or `gulp build:serve` for building and preview.
