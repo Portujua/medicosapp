@@ -35,6 +35,10 @@
       /* Set the same as on vendors/ui-bootstrpa-tpls.js */
       width: calc(100% - 20px);
 
+      .modal-title {
+        cursor: pointer;
+      }
+
       .modal-body {
         max-height: calc(100vh - 200px);
       }
