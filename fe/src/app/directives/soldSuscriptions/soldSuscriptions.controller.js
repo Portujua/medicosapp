@@ -76,7 +76,7 @@ class SoldSuscriptionsController {
 
     for (let i = 0; i < 7; i++) {      
       last = this.TimeUtil.addDuration(last, 1, 'day');
-      let n = Math.floor(Math.random() * 30 + 20);
+      let n = Math.floor(Math.random() * 30000 + 20000);
 
       this.labels.push(this.$filter('date')(last, 'dd/MMM'));
       this.total += n;
