@@ -35,6 +35,7 @@
 
           <td title="'Áreas'" class="text-center text-middle">
             {{ item.areas ? '' : 'N/A' }}
+            <span ng-if="item.areas.length == 0">Sin áreas asignadas</span>
             <span ng-repeat="area in item.areas">
               {{ area.nombre }}{{ $last ? '' : ', ' }}
             </span>

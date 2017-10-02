@@ -24,7 +24,7 @@
         return $areas;
       }
       else {
-        throw new Exception("There's no record with id " . $id);
+        return [];
       }
     }
   }
