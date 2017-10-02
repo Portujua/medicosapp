@@ -6,6 +6,8 @@ class HomeController {
     this.ChartsService = ChartsService;
 
     this.chart = this.ChartsService.getAreas()
+    this.chart2 = this.ChartsService.getPie()
+    this.chart3 = this.ChartsService.getInverseLines()
   }
 
   $onInit() {

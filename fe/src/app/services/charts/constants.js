@@ -47,8 +47,12 @@ angular.module('app')
     }],
   })
   .constant('INVERSE_LINES_CHART', {
+    title: {
+      display: true,
+      text: 'Reducción de costos',
+    },
     xAxis: {
-      categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+      categories: ['Ene', 'Feb', 'Mar', 'Abr', 'May', 'Jun', 'Jul', 'Ago', 'Sep', 'Oct', 'Nov', 'Dic'],
       title: {
         text: null,
       },
@@ -60,7 +64,7 @@ angular.module('app')
       tickAmount: 5,
       tickInterval: null,
       title: {
-        text: 'Temperature (°C)',
+        text: 'Bs.',
       },
     },
     plotOptions: {
@@ -81,19 +85,19 @@ angular.module('app')
       }
     },
     series: [{
-      name: 'Installation',
+      name: 'Instalaciones',
       data: [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
     }, {
-      name: 'Manufacturing',
+      name: 'Materiales',
       data: [24916, 24064, 29742, 29851, 32490, 30282, 38121, 40434]
     }, {
-      name: 'Sales & Distribution',
+      name: 'Papelería',
       data: [11744, 17722, 16005, 19771, 20185, 24377, 32147, 39387]
     }, {
-      name: 'Project Development',
+      name: 'Personal',
       data: [null, null, 7988, 12169, 15112, 22452, 34400, 34227]
     }, {
-      name: 'Other',
+      name: 'Otros',
       data: [12908, 5948, 8105, 11248, 8989, 11816, 18274, 18111]
     }],
   })
@@ -486,6 +490,10 @@ angular.module('app')
     ],
   })
   .constant('PIE_CHART', {
+    title: {
+      display: true,
+      text: 'Registro de acceso',
+    },
     chart: {
       type: 'pie',
     },
@@ -530,25 +538,25 @@ angular.module('app')
     },
     series: [
       {
-        name: 'Downloads',
+        name: 'Usabilidad',
         data: [{
           name: 'Firefox',
-          y: 20,
+          y: 31.5,
         }, {
           name: 'IE',
-          y: 20,
+          y: 11,
         }, {
           name: 'Chrome',
-          y: 30,
+          y: 45,
         }, {
           name: 'Safari',
           y: 14.67,
         }, {
           name: 'Opera',
-          y: 13.91,
+          y: 0.91,
         }, {
           name: 'Proprietary',
-          y: 5,
+          y: 0.5,
         }],
       },
     ],
