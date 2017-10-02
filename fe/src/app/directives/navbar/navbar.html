@@ -90,7 +90,7 @@
               <img class="profile-pic circle" ng-src="{{ session.profilePicturePath | defaultImage }}" alt="">
             </a>
             <a href="" class="navbar-link bold">{{ session.usuario | lowercase }}</a>
-            <small>({{ session.es_medico ? 'Médico' : 'Paciente' }})</small>
+            <small>({{ session.isAdmin() ? 'Administrador' : (session.es_medico ? 'Médico' : 'Paciente') }})</small>
           </span>
         </li>
         <!-- /Profile -->
