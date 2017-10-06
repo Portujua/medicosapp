@@ -47,9 +47,9 @@ angular.module('app')
      */
     testing: {
       version  : '',
-      port     : '80',
+      port     : '',
       protocol : 'http',
-      host     : 'api.ddm.wattotech.com',
+      host     : 'mgsc.com.ve/medicos/be',
       prefix   : '',
     },
 

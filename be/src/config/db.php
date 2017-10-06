@@ -20,17 +20,17 @@
 	* @method Void rollback()
 	*/
 	class Db {
-		private static $config = array(
-			'driver'    => 'mysql',
-			'host'      => 'localhost',
-			'database'  => 'medicos',
-			'username'  => 'root',
-			'password'  => '21115476',
-			'charset'   => 'utf8',
-		);
-
 		public static function getConfiguration() {
-			return self::$config;
+			return [
+				'driver'    => 'mysql',
+				'host'      => 'localhost',
+				'database'  => 'medicos',
+				'username'  => 'root',
+				// 'database'  => 'mgsccomv_medicos',
+				// 'username'  => 'mgsccomv_eduardo',
+				'password'  => '21115476',
+				'charset'   => 'utf8',
+			];
 		}
 
 		/**
