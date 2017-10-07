@@ -6,9 +6,9 @@
       <uib-tab-heading>
         <div class="row no-gutters">
           <div class="col-10" title="{{ tab.title }}">
-            <i ng-if="tab.icon" class="fa fa-fw" ng-class="tab.icon"></i>
+            <i ng-if="tab.icon" class="fa fa-fw {{ tab.color }}" ng-class="tab.icon"></i>
             <span class="tab-title">
-              <i class="fa fa-fw fa-square" ng-class="tab.color" ng-if="tab.color"></i>
+              <!-- <i class="fa fa-fw fa-square" ng-class="tab.color" ng-if="tab.color"></i> -->
               {{ tab.title }}
             </span>
           </div>

@@ -16,7 +16,8 @@
         icon: 'fa-cogs',
         tab: {
           component: 'adminView',
-          color: 'color-7'
+          color: 'color-7',
+          icon: 'fa-cogs',
         },
         color: 'color-7',
       };

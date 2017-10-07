@@ -12,7 +12,8 @@
         icon: 'fa-user',
         tab: {
           component: 'profileView',
-          color: 'color-4'
+          color: 'color-4',
+          icon: 'fa-user'
         },
         color: 'color-4',
       };

@@ -5,7 +5,7 @@ class SidebarService {
     this._options = [];
     this.SidebarOption = SidebarOption;
     this.$timeout = $timeout;
-    this.isOpen = false;
+    this.isOpen = true;
   }
 
   toggle() {

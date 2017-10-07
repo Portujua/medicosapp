@@ -15,7 +15,8 @@
         icon: 'fa-stethoscope',
         tab: {
           component: 'chatList',
-          color: 'color-2'
+          color: 'color-2',
+          icon: 'fa-stethoscope',
         },
         color: 'color-2',
       };

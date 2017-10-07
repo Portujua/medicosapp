@@ -49,7 +49,8 @@
         icon: 'fa-credit-card',
         tab: {
           component: 'suscriptionBList',
-          color: 'color-1'
+          color: 'color-1',
+          icon: 'fa-credit-card',
         },
         color: 'color-1',
       };

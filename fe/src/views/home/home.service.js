@@ -10,12 +10,12 @@ class HomeService extends BaseService {
 
   getSidebarButton() {
     return {
-      title: 'Home',
+      title: 'Inicio',
       icon: 'fa-home',
       order: -1,
       tab: {
-        id: 'home',
-        title: 'Home',
+        id: 'Inicio',
+        title: 'Inicio',
         component: 'home',
         icon: 'fa-home',
         isPinned: true,
