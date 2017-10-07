@@ -5,7 +5,7 @@
       this.SuscriptionService = SuscriptionService;
 
       this.availableIcons = [
-        "ambulance", "heart", "heart-o", "heartbeat", "medkit", "plus-square"
+        'ambulance', 'heart', 'heart-o', 'heartbeat', 'medkit', 'plus-square'
       ];
     }
 
