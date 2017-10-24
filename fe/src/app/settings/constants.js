@@ -38,7 +38,7 @@ angular.module('app')
      * The environment to be used. Options: testing|distribution
      * @type {String}
      */
-    _environment: 'local',
+    _environment: 'testing',
 
     /**
      * Testing and distribution configuration
@@ -49,15 +49,15 @@ angular.module('app')
       version  : '',
       port     : '',
       protocol : 'http',
-      host     : 'mgsc.com.ve/medicos/be',
+      host     : 'salazarseijas.com/medicos/be',
       prefix   : '',
     },
 
     qa: {
       version  : '',
       port     : '',
-      protocol : 'http',
-      host     : 'api.ddm.wattotech.com',
+      protocol : 'https',
+      host     : 'salazarseijas.com.ve/medicos/be',
       prefix   : '',
     },
 

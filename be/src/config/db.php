@@ -28,6 +28,8 @@
 				'username'  => 'root',
 				// 'database'  => 'mgsccomv_medicos',
 				// 'username'  => 'mgsccomv_eduardo',
+				// 'database'  => 'salazars_medicos',
+				// 'username'  => 'salazars_eduardo',
 				'password'  => '21115476',
 				'charset'   => 'utf8',
 			];
