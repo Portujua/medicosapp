@@ -8,7 +8,7 @@
       return QB::table(Phone::$tableName);
     }
 
-    public function list($pageable = null, $ownerId) {
+    public function listAll($pageable = null, $ownerId) {
       // Base query
       $query = $this->getTable()->where('usuario', $ownerId);
 

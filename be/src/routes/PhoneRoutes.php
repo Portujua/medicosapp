@@ -8,7 +8,7 @@ $app->group('', function() use ($app) {
 	$app->get('/patients/:patientId/phones', function($patientId) use ($app) {
     $pageable = new Pageable($app->request->params());
 
-		$response = new Response(PhoneService::getInstance()->list($pageable, $patientId));
+		$response = new Response(PhoneService::getInstance()->listAll($pageable, $patientId));
 		$response->setSlim($app);
 		echo $response->getResponse();
   });

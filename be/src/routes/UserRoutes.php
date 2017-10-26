@@ -7,7 +7,7 @@ $app->group('/users', function() use ($app){
 	$app->get('/', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
 
-		$response = new Response(UserService::getInstance()->list($pageable));
+		$response = new Response(UserService::getInstance()->listAll($pageable));
 		$response->setSlim($app);
 		echo $response->getResponse();
   });

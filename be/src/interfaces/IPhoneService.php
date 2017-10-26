@@ -1,6 +1,6 @@
 <?php
   interface IPhoneService {
-    public function list($pageable, $ownerId);
+    public function listAll($pageable, $ownerId);
     public function find($id);
     public function create($data);
     public function update($data);

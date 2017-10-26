@@ -1,8 +1,8 @@
 <?php
   interface IUserService {
-    public function list($pageable);
-    public function listPatients($pageable);
-    public function listMedics($pageable);
+    public function listAll($pageable);
+    public function listAllPatients($pageable);
+    public function listAllMedics($pageable);
     public function find($id);
     public function create($data);
     public function update($data);

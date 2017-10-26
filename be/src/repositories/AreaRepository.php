@@ -8,7 +8,7 @@
       return QB::table(Area::$tableName);
     }
 
-    public function list($pageable = null, $get = null) {
+    public function listAll($pageable = null, $get = null) {
       // Base query
       $query = $this->getTable()->orderBy("nombre", "asc");
 

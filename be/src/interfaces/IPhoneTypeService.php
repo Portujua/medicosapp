@@ -1,4 +1,4 @@
 <?php
   interface IPhoneTypeService {
-    public function list($pageable);
+    public function listAll($pageable);
   }

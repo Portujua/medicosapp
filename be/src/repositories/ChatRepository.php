@@ -8,7 +8,7 @@
       return QB::table(User::$tableName);
     }
 
-    public function list($pageable = null) {
+    public function listAll($pageable = null) {
       // Base query
       $query = $this->getTable()->where('usuario', '!=', 'root');
 

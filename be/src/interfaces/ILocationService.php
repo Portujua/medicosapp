@@ -1,5 +1,5 @@
 <?php
   interface ILocationService {
-    public function list($pageable);
+    public function listAll($pageable);
     public function find($id);
   }

@@ -1,6 +1,6 @@
 <?php
   interface IAreaService {
-    public function list($pageable);
+    public function listAll($pageable);
     public function find($id);
     public function create($data);
     public function update($data);

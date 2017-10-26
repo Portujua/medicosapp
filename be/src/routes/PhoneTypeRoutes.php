@@ -8,7 +8,7 @@ $app->group('/phone-types', function() use ($app){
 	$app->get('/', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
 
-		$response = new Response(PhoneTypeService::getInstance()->list($pageable));
+		$response = new Response(PhoneTypeService::getInstance()->listAll($pageable));
 		$response->setSlim($app);
 		echo $response->getResponse();
   });

@@ -1,4 +1,4 @@
 <?php
   interface IChatService {
-    public function list($pageable);
+    public function listAll($pageable);
   }

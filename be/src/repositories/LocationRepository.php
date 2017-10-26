@@ -8,7 +8,7 @@
       return QB::table(Location::$tableName);
     }
 
-    public function list($pageable = null) {
+    public function listAll($pageable = null) {
       // Base query
       $query = $this->getTable();
 

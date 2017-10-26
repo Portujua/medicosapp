@@ -29,7 +29,7 @@ $app->group('/auth', function() use ($app){
   
   $app->post('/logout', function() use ($app) {
     $authToken = $app->request->headers->get('Auth-Token');
-    Session::unset($authToken);
+    Session::_unset($authToken);
 
 		$response = new Response("Logged out successfully");
 		$response->setSlim($app);

@@ -103,7 +103,7 @@
     *
     * @return void
     */
-    static public function unset($token = null) {
+    static public function _unset($token = null) {
       self::start();
 
       if ($token == null) {

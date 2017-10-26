@@ -7,7 +7,7 @@ $app->group('/areas', function() use ($app){
 	$app->get('/', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
 
-		$response = new Response(AreaService::getInstance()->list($pageable));
+		$response = new Response(AreaService::getInstance()->listAll($pageable));
 		$response->setSlim($app);
 		echo $response->getResponse();
   });

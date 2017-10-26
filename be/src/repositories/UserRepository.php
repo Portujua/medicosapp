@@ -8,7 +8,7 @@
       return QB::table(User::$tableName);
     }
 
-    public function list($pageable = null, $get = null) {
+    public function listAll($pageable = null, $get = null) {
       // Base query
       $baseQuery = $this->getTable()->where('usuario', '!=', 'root');
 
@@ -77,12 +77,12 @@
       return $pageable != null ? $pageable->getResponse($result) : $result;
     }
 
-    public function listPatients($pageable = null) {
-      return $this->list($pageable, "patients");
+    public function listAllPatients($pageable = null) {
+      return $this->listAll($pageable, "patients");
     }
 
-    public function listMedics($pageable = null) {
-      return $this->list($pageable, "medics");
+    public function listAllMedics($pageable = null) {
+      return $this->listAll($pageable, "medics");
     }
 
     public function find($id) {

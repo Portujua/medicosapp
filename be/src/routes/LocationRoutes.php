@@ -8,7 +8,7 @@ $app->group('/locations', function() use ($app){
 	$app->get('/', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
 
-		$response = new Response(LocationService::getInstance()->list($pageable));
+		$response = new Response(LocationService::getInstance()->listAll($pageable));
 		$response->setSlim($app);
 		echo $response->getResponse();
   });
