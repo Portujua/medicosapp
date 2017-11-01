@@ -1,8 +1,9 @@
 <?php
 
 $app->group('/locations', function() use ($app){
-	$authToken = $app->request->headers->get('Auth-Token');
-	Session::setLastToken($authToken);
+	// Locations are safe content
+	// $authToken = $app->request->headers->get('Auth-Token');
+	// Session::setLastToken($authToken);
 
 	/** Get all users */
 	$app->get('/', function() use ($app) {

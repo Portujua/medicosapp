@@ -10,6 +10,10 @@
       return this.RESTful.get('areas', query);
     }
 
+    get(id) {
+      return this.RESTful.get(`areas/${id}`)
+    }
+
     create(payload) {
       return this.RESTful.post('areas', payload);
     }

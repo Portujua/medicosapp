@@ -86,7 +86,29 @@
     }
 
     public function find($id) {
-      $result = Db::run($this->getTable()->where(User::$pk, '=', $id));
+      $result = Db::run(
+        $this->getTable()
+          ->select(array(
+            "id",
+            "nombre",
+            "segundo_nombre",
+            "apellido",
+            "segundo_apellido",
+            "tipo_cedula",
+            "cedula",
+            "email",
+            "usuario",
+            "fecha_nacimiento",
+            "sexo",
+            "estado_civil",
+            "estado",
+            "direccion",
+            "lugar",
+            "es_medico",
+            QB::raw("concat_ws(' ', nombre, segundo_nombre, apellido, segundo_apellido) as nombre_completo")
+          ))
+          ->where(User::$pk, '=', $id)
+      );
 
       if (count($result) > 0) {
         $user = $result[0];
@@ -104,9 +126,9 @@
     }
 
     public function add($data) {
-      if (!Session::isActive()) {
-        throw new MethodNotAllowedException();
-      }
+      // if (!Session::isActive()) {
+      //   throw new MethodNotAllowedException();
+      // }
 
       $this->getTable()->insert($data);
 

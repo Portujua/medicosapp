@@ -33,13 +33,13 @@
       }
 
       // Run the final query
-      $result = Db::run($query);
+      $result = Db::run($query, false);
 
       return $pageable != null ? $pageable->getResponse($result) : $result;
     }
 
     public function find($id) {
-      $result = Db::run($this->getTable()->where(Location::$pk, '=', $id));
+      $result = Db::run($this->getTable()->where(Location::$pk, '=', $id), false);
 
       if (count($result) > 0) {
         return $result[0];

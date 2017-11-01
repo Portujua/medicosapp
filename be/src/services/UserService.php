@@ -30,7 +30,7 @@
 
     public function listAllPatients($pageable) {
       try {
-        return $this->repository->listPatients($pageable);
+        return $this->repository->listAllPatients($pageable);
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed();
@@ -42,7 +42,7 @@
 
     public function listAllMedics($pageable) {
       try {
-        return $this->repository->listMedics($pageable);
+        return $this->repository->listAllMedics($pageable);
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed();
@@ -67,7 +67,21 @@
     public function create($data) {
       try {
         $id = $this->repository->add($data);
+
+        // Set admin token to allow return the added user
+        $temp = null;
+        if (!Session::isActive()) {
+          $temp = Session::generateId();
+          Session::set($temp);
+        }
+
+        // Get the new user
         $patient = new User($this->repository->find($id));
+
+        // Unset the temporal token
+        if ($temp != null) {
+          Session::_unset($temp);
+        }
 
         return $patient->get();
       }

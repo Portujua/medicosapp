@@ -27,5 +27,32 @@
         return Response::getBaseInternalError($ex->getMessage());
       }
     }
+
+    public function listMessages($area, $self, $user, $pageable, $unread = false, $notification = false) { 
+      try {
+        return $this->repository->listMessages($area, $self, $user, $pageable, $unread, $notification);
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed();
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
+    public function createMessage($data) {
+      try {
+        $id = $this->repository->add($data);
+        $message = new Message($this->repository->find($id));
+
+        return $message->get();
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
   }
 ?>

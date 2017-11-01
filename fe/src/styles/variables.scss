@@ -42,3 +42,11 @@ $sidebar-caret-bg-hover: lighten($brand-primary, 10%);
 $sidebar-caret-color-hover: #fff;
 $sidebar-caret-bg-open: darken($sidebar-bg, 8%);
 $sidebar-caret-color-open: #fff;
+
+// Chat
+$chat-window-height: calc(100vh - 100px);
+$chat-header-height: 90px;
+$chat-footer-height: 120px;
+$chat-footer-buttons-width: 100px;
+$chat-footer-textarea-height: $chat-footer-buttons-width * 3/5;
+$chat-profile-image-size: 40px;

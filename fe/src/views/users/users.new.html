@@ -1,0 +1,199 @@
+<form name="form" autocomplete="off" cg-busy="$ctrl.loadingPromise">
+  <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
+    <h3 class="modal-title">Crear {{ this.type == 'medic' ? 'médico' : 'paciente' }}</h3>
+  </div>
+  <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" >
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.usuario.$invalid && form.usuario.$touched, 'has-success': form.usuario.$valid && form.usuario.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Usuario</label>
+      <div class="col-6">
+        <input type="text" name="usuario" id="usuario" class="form-control" ng-model="$ctrl.data.usuario" required placeholder="" required maxlength="20" minlength="5" ng-pattern="/^[0-9a-zA-Z]+$/">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.usuario.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 20.</span>
+          <span ng-message="minlength">La longitud no puede ser menor a 5.</span>
+          <span ng-message="pattern">Solo se permiten minúsculas, mayúsculas y números.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+    
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.contrasena.$invalid && form.contrasena.$touched, 'has-success': form.contrasena.$valid && form.contrasena.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Contraseña</label>
+      <div class="col-6">
+        <input type="password" name="contrasena" id="contrasena" class="form-control" ng-model="$ctrl.data.contrasena" required placeholder="" required maxlength="25" minlength="8" ng-pattern="/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,25}$/">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.contrasena.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 25.</span>
+          <span ng-message="minlength">La longitud no puede ser menor a 8.</span>
+          <span ng-message="pattern">Debe contener al menos una minúscula, una mayúscula y un número.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.nombre.$invalid && form.nombre.$touched, 'has-success': form.nombre.$valid && form.nombre.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Nombre</label>
+      <div class="col-6">
+        <input type="text" name="nombre" id="nombre" class="form-control" ng-model="$ctrl.data.nombre" required placeholder="" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.nombre.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.segundo_nombre.$invalid && form.segundo_nombre.$touched, 'has-success': form.segundo_nombre.$valid && form.segundo_nombre.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Segundo nombre</label>
+      <div class="col-6">
+        <input type="text" name="segundo_nombre" id="segundo_nombre" class="form-control" ng-model="$ctrl.data.segundo_nombre" placeholder="" maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.segundo_nombre.$error" role="alert">
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.apellido.$invalid && form.apellido.$touched, 'has-success': form.apellido.$valid && form.apellido.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Apellido</label>
+      <div class="col-6">
+        <input type="text" name="apellido" id="apellido" class="form-control" ng-model="$ctrl.data.apellido" required placeholder="" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.apellido.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.segundo_apellido.$invalid && form.segundo_apellido.$touched, 'has-success': form.segundo_apellido.$valid && form.segundo_apellido.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Segundo apellido</label>
+      <div class="col-6">
+        <input type="text" name="segundo_apellido" id="segundo_apellido" class="form-control" ng-model="$ctrl.data.segundo_apellido" placeholder="" maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.segundo_apellido.$error" role="alert">
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.tipo_cedula.$invalid && form.tipo_cedula.$touched, 'has-success': form.tipo_cedula.$valid && form.tipo_cedula.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Tipo cédula</label>
+      <div class="col-6">
+        <select name="tipo_cedula" id="tipo_cedula" class="form-control" ng-model="$ctrl.data.tipo_cedula" required ng-init="$ctrl.data.tipo_cedula = 'V'">
+          <option value="V">Venezolano/a</option>
+          <option value="E">Extranjero/a</option>
+        </select>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.tipo_cedula.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.cedula.$invalid && form.cedula.$touched, 'has-success': form.cedula.$valid && form.cedula.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Cédula</label>
+      <div class="col-6">
+        <input type="text" name="cedula" id="cedula" class="form-control" ng-model="$ctrl.data.cedula" required placeholder="" maxlength="50" ng-pattern="/^[0-9]{4,}$/">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.cedula.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="pattern">Este campo debe contener solo números y debe tener una longitud mayor a 4.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.fecha_nacimiento.$invalid && form.fecha_nacimiento.$touched, 'has-success': form.fecha_nacimiento.$valid && form.fecha_nacimiento.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Fecha de nacimiento</label>
+      <div class="col-6">
+        <input type="date" name="fecha_nacimiento" id="fecha_nacimiento" class="form-control" ng-model="$ctrl.data.fecha_nacimiento" required>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.fecha_nacimiento.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.sexo.$invalid && form.sexo.$touched, 'has-success': form.sexo.$valid && form.sexo.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Tipo cédula</label>
+      <div class="col-6">
+        <select name="sexo" id="sexo" class="form-control" ng-model="$ctrl.data.sexo" required ng-init="$ctrl.data.sexo = 'Masculino'">
+          <option value="Masculino">Masculino</option>
+          <option value="Femenino">Femenino</option>
+        </select>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.sexo.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.email.$invalid && form.email.$touched, 'has-success': form.email.$valid && form.email.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Correo electrónico</label>
+      <div class="col-6">
+        <input type="email" name="email" id="email" class="form-control" ng-model="$ctrl.data.email" required placeholder="" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.email.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="email">Correo electrónico inválido.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.estado_civil.$invalid && form.estado_civil.$touched, 'has-success': form.estado_civil.$valid && form.estado_civil.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Estado civil</label>
+      <div class="col-6">
+        <select name="estado_civil" id="estado_civil" class="form-control" ng-model="$ctrl.data.estado_civil" required ng-init="$ctrl.data.estado_civil = 'Soltero/a'">
+          <option value="Soltero/a">Soltero/a</option>
+          <option value="Casado/a">Casado/a</option>
+          <option value="Viudo/a">Viudo/a</option>
+        </select>
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.estado_civil.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.lugar.$invalid && form.lugar.$touched, 'has-success': form.lugar.$valid && form.lugar.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Dirección 1</label>
+      <div class="col-6">
+        <input type="text" name="lugar" id="lugar" class="form-control" ng-model="$ctrl.data.lugar" required placeholder="" required uib-typeahead="item as item.nombre_completo for item in $ctrl.locations | filter:$viewValue | limitTo:10" typeahead-append-to-body="true" typeahead-editable="false">
+      </div>
+    </div>
+
+    <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.direccion.$invalid && form.direccion.$touched, 'has-success': form.direccion.$valid && form.direccion.$touched }">
+      <label class="col-4 col-form-label" for="textinput">Dirección 2</label>
+      <div class="col-6">
+        <input type="text" name="direccion" id="direccion" class="form-control" ng-model="$ctrl.data.direccion" required placeholder="" required maxlength="50">
+        <!-- Errors -->
+        <span class="help-block" ng-messages="form.direccion.$error" role="alert">
+          <span ng-message="required">Este campo no puede estar vacío.</span>
+          <span ng-message="maxlength">La longitud no puede ser mayor a 50.</span>
+        </span>
+        <!-- /Errors -->
+      </div>
+    </div>
+
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-outline" type="button" ng-click="$ctrl.cancel()" ng-disabled="$ctrl.isSaving">Cancelar</button>
+    <button class="btn btn-default" type="button" ng-click="$ctrl.save()" ng-disabled="form.$invalid || $ctrl.isSaving"><i class="fa fa-fw fa-save"></i> Crear</button>
+  </div>
+</form>  

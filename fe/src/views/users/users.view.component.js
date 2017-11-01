@@ -1,10 +1,10 @@
 (() => {
   
-  class ProfileViewController {
-    constructor(Auth, User, ProfileService, LocationService, PromptService, PhoneService, UserService, TabManagerService) {
+  class UserViewController {
+    constructor(Auth, User, UserService, LocationService, PromptService, PhoneService, TabManagerService) {
       this.Auth = Auth;
       this.User = User;
-      this.ProfileService = ProfileService;
+      this.UserService = UserService;
       this.LocationService = LocationService;
       this.PromptService = PromptService;
       this.PhoneService = PhoneService;
@@ -13,11 +13,12 @@
     }
 
     $onInit() {
-      let id = (/^(?=.*[0-9]).+$/).test(this.id) ? this.id : this.Auth.getSession().id;
+      this.self = (/^(?!.*[0-9]).+$/).test(this.id);
+      let id = this.self ? this.Auth.getSession().id : this.id;
 
       this.loadingPromise = this.UserService.get(id)
         .then((response) => {
-          this.data = response.data;
+          this.data = new this.User(response.data);
           this.load();
         })
     }
@@ -100,9 +101,9 @@
   }
   
   angular.module('app')
-    .component('profileView', {
-      templateUrl: 'views/profile/profile.view.html',
-      controller: ProfileViewController,
+    .component('usersView', {
+      templateUrl: 'views/users/users.view.html',
+      controller: UserViewController,
       controllerAs: '$ctrl',
       bindings: {
         id: '@',

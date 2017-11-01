@@ -2,9 +2,9 @@ angular.module('app')
 .factory('User', () => {
 
   class User extends BaseFactory {
-    constructor({ apellido = null, cambiar_contrasena = null, cedula = null, createdAt = null, modifiedAt = null, direccion = null, email = null, email_validado = null, estado = null, estado_civil = null, fecha_nacimiento = null, id = null, lugar = null, nombre = null, segundo_apellido = null, segundo_nombre = null, sexo = null, tipo_cedula = null, token = null, usuario = null }) {
+    constructor({ apellido = null, cambiar_contrasena = null, cedula = null, createdAt = null, modifiedAt = null, direccion = null, email = null, email_validado = null, estado = null, estado_civil = null, fecha_nacimiento = null, id = null, lugar = null, nombre = null, segundo_apellido = null, segundo_nombre = null, sexo = null, tipo_cedula = null, token = null, usuario = null, contrasena = null, es_medico = false }) {
       // Parent
-      super({ apellido, cambiar_contrasena, cedula, createdAt, modifiedAt, direccion, email, email_validado, estado, estado_civil, fecha_nacimiento, id, lugar, nombre, segundo_apellido, segundo_nombre, sexo, tipo_cedula, token, usuario });
+      super({ apellido, cambiar_contrasena, cedula, createdAt, modifiedAt, direccion, email, email_validado, estado, estado_civil, fecha_nacimiento, id, lugar, nombre, segundo_apellido, segundo_nombre, sexo, tipo_cedula, token, usuario, contrasena, es_medico });
 
       let regexIso8601 = /^\d{4}-\d\d-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?$/i;
       let match;
@@ -23,7 +23,21 @@ angular.module('app')
 
     postPayload() {
       return {
-        // todo
+        nombre: this.nombre,
+        segundo_nombre: this.segundo_nombre,
+        apellido: this.apellido,
+        segundo_apellido: this.segundo_apellido,
+        tipo_cedula: this.tipo_cedula,
+        cedula: this.cedula,
+        email: this.email,
+        direccion: this.direccion,
+        estado_civil: this.estado_civil,
+        fecha_nacimiento: this.fecha_nacimiento,
+        lugar: this.lugar,
+        sexo: this.sexo,
+        usuario: this.usuario,
+        contrasena: this.contrasena,
+        es_medico: this.es_medico
       };
     }
 

@@ -38,7 +38,7 @@ angular.module('app')
      * The environment to be used. Options: testing|distribution
      * @type {String}
      */
-    _environment: 'qa',
+    _environment: 'local',
 
     /**
      * Testing and distribution configuration

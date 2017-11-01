@@ -1,5 +1,5 @@
 // http://jsfiddle.net/kQZw8/157/
-let regexIso8601 = /^\d{4}-\d\d-\d\d(T\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?$/i;
+let regexIso8601 = /^\d{4}-\d\d-\d\d(\s\d\d:\d\d(:\d\d)?(\.\d+)?(([+-]\d\d:\d\d)|Z)?)?$/i;
 
 function convertDateStringsToDates(input) {
   // Ignore things that aren't objects.

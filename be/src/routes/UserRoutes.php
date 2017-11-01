@@ -16,7 +16,7 @@ $app->group('/users', function() use ($app){
 	$app->get('/patients', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
 
-		$response = new Response(UserService::getInstance()->listPatients($pageable));
+		$response = new Response(UserService::getInstance()->listAllPatients($pageable));
 		$response->setSlim($app);
 		echo $response->getResponse();
 	});
@@ -24,7 +24,7 @@ $app->group('/users', function() use ($app){
 	$app->get('/medics', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
 
-		$response = new Response(UserService::getInstance()->listMedics($pageable));
+		$response = new Response(UserService::getInstance()->listAllMedics($pageable));
 		$response->setSlim($app);
 		echo $response->getResponse();
   });

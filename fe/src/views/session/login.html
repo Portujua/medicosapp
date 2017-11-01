@@ -7,23 +7,12 @@
         </div>
         <div class="panel panel-default">
           <div class="panel-body">
-            <h3 class="hug-top text-center margin-bottom">Citas en línea</h3>
             <form name="form" role="form" ng-submit="$ctrl.login($ctrl.credentials)">
               <div class="form-group">
-                <label for="email">Usuario</label>
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-fw fa-user"></i></span>
-                  <input type="text" class="form-control" name="username" placeholder="Introduce tu usuario" ng-model="$ctrl.credentials.username" tabindex="1" required autofocus ng-disabled="$ctrl.isLoading">
-                </div>
+                <input type="text" class="form-control" name="username" placeholder="Usuario" ng-model="$ctrl.credentials.username" tabindex="1" required autofocus ng-disabled="$ctrl.isLoading">
               </div>
               <div class="form-group">
-                <label for="password" class="block">
-                  Contraseña <a href="" class="inline-block pull-right">(Olvidé mi contraseña)</a>
-                </label>
-                <div class="input-group">
-                  <span class="input-group-addon"><i class="fa fa-fw fa-key"></i></span>
-                  <input type="password" class="form-control" name="password" placeholder="Introduce tu contraseña" ng-model="$ctrl.credentials.password" tabindex="2" required ng-disabled="$ctrl.isLoading">
-                </div>
+                <input type="password" class="form-control" name="password" placeholder="Contraseña" ng-model="$ctrl.credentials.password" tabindex="2" required ng-disabled="$ctrl.isLoading">
               </div>
               <button type="submit" class="btn btn-block btn-primary btn-outline btn-lg" tabindex="3" ng-disabled="form.$invalid || $ctrl.isLoading">
                 <span ng-switch="$ctrl.isLoading">
@@ -33,13 +22,16 @@
                   <span ng-switch-default>Entrar</span>
                 </span>
               </button>
+              <button type="button" class="btn btn-block btn-link btn-lg" tabindex="6" ng-click="$ctrl.create()">
+                Registrar
+              </button>
             </form>
           </div>
         </div>
 
-        <div class="text-muted small margin-top text-center">
+        <!-- <div class="text-muted small margin-top text-center">
           Last update: {{ $ctrl.PageService.getAppInfo().date | date:'MMMM dd, yyyy' }} ({{ $ctrl.PageService.getAppInfo().version | available }})
-        </div>
+        </div> -->
       </div>
     </div>
   </div>
@@ -47,5 +39,3 @@
   <!-- For sticky footer -->
   <div class="push"></div>
 </div>
-
-<footer></footer>

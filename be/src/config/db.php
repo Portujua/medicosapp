@@ -24,10 +24,10 @@
 			return [
 				'driver'    => 'mysql',
 				'host'      => 'localhost',
-				// 'database'  => 'medicos',
-				// 'username'  => 'root',
-				'database'  => 'mgsccomv_medicos',
-				'username'  => 'mgsccomv_eduardo',
+				'database'  => 'medicos',
+				'username'  => 'root',
+				// 'database'  => 'mgsccomv_medicos',
+				// 'username'  => 'mgsccomv_eduardo',
 				// 'database'  => 'salazars_medicos',
 				// 'username'  => 'salazars_eduardo',
 				'password'  => '21115476',
@@ -44,8 +44,8 @@
 		*
 		* @return Array - Returns the array containing the query result
 		*/
-		public static function run($sql) {
-			if (!Session::isActive()) {
+		public static function run($sql, $requireCredentials = true) {
+			if (!Session::isActive() && $requireCredentials) {
 				throw new MethodNotAllowedException();
 			}
 

@@ -86,13 +86,12 @@ create table Medico_Area (
 
 create table Mensaje (
 	id varchar(36) not null,
-	paciente varchar(36) not null references Usuario(id),
-	medico varchar(36) not null references Usuario(id),
 	html text not null,
 	img longblob,
 	hora datetime,
-	owner varchar(128) not null comment 'el nombre de usuario del dueno',
-	owner_name varchar(128) not null comment 'el nombre completo del dueno',
+	owner varchar(56) not null references Usuario(id),
+	user varchar(56) not null references Usuario(id),
+	area varchar(56) not null references Area(id),
 	leido tinyint(1) default 0,
 	createdAt datetime default current_timestamp,
 	modifiedAt datetime on update current_timestamp,

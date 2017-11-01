@@ -11,7 +11,7 @@
         order: 0,
         icon: 'fa-user',
         tab: {
-          component: 'profileView',
+          component: 'usersView',
           color: 'color-4',
           icon: 'fa-user'
         },

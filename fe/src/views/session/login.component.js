@@ -1,8 +1,9 @@
 ;(() => {
 
 class LoginController {
-  constructor(Auth, PageService) {
+  constructor(Auth, PageService, UserService) {
     this.Auth = Auth;
+    this.UserService = UserService;
     this.credentials = {
       username: null,
       password: null,
@@ -27,6 +28,19 @@ class LoginController {
       }).finally(() => {
         this.isLoading = false;
       });
+  }
+
+  create() {
+    this.UserService.openCreateModal().then((response) => {
+      if (response.usuario && response.contrasena) {
+        this.credentials = {
+          username: response.usuario,
+          password: response.contrasena
+        }
+
+        this.login(this.credentials)
+      }
+    })
   }
 }
 

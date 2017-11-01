@@ -10,3 +10,100 @@
     color: #fff;
   }
 }
+
+.chat-window {
+  width: 100%;
+  height: $chat-window-height;
+
+  .chat-header {
+    width: 100%;
+    height: $chat-header-height;
+    border-bottom: 1px solid $gray-lighter;
+  }
+
+  .chat-history {
+    // ChatWindow - ChatFooter - Paddings
+    height: calc(#{$chat-window-height} - #{$chat-footer-textarea-height} - 45px);
+    overflow-y: auto;
+
+    .message {
+      width: 100%;
+      margin-bottom: 0px;
+
+      .fa-stack {
+        i:last-of-type {
+          margin-left: 4px;
+        }
+      }
+
+      img {
+        height: $chat-profile-image-size;
+        width: $chat-profile-image-size;
+      }
+
+      h3 {
+        font-size: $font-size-base * 1.25;
+        font-weight: 500;
+      }
+
+      p {
+        display: inline-block;
+        background-color: lighten($brand-primary, 30%);
+        font-size: $font-size-base;
+        padding: 7px 10px;
+        border-radius: 10px;
+
+        small {
+          font-size: $font-size-base * 0.7;
+        }
+      }
+
+      &.left { 
+        float: left !important; 
+
+        img { float: left !important; }
+        p { border-top-left-radius: 0px; }
+      }
+
+      &.right { 
+        float: right !important; 
+
+        img { float: right !important; margin-left: 10px; }
+        h3 { text-align: right !important; }
+        p { float: right !important; border-top-right-radius: 0px; background-color: lighten($color-2, 30%); }
+      }
+    }
+  }
+
+  .chat-footer {
+    width: 100%;
+    height: $chat-footer-height;
+    border-top: 1px solid $gray-lighter;
+    padding-top: 7px;
+
+    .chat-buttons {
+      width: $chat-footer-buttons-width;
+      height: $chat-footer-textarea-height;
+      float: left;
+      margin-left: 10px;
+      display: flex;
+      justify-content: center;
+
+      button {
+        border-radius: 50%;
+        width: 60%;
+      }
+    }
+
+    textarea {
+      width: calc(100% - #{$chat-footer-buttons-width} - 10px);
+      height: $chat-footer-textarea-height;
+      font-size: 14px;
+      resize: none;
+      border: none;
+      outline: none;
+      float: left;
+      padding: 7px 10px;
+    }
+  }
+}

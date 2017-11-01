@@ -1,0 +1,155 @@
+<div class="dashboard">
+  <!-- Main actions -->
+  <div class="actions-bar hug">
+  </div>
+  <!-- /Main actions -->
+
+  <div class="padding-sm">
+    <div class="row">
+      <!-- board -->
+      <div class="col-12 col-lg-5 col-xl-4">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            Información personal
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div class="dashboard-body">
+
+               <!-- <div class="dashboard-group">
+                <div class="col-4 dashboard-label"></div>
+                <div class="col-8 dashboard-input">
+                  <a href="" change-picture="{{ $ctrl.data.profilePicturePath }}" endpoint="clients/{{$ctrl.data.id}}/picture" load="$ctrl.load()" >
+                    <img class="picture circle " ng-src="{{ $ctrl.data.profilePicturePath | defaultImage }}" alt="">
+                  </a>
+                </div>
+              </div> -->
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Nombre</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.nombre" onbeforesave="$ctrl.save($data, 'nombre')" e-required>{{ $ctrl.data.nombre }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Segundo nombre</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.segundo_nombre" onbeforesave="$ctrl.save($data, 'segundo_nombre')">{{ $ctrl.data.segundo_nombre | available:'Ninguno' }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Apellido</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.apellido" onbeforesave="$ctrl.save($data, 'apellido')" e-required>{{ $ctrl.data.apellido }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Segundo apellido</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.segundo_apellido" onbeforesave="$ctrl.save($data, 'segundo_apellido')">{{ $ctrl.data.segundo_apellido | available:'Ninguno' }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Tipo cédula</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.tipo_cedula" e-required e-ng-options="item as item for item in ['V', 'E', 'J']" onbeforesave="$ctrl.save($data, 'tipo_cedula')" e-required>{{ $ctrl.data.tipo_cedula }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Cédula</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.cedula" onbeforesave="$ctrl.save($data, 'cedula')" e-required>{{ $ctrl.data.cedula }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Correo electrónico</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-email="$ctrl.data.email" onbeforesave="$ctrl.save($data, 'email')" e-required>{{ $ctrl.data.email }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Fecha de nacimiento</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-date="$ctrl.data.fecha_nacimiento" onbeforesave="$ctrl.save($data, 'fecha_nacimiento')">{{ $ctrl.data.fecha_nacimiento | date:'dd/MM/yyyy' }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Dirección 1</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.lugar" e-required e-uib-typeahead="item as item.nombre_completo for item in $ctrl.locations | filter:$viewValue | limitTo:10" onbeforesave="$ctrl.save($data, 'lugar')">{{ $ctrl.data.lugar.nombre_completo }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Dirección 2</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-text="$ctrl.data.direccion" onbeforesave="$ctrl.save($data, 'direccion')">{{ $ctrl.data.direccion }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Sexo</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.sexo" e-ng-options="item as item for item in ['Masculino', 'Femenino']" onbeforesave="$ctrl.save($data, 'sexo')" e-required>{{ $ctrl.data.sexo }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Estado civil</div>
+                <div class="col-8 dashboard-input">
+                  <span editable-select="$ctrl.data.estado_civil" e-ng-options="item as item for item in ['Soltero/a', 'Viudo/a', 'Casado/a']" onbeforesave="$ctrl.save($data, 'estado_civil')" e-required>{{ $ctrl.data.estado_civil }}</span>
+                </div>
+              </div>
+
+              <div class="dashboard-group">
+                <div class="col-4 dashboard-label">Teléfonos</div>
+                <div class="col-8 dashboard-input">
+                  <button class="btn btn-primary btn-block" type="button" ng-click="$ctrl.addPhone()">Añadir teléfono</button>
+                </div>
+              </div>
+
+              <div class="dashboard-group" ng-repeat="phone in $ctrl.data.phones">
+                <div class="col-4 dashboard-label"></div>
+                <div class="col-8 dashboard-input">
+                  <button class="btn btn-danger btn-outline btn-xs" uib-tooltip="Delete" ng-click="$ctrl.deletePhone(phone.id)">
+                    <i class="fa fa-fw fa-times"></i>
+                  </button>
+                  {{ phone.tlf }}
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- /Body -->
+        </div>
+      </div>
+      <!-- /board -->
+
+      <div class="col-12 col-lg-7 col-xl-8">
+        <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
+          <div class="panel-heading">
+            {{ $ctrl.self ? 'Mis suscripciones' : 'Suscripciones' }}
+          </div>
+          <!-- Body -->
+          <div class="panel-body">
+            <div ng-if="!$ctrl.data.suscripciones">
+              <span class="text-muted" ng-show="$ctrl.self">No tienes suscripciones activas, <a href="" ng-click="$ctrl.openSuscriptions()">obten una aquí</a></span>
+
+              <span class="text-muted" ng-hide="$ctrl.self">Este usuario no tiene suscripciones.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+

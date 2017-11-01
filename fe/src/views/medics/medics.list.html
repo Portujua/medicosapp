@@ -2,7 +2,7 @@
 <!-- Main actions -->
 <div class="actions-bar hug">
   <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()">
-      <i class="fa fa-fw fa-plus"></i> Crear Area
+      <i class="fa fa-fw fa-plus"></i> Crear Médico
     </button>
   
     <div class="pull-right">
@@ -17,19 +17,29 @@
     <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
       <colgroup>
         <col>
-        <col width="100%">
+        <col width="33.333333%">
+        <col width="33.333333%">
+        <col width="33.333333%">
         <col>
       </colgroup>
       <tbody>
         <tr ng-repeat="item in $data" >
           <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
 
-          <td title="'Nombre'" filter="{ nombre: 'text' }" sortable="'nombre'" class="text-center text-middle">
-            <span editable-text="item.nombre" onbeforesave="$ctrl.save($data, 'nombre', item)" e-required>{{ item.nombre | available }}</span>
+          <td title="'Nombre Completo'" filter="{ nombre_completo: 'text' }" sortable="'nombre_completo'" class="text-center text-middle" drilldown="{ title: item.nombre_completo, component: 'usersView', id: item.id }">
+            <a href=""><span>{{ item.nombre_completo | available }}</span></a>
+          </td>
+
+          <td title="'Cédula'" filter="{ cedula: 'text' }" sortable="'cedula'" class="text-center text-middle">
+            <span>{{ item.tipo_cedula }}-{{ item.cedula | available }}</span>
+          </td>
+
+          <td title="'Email'" filter="{ email: 'text' }" sortable="'email'" class="text-center text-middle">
+            <span>{{ item.email | available }}</span>
           </td>
 
           <td title="'Estado'" filter="{ estado: 'text' }" sortable="'estado'" class="text-center text-middle">
-            <toggle ng-model="item.estado" ng-change="$ctrl.toggleActivation(item)" size="btn-xs" on="Activa" off="Desactivada"></toggle>
+            <toggle ng-model="item.estado" ng-change="$ctrl.toggleActivation(item)" size="btn-xs" on="Activo" off="Desactivado"></toggle>
           </td>
         </tr>
       </tbody>

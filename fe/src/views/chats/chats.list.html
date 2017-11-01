@@ -37,7 +37,7 @@
             {{ item.areas ? '' : 'N/A' }}
             <span ng-if="item.areas.length == 0">Sin áreas asignadas</span>
             <span ng-repeat="area in item.areas">
-              {{ area.nombre }}{{ $last ? '' : ', ' }}
+              <a href="" drilldown="{ component: 'chatsView', title: item.nombre_completo + ' [' + area.nombre + ']', user: item.id, area: area.id }">{{ area.nombre }}{{ $last ? '' : ', ' }}</a>
             </span>
           </td>
         </tr>
