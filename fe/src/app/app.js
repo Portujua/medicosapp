@@ -25,4 +25,5 @@ angular.module('app', [
   'naif.base64',
   'mentio',,
   'compile',
+  'ngFileUpload',
 ]);

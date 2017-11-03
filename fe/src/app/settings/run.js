@@ -1,5 +1,5 @@
 angular.module('app')
-  .run(($rootScope, PageService, SidebarService, editableOptions, editableThemes, toggleConfig, $timeout) => {
+  .run(($rootScope, PageService, SidebarService, editableOptions, editableThemes, toggleConfig, $timeout, $templateCache) => {
     // X-Editable settings (theme)
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
@@ -10,6 +10,14 @@ angular.module('app')
     // Toggle Config
     toggleConfig.on = 'Yes';
     toggleConfig.off = 'No';
+
+    // Add the new filters template
+    $templateCache.put('actions-bar-inline.html', `
+    <div class="actions-bar-inline">
+      <i ng-click="$ctrl.filters = !$ctrl.filters" class="fa fa-fw fa-filter pointer" uib-tooltip="Filtros" tooltip-append-to-body="true"></i>
+      <i ng-click="$ctrl.load()" class="fa fa-fw fa-refresh pointer" uib-tooltip="Refrescar" tooltip-append-to-body="true"></i>
+    </div>  
+  `)
 
     // List of maps in the system
     $rootScope.maps = [];

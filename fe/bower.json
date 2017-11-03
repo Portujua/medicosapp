@@ -41,7 +41,8 @@
     "highcharts-ng": "^1.1.0",
     "ui-cropper": "^1.0.4",
     "angular-base64-upload": "~0.1.22",
-    "ment.io": "^0.9.24"
+    "ment.io": "^0.9.24",
+    "ng-file-upload": "^12.2.13"
   },
   "resolutions": {
     "angular": "^1.6.1"

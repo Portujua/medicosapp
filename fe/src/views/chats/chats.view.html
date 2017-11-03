@@ -30,6 +30,7 @@
       <textarea ng-model="$ctrl.data.html" placeholder="Introduce tu mensaje aquí.." ng-keydown="$ctrl.send($event)" autofocus></textarea>
 
       <div class="chat-buttons">
+        <button class="btn btn-transparent" type="file" ngf-select="$ctrl.upload($file, $invalidFiles)" accept="image/*" ngf-max-size="2MB"><i class="fa fa-fw fa-paperclip" aria-hidden="true"></i></button>
         <button class="btn btn-lg btn-primary"><i class="fa fa-fw fa-paper-plane-o" aria-hidden="true"></i></button>
       </div>
     </div>

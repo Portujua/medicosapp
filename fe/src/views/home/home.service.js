@@ -8,6 +8,10 @@ class HomeService extends BaseService {
     this.Message = Message;
   }
 
+  getSummary() {
+    return this.RESTful.get('dashboard/summary')
+  }
+
   getSidebarButton() {
     return {
       title: 'Inicio',
@@ -54,10 +58,6 @@ class HomeService extends BaseService {
       .then((response) => {
         this.Message.update('home setting');
       });
-  }
-
-  getSummary() {
-    return this.RESTful.get('dashboard-entries/summary')
   }
 };
 

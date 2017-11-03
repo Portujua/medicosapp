@@ -1,12 +1,3 @@
-<!-- Main actions -->
-<div class="actions-bar hug">
-  <div class="pull-right">
-    <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filtros</button>
-    <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Refrescar</button>
-  </div>
-</div>
-<!-- /Main actions -->
-
 <div id="available-chat-list" class="table-frame" cg-busy="$ctrl.loadingPromise">
   <div class="table-responsive">
     <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
@@ -19,10 +10,11 @@
       </colgroup>
       <tbody>
         <tr ng-repeat="item in $data" ng-if="$ctrl.session.isAdmin() ? true : (item.es_medico ? (item.id == $ctrl.session.id ? false : true) : false)">
-          <td class="text-center row-type {{ item.es_medico ? 'medico' : 'paciente' }}">{{ item.es_medico ? 'Médico' : 'Paciente' }}</td>
+          <td class="text-center row-type {{ item.es_medico ? 'medico' : 'paciente' }}" header="'actions-bar-inline.html'">{{ item.es_medico ? 'Médico' : 'Paciente' }}</td>
 
           <td title="'Nombre'" filter="{ nombre_completo: 'text' }" sortable="'nombre_completo'" class="text-center text-middle">
-            {{ item.nombre_completo | available }}
+            <a href="" ng-if="$ctrl.session.isAdmin()" drilldown="{ title: item.nombre_completo, component: 'usersView', id: item.id }">{{ item.nombre_completo | available }}</a>
+            <span ng-if="!$ctrl.session.isAdmin()">{{ item.nombre_completo | available }}</span>
           </td>
 
           <td title="'Email'" filter="{ email: 'text' }" sortable="'email'" class="text-center text-middle">

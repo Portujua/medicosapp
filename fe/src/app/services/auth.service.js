@@ -38,6 +38,8 @@ class Auth {
   goLogin(reload) {
     this.$timeout(() => {
       this.$state.go('login');
+
+      window.location.reload()
     });
   }
 

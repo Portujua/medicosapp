@@ -25,6 +25,10 @@
         throw new BadCredentialsException();
       }
       else {
+        // Register login
+        QB::table('Log_Login')
+          ->insert(['id' => Util::uuid(), 'user' => $result[0]->id]);
+          
         return $result[0];
       }
     }

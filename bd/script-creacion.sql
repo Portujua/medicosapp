@@ -59,8 +59,8 @@ create table Telefono (
 
 create table Log_Login (
 	id varchar(36) not null,
-	fecha datetime not null,
-	username varchar(32) not null,
+	fecha datetime not null default current_timestamp,
+	user varchar(32) not null references Usuario(id),
 	createdAt datetime default current_timestamp,
 	modifiedAt datetime on update current_timestamp,
 	primary key(id)

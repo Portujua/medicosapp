@@ -9,6 +9,10 @@ class Message {
     this.toastr.success(text);
   }
 
+  error(text = 'Something wrong just happend.') {
+    this.toastr.error(text);
+  }
+
   create(entity = 'element') {
     this.show(`<b>"${entity}"</b> ha sido creado con éxito.`);
   }

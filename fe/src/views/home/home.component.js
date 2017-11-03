@@ -15,7 +15,19 @@ class HomeController {
   }
 
   load() {
+    this.loadingSummaryPromise = this.HomeService.getSummary()
+      .then((response) => {
+        this.summary = response.data;
+      })
+  }
 
+  getPercentageRelation(current, past) {
+    return Math.abs((current - past) / (past === 0 ? 1 : past) * 100);
+  }
+
+  getPercentageRelationClass(current, past) {
+    let relation = ((current - past) / (past === 0 ? 1 : past) * 100);
+    return relation ===  0 ? 'minus' : (relation > 0 ? 'level-up' : 'level-down');
   }
 }
 

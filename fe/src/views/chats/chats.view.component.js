@@ -1,7 +1,7 @@
 (() => {
   
   class ChatViewController {
-    constructor(Auth, AreaService, UserService, ChatService, ChatMessage, $timeout, $interval) {
+    constructor(Auth, AreaService, UserService, ChatService, ChatMessage, $timeout, $interval, Message, Upload) {
       this.Auth = Auth;
       this.AreaService = AreaService;
       this.UserService = UserService;
@@ -10,6 +10,8 @@
       this.self = Auth.getSession();
       this.$timeout = $timeout;
       this.$interval = $interval;
+      this.Message = Message;
+      this.Upload = Upload;
 
       this.REQUEST_INTERVAL = 5000;
       this.messages = [];
@@ -97,7 +99,30 @@
 				
 				$(".chat-history").animate({ scrollTop: newscrollHeight }, 0); //Autoscroll to bottom of div
 			}, 100);
-		}
+    }
+    
+    upload(file, invalid) {
+      if (invalid.length > 0) {
+        this.Message.error('Archivo inválido')
+        return;
+      }
+
+      this.data.html = '<div class="image-uploading"><img src="images/loading.gif" width="30" height="30"><br>Subiendo imagen..</div>';
+
+      this.messages.push(angular.copy(this.data));
+      this.reset();
+
+      // Upload file
+      // Save the current added index as local variable to update message status
+      let insertedIndex = this.messages.length - 1;
+
+      this.Upload.upload({
+        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
+        data: { file: file }
+      }).then((response) => {
+        console.log(response)
+      })
+    }
   }
   
   angular.module('app')

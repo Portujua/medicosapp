@@ -94,6 +94,15 @@
         border-radius: 50%;
         width: 60%;
       }
+
+      .btn-transparent {
+        background: transparent;
+        font-size: 20px;
+
+        &:hover {
+          background: rgba(0,0,0,0.03);
+        }
+      }
     }
 
     textarea {
@@ -107,4 +116,10 @@
       padding: 7px 10px;
     }
   }
+}
+
+.image-uploading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
