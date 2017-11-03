@@ -52,6 +52,18 @@
       }
     }
 
+    public function listNotifications($id) {
+      try {
+        return $this->repository->listNotifications($id);
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed();
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
     public function find($id) {
       try {
         return $this->repository->find($id);

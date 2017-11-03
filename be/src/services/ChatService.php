@@ -28,6 +28,18 @@
       }
     }
 
+    public function listNotifications($pageable) {
+      try {
+        return $this->repository->listNotifications($pageable);
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed();
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
     public function listMessages($area, $self, $user, $pageable, $unread = false, $notification = false) { 
       try {
         return $this->repository->listMessages($area, $self, $user, $pageable, $unread, $notification);

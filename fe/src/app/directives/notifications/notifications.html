@@ -1,13 +1,13 @@
 <li class="dropdown dropdown-notifications">
-  <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-click="$ctrl.NotificationsService.reset()">
-    <i data-count="{{ $ctrl.NotificationsService.counter }}" class="fa fa-bell notification-icon"></i>
+  <a href="" class="dropdown-toggle" data-toggle="dropdown" ng-click="$ctrl.reset()">
+    <i data-count="{{ $ctrl.counter }}" class="fa fa-bell notification-icon"></i>
   </a>
 
   <div class="dropdown-container">
     <div class="dropdown-toolbar">
-      <div class="dropdown-toolbar-actions">
+      <!-- <div class="dropdown-toolbar-actions">
         <a href="">Marcas todas como leídas</a>
-      </div>
+      </div> -->
       <h3 class="dropdown-toolbar-title">Notificaciones ({{ $ctrl.notifications.length | number }})</h3>
     </div>
 
@@ -18,59 +18,16 @@
         <div class="media">
           <div class="media-left">
             <div class="media-object">
-              <img ng-src="{{ item.user.img }}" class="circle" alt="Profile picture">
+              <img ng-src="{{ item.user.profilePicturePath | defaultImage }}" class="circle" alt="Profile picture">
             </div>
           </div>
           <div class="media-body">
             <div ng-switch="item.type">
-              <div ng-switch-when="comment">
-                <!-- Comment -->
-                <strong class="notification-title">
-                  <a href="">{{ item.user.name }}</a> comentó en <a href="">{{ item.mention.name }}</a>
-                </strong>
-                <div class="notification-desc">{{ item.content }}</div>
-                <div class="notification-meta">
-                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
-                </div>
-                <!-- /Comment -->
-              </div>
-              <div ng-switch-when="fail">
-                <!-- fail -->
-                <strong class="notification-title">
-                  <a href="">{{ item.user.name }}</a> ha cerrado consulta
-                </strong>
-                <div class="notification-meta">
-                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
-                </div>
-                <!-- /fail -->
-              </div>
-              <div ng-switch-when="approvement">
-                <!-- approvement -->
-                <strong class="notification-title">
-                  <a href="">Eduardo Lorenzo</a> quiere chatear
-                </strong>
-                <div class="notification-desc">
-                  <p>{{ item.content }}</p>
-                  <button class="btn btn-primary btn-outline btn-sm"><i class="fa fa-fw fa-check"></i> Aceptar</button>
-                  <button class="btn btn-danger btn-outline btn-sm">Cancelar</button>
-                </div>
-                <div class="notification-meta">
-                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
-                </div>
-                <!-- /approvement -->
-              </div>
-              <div ng-switch-when="attachment">
-                <!-- attachment -->
-                <strong class="notification-title">
-                  <a href="">{{ item.user.name }}</a> te ha enviado una imagen
-                </strong>
-                <div class="notification-meta">
-                  <small class="timestamp">{{ item.createdAt | date:'dd/MMM/yyyy @ HH:mm' }}</small>
-                </div>
-                <!-- /attachment -->
-              </div>
               <div ng-switch-default>
-
+                <a href="">{{ item.owner.nombre_completo }}</a> te ha enviado un mensaje en {{ item.area.nombre }}: <br>
+                <i class="text-muted">{{ item.html | s:'truncate':[100] }}</i>
+                <br>
+                <p class="text-right hug"><a href="" ng-click="$ctrl.openChat(item)"><small>Ir a la conversación &rarr;</small></a></p>
               </div>
             </div>
           </div>
@@ -124,8 +81,8 @@
       </li> -->
     </ul>
 
-    <div class="dropdown-footer text-center">
+    <!-- <div class="dropdown-footer text-center">
       <a href="">Ver todas</a>
-    </div>
+    </div> -->
   </div>
 </li>

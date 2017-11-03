@@ -1,6 +1,6 @@
 angular.module('app')
   .value('cgBusyDefaults', {
-    message: 'Loading...',
+    message: 'Cargando...',
     backdrop: true,
     templateUrl: 'app/directives/busy/busy.html',
     delay: 0,

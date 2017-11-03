@@ -3,6 +3,7 @@
     public function listAll($pageable);
     public function listAllPatients($pageable);
     public function listAllMedics($pageable);
+    public function listNotifications($id);
     public function find($id);
     public function create($data);
     public function update($data);

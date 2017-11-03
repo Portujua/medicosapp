@@ -74,6 +74,9 @@
           this.messages[insertedIndex] = response.data;
           // do scroll down
         })
+        .finally(() => {
+          this.scrollDown();
+        })
     }
 
     reset() {

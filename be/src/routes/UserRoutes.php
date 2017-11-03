@@ -35,6 +35,12 @@ $app->group('/users', function() use ($app){
 		echo $response->getResponse();
 	});
 
+	$app->get('/:id/notifications', function($id) use ($app) {		
+		$response = new Response(UserService::getInstance()->listNotifications($id));
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
+
 	/** Add new user */
 	$app->post('/', function() use ($app) {
 		$data = json_decode($app->request->getBody(), true);

@@ -1,9 +1,11 @@
 (() => {
   
   class ChatListController {
-    constructor(ChatService, NgTableParams) {
+    constructor(Auth, ChatService, NgTableParams, TabManagerService) {
       this.NgTableParams = NgTableParams;
       this.ChatService = ChatService;
+      this.session = Auth.getSession();
+      this.TabManagerService = TabManagerService;
     }
 
     $onInit() {
@@ -32,6 +34,13 @@
             });
         }
       });
+    }
+
+    openChat(user, area) {
+      // Formula is sessionId + areaId + userId
+      let id = this.session.id + area.id + user.id;
+  
+      this.TabManagerService.add({ id: id, title: `${user.nombre_completo} [${area.nombre}]`, component: 'chatsView', user: user.id, area: area.id })
     }
   }
   

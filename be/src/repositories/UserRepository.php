@@ -85,6 +85,31 @@
       return $this->listAll($pageable, "medics");
     }
 
+    public function listNotifications($id) {
+      // Base query
+      $query = QB::table(Message::$tableName);
+
+      $query->where('user', $id);
+      $query->where('leido', 0);
+      $query->orderBy('createdAt', 'DESC');
+
+      // Run the final query
+      $result = Db::run($query);
+
+      // Add the users
+      $userRepository = new UserRepository();
+      $areaRepository = new AreaRepository();
+
+      foreach ($result as $m) {
+        $m->owner = $userRepository->find($m->owner);
+        $m->user = $userRepository->find($m->user);
+        $m->area = $areaRepository->find($m->area);
+        $m->leido = $m->leido == '0' ? false : true;
+      }
+
+      return $result;
+    }
+
     public function find($id) {
       $result = Db::run(
         $this->getTable()
