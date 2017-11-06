@@ -60,6 +60,10 @@ class NotificationsController {
 
     this.TabManagerService.add({ id: id, title: `${item.owner.nombre_completo} [${item.area.nombre}]`, component: 'chatsView', user: item.owner.id, area: item.area.id })
   }
+
+  isImage(message) {
+    return /^<img\ssrc="(.+)">$/.test(message.html)
+  }
 }
 
 angular.module('app')

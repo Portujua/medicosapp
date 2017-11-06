@@ -25,7 +25,10 @@
             <div ng-switch="item.type">
               <div ng-switch-default>
                 <a href="">{{ item.owner.nombre_completo }}</a> te ha enviado un mensaje en {{ item.area.nombre }}: <br>
-                <i class="text-muted">{{ item.html | s:'truncate':[100] }}</i>
+                <i class="text-muted" ng-if="!$ctrl.isImage(item)">{{ item.html | s:'truncate':[100] }}</i>
+                <i class="text-muted" ng-if="$ctrl.isImage(item)">
+                  <i class="fa fa-fw fa-camera"></i> Imagen
+                </i>
                 <br>
                 <p class="text-right hug"><a href="" ng-click="$ctrl.openChat(item)"><small>Ir a la conversación &rarr;</small></a></p>
               </div>
