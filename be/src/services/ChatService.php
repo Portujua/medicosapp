@@ -66,5 +66,9 @@
         return Response::getBaseInternalError($ex->getMessage());
       }
     }
+
+    public function attachment($data) {
+      return;
+    }
   }
 ?>

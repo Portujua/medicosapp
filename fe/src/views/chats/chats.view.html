@@ -9,7 +9,7 @@
         <img class="img-responsive img-circle" style="visibility: {{ $ctrl.messages[$index-1].owner.id == $ctrl.messages[$index].owner.id ? 'hidden' : 'visible' }}" ng-src="{{ msg.owner.image | defaultImage }}">
         <h3 class="hug" ng-if="$ctrl.messages[$index-1].owner.id == $ctrl.messages[$index].owner.id ? false : true">{{ msg.owner.nombre_completo | available:'Yo' }}</h3>
         <p>
-          <span ng-bind-html="msg.html"></span>
+          <span class="binded-html" ng-click="$ctrl.viewImage(msg)" ng-bind-html="msg.html"></span>
           <br>
           <small class="text-muted pull-right">
             <span ng-switch="msg.leido" ng-if="msg.owner.id == $ctrl.self.id">
@@ -30,7 +30,9 @@
       <textarea ng-model="$ctrl.data.html" placeholder="Introduce tu mensaje aquí.." ng-keydown="$ctrl.send($event)" autofocus></textarea>
 
       <div class="chat-buttons">
-        <button class="btn btn-transparent" type="file" ngf-select="$ctrl.upload($file, $invalidFiles)" accept="image/*" ngf-max-size="2MB"><i class="fa fa-fw fa-paperclip" aria-hidden="true"></i></button>
+        <button class="btn btn-transparent" type="file" ngf-select="$ctrl.upload($file, $invalidFiles)" ngf-accept="'image/*'" ngf-max-size="10MB">
+          <i class="fa fa-fw fa-paperclip" aria-hidden="true"></i>
+        </button>
         <button class="btn btn-lg btn-primary"><i class="fa fa-fw fa-paper-plane-o" aria-hidden="true"></i></button>
       </div>
     </div>

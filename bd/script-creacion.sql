@@ -86,8 +86,7 @@ create table Medico_Area (
 
 create table Mensaje (
 	id varchar(36) not null,
-	html text not null,
-	img longblob,
+	html longblob not null,
 	hora datetime,
 	owner varchar(56) not null references Usuario(id),
 	user varchar(56) not null references Usuario(id),

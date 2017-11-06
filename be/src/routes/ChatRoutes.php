@@ -29,6 +29,18 @@ $app->group('/chats', function() use ($app){
 		$response->setSlim($app);
 		echo $response->getResponse();
 	});
+
+	$app->post('/attachment', function() use ($app) {
+		$data = json_decode($app->request->getBody(), true);
+		print_r($_POST);
+		return;
+
+		$response = new Response(
+			ChatService::getInstance()->createMessage(Util::createPayload(Message::class, $data))
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
 });
 
 ?>

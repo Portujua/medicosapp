@@ -1,7 +1,7 @@
 (() => {
   
   class ChatViewController {
-    constructor(Auth, AreaService, UserService, ChatService, ChatMessage, $timeout, $interval, Message, Upload) {
+    constructor(Auth, AreaService, UserService, ChatService, ChatMessage, $timeout, $interval, Message, API) {
       this.Auth = Auth;
       this.AreaService = AreaService;
       this.UserService = UserService;
@@ -11,7 +11,7 @@
       this.$timeout = $timeout;
       this.$interval = $interval;
       this.Message = Message;
-      this.Upload = Upload;
+      this.attachmentUrl = `${API.url}chats/attachment`;
 
       this.REQUEST_INTERVAL = 5000;
       this.messages = [];
@@ -107,21 +107,24 @@
         return;
       }
 
-      this.data.html = '<div class="image-uploading"><img src="images/loading.gif" width="30" height="30"><br>Subiendo imagen..</div>';
+      // Get the Base64 string
+      let reader = new FileReader();
+      reader.readAsDataURL(file)
+      reader.onload = () => {
+        //this.data.html = '<div class="image-uploading"><img src="images/loading.gif" width="30" height="30"><br>Subiendo imagen..</div>';
+        this.data.html = `<img src="${reader.result}">`
+        this.send();
+      }
+    }
 
-      this.messages.push(angular.copy(this.data));
-      this.reset();
+    viewImage(message) {
+      let regex = /^<img\ssrc="(.+)">$/g;
 
-      // Upload file
-      // Save the current added index as local variable to update message status
-      let insertedIndex = this.messages.length - 1;
-
-      this.Upload.upload({
-        url: 'https://angular-file-upload-cors-srv.appspot.com/upload',
-        data: { file: file }
-      }).then((response) => {
-        console.log(response)
-      })
+      if (regex.test(message.html)) {
+        this.ChatService.openImageModal(message.html).then((response) => {
+          //
+        })
+      }
     }
   }
   

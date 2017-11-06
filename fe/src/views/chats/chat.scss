@@ -36,7 +36,17 @@
         }
       }
 
-      img {
+      .binded-html {
+        img {
+          max-width: 50vw;
+          max-height: 50vh;
+          margin-bottom: 5px;
+          margin-top: 10px;
+          cursor: pointer;
+        }
+      }
+
+      & > img {
         height: $chat-profile-image-size;
         width: $chat-profile-image-size;
       }
@@ -122,4 +132,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.modal-chats-view-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    max-width: 100vw;
+    max-height: 92vh;
+  }
 }
