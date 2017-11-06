@@ -91,7 +91,7 @@
 
               <div class="panel-body">
                 <p>
-                  <span uib-tooltip="Mes actual: {{ $ctrl.summary.earningsCurrentMonth }}" tooltip-placement="right" tooltip-apprend-to-body="true">
+                  <span uib-tooltip="Mes actual: {{ $ctrl.summary.earningsCurrentMonth | currency:'Bs. ' }}" tooltip-placement="right" tooltip-apprend-to-body="true">
                     {{ $ctrl.summary.earningsCurrentMonth | numberPrettify }}
                   </span>
                 </p>
@@ -100,7 +100,7 @@
                     Bs.
                   </small>
 
-                  <small class="pull-right text-success" uib-tooltip="Mes pasado: {{ $ctrl.summary.earningsPastMonth }}" tooltip-placement="left" tooltip-apprend-to-body="true">
+                  <small class="pull-right text-success" uib-tooltip="Mes pasado: {{ $ctrl.summary.earningsPastMonth | currency:'Bs. ' }}" tooltip-placement="left" tooltip-apprend-to-body="true">
                     {{ $ctrl.getPercentageRelation($ctrl.summary.earningsCurrentMonth, $ctrl.summary.earningsPastMonth) }}%<i class="fa fa-fw fa-{{ $ctrl.getPercentageRelationClass($ctrl.summary.earningsCurrentMonth, $ctrl.summary.earningsPastMonth) }}"></i>
                   </small>
                 </div>
