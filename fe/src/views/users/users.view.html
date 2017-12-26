@@ -6,6 +6,8 @@
 
   <div class="padding-sm">
     <div class="row">
+      <collapsable-panel></collapsable-panel>
+
       <!-- board -->
       <div class="col-12 col-lg-5 col-xl-4">
         <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
@@ -138,12 +140,8 @@
             {{ $ctrl.self ? 'Mis suscripciones' : 'Suscripciones' }}
           </div>
           <!-- Body -->
-          <div class="panel-body">
-            <div ng-if="!$ctrl.data.suscripciones">
-              <span class="text-muted" ng-show="$ctrl.self">No tienes suscripciones activas, <a href="" ng-click="$ctrl.openSuscriptions()">obten una aquí</a></span>
-
-              <span class="text-muted" ng-hide="$ctrl.self">Este usuario no tiene suscripciones.</span>
-            </div>
+          <div class="panel-body expand">
+            <user-suscriptions-list ng-if="$ctrl.data.id" user="$ctrl.data.id"></user-suscriptions-list>
           </div>
         </div>
       </div>

@@ -16,7 +16,8 @@
     "j4mie/paris": "*",
     "flynsarmy/slim-monolog": "*",
     "phpdocumentor/phpdocumentor": "2.*",
-    "usmanhalalit/pixie": "2.*@dev"
+    "usmanhalalit/pixie": "2.*@dev",
+    "mercadopago/sdk": "0.5.2"
   },
   "archive": {
     "exclude": ["vendor", ".DS_Store", "*.log"]

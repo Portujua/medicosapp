@@ -22,7 +22,7 @@
       try {
         $result = $this->repository->login($data);
 
-        $adminUsernames = ["root"];
+        $adminUsernames = ["root", "eduardo"];
         $token = null;
 
         if (in_array($data["username"], $adminUsernames)) {

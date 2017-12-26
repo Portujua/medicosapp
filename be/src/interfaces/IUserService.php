@@ -9,4 +9,5 @@
     public function update($data);
     public function patch($data);
     public function delete($data);
+    public function addSuscription($data);
   }

@@ -1,0 +1,78 @@
+<div cg-busy="$ctrl.loadingPromise">
+  <div class="padding" ng-if="$ctrl.hideTable && !$ctrl.listOnly">
+    <span class="text-muted" ng-show="$ctrl.self">No tienes suscripciones activas, <a href="" ng-click="$ctrl.openSuscriptions()">obten una aquí</a></span>
+
+    <span class="text-muted" ng-hide="$ctrl.self">Este usuario no tiene suscripciones.</span>
+  </div>
+
+  <!-- Main actions -->
+  <div class="actions-bar hug" ng-if="!$ctrl.hideTable || $ctrl.listOnly">
+    <!-- <button class="btn btn-primary btn-outline" ng-click="$ctrl.create()">
+      <i class="fa fa-fw fa-plus"></i> Crear Médico
+    </button> -->
+    
+    <div class="pull-right">
+      <!-- <button class="btn btn-link" ng-click="$ctrl.filters = !$ctrl.filters"><i class="fa fa-fw fa-filter"></i> Filtros</button> -->
+      <button class="btn btn-link" ng-click="$ctrl.load()"><i class="fa fa-fw fa-refresh"></i>  Refrescar</button>
+    </div>
+  </div>
+  <!-- /Main actions -->
+
+  <div class="table-frame hug borderless" ng-if="!$ctrl.hideTable || $ctrl.listOnly">
+    <div class="table-responsive">
+      <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
+        <colgroup>
+          <col>
+          <col width="10%" ng-if="$ctrl.listOnly">
+          <col width="10%">
+          <col width="30%">
+          <col width="30%">
+          <col>
+          <col width="20%">
+          <col ng-if="!$ctrl.listOnly">
+        </colgroup>
+        <tbody>
+          <tr ng-repeat="item in $data" >
+            <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
+
+            <td class="text-center" ng-if="$ctrl.listOnly">
+              <div class="btn-group">
+                <button class="btn btn-success btn-outline btn-xs" ng-if="item.status == 'REVISION'" uib-tooltip="Aprobar" tooltip-append-to-body="true" ng-click="$ctrl.approve(item)">
+                  <i class="fa fa-fw fa-check"></i>
+                </button>
+
+                <button class="btn btn-danger btn-outline btn-xs" ng-if="item.status == 'PENDIENTE' || item.status == 'REVISION'" uib-tooltip="Rechazar" tooltip-append-to-body="true" ng-click="$ctrl.decline(item)">
+                  <i class="fa fa-fw fa-times"></i>
+                </button>
+              </div>
+            </td>
+
+            <td title="'Estado'" class="text-center text-middle">
+              <span class="label" ng-class="{ 'label-warning': item.status == 'PENDIENTE', 'label-primary': item.status == 'REVISION', 'label-danger': item.status == 'RECHAZADO', 'label-success': item.status == 'APROBADO' }">{{ item.status }}</span>
+            </td>
+
+            <td title="$ctrl.listOnly ? 'Usuario' : 'Nombre'" class="text-center text-middle">
+              {{ $ctrl.listOnly ? item.usuario.nombre_completo : item.tipo_suscripcion.nombre | available }}
+            </td>
+
+            <td title="$ctrl.listOnly ? 'Suscripción' : 'Descripción'" class="text-center text-middle">
+              {{ $ctrl.listOnly ? item.tipo_suscripcion.nombre : item.tipo_suscripcion.descripcion | available | s:'truncate':[50] }}
+            </td>
+
+            <td title="'Costo'" filter="{ costo: 'number' }" sortable="'costo'" class="text-center text-middle">
+              {{ item.tipo_suscripcion.costo | currency:'Bs.' | available }}
+            </td>
+
+            <td title="'Fecha'" class="text-center text-middle">
+              {{ item.createdAt | date:'dd/MM/yyyy @ hh:mm a' }}
+            </td>
+            
+            <td title="'Consultas'" class="text-center text-middle" uib-tooltip="Quedan {{ item.consultas_restantes }} consulta(s) de {{ item.tipo_suscripcion.cant_cons }}" tooltip-append-to-body="true" ng-if="!$ctrl.listOnly">
+              {{ item.consultas_restantes || 0 }}/{{ item.tipo_suscripcion.cant_cons || 0 }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 (() => {
   
-  class SuscriptionListController {
+  class SuscriptionTypesListController {
     constructor(SuscriptionService, NgTableParams) {
       this.SuscriptionService = SuscriptionService;
       this.NgTableParams = NgTableParams;
@@ -48,9 +48,9 @@
   }
   
   angular.module('app')
-    .component('suscriptionList', {
-      templateUrl: 'views/suscriptions/suscriptions.list.html',
-      controller: SuscriptionListController,
+    .component('suscriptionTypesList', {
+      templateUrl: 'views/suscriptions/suscriptionTypes.list.html',
+      controller: SuscriptionTypesListController,
       controllerAs: '$ctrl'
     });
   

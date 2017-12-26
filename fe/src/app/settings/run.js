@@ -1,11 +1,13 @@
 angular.module('app')
-  .run(($rootScope, PageService, SidebarService, editableOptions, editableThemes, toggleConfig, $timeout, $templateCache) => {
+  .run(($rootScope, PageService, SidebarService, editableOptions, editableThemes, toggleConfig, $timeout, $templateCache, MercadoPago) => {
     // X-Editable settings (theme)
     editableThemes.bs3.inputClass = 'input-sm';
     editableThemes.bs3.buttonsClass = 'btn-sm';
     editableOptions.theme = 'bs3';
     editableOptions.icon_set = 'font-awesome';
     editableOptions.activate = 'select';
+
+    MercadoPago.loadApiInfo();
 
     // Toggle Config
     toggleConfig.on = 'Yes';

@@ -1,21 +1,25 @@
 <?php
-  class SuscriptionTypeRepository {
+  class SuscriptionRepository {
     public function __construct() {
       
     }
 
     private function getTable() {
-      return QB::table(SuscriptionType::$tableName);
+      return QB::table(UserSuscription::$tableName);
     }
 
-    public function listAll($pageable = null, $active = false) {
+    public function list($pageable = null, $userId) {
       // Base query
-      $query = $this->getTable()->orderBy("costo", "asc");
+      $query = $this->getTable()->orderBy("createdAt", "desc");
+
+      if ($userId != null) {
+        $query->where("usuario", $userId);
+      }
 
       if ($pageable != null) {
         // Search for keyword if available
         if ($pageable->hasKeyword()) {
-          foreach (SuscriptionType::getSearcheableFields() as $sf) {
+          foreach (UserSuscription::getSearcheableFields() as $sf) {
             $query->orWhere($sf, 'like', '%'.$pageable->getKeyword().'%');
           }
         }
@@ -32,18 +36,23 @@
         $pageable->setTotalElements($this->getTable()->count());
       }
 
-      if ($active) {
-        $query->where("estado", true);
-      }
-
       // Run the final query
       $result = Db::run($query);
+
+      // Add the rest
+      $suscriptionTypeRepository = new SuscriptionTypeRepository();
+      $userRepository = new UserRepository();
+
+      foreach ($result as $row) {
+        $row->tipo_suscripcion = $suscriptionTypeRepository->find($row->tipo_suscripcion);
+        $row->usuario = $userRepository->find($row->usuario);
+      }
 
       return $pageable != null ? $pageable->getResponse($result) : $result;
     }
 
     public function find($id) {
-      $result = Db::run($this->getTable()->where(SuscriptionType::$pk, '=', $id));
+      $result = Db::run($this->getTable()->where(UserSuscription::$pk, '=', $id));
 
       if (count($result) > 0) {
         return $result[0];
@@ -53,14 +62,12 @@
       }
     }
 
-    public function add($data) {
+    public function create($data) {
       if (!Session::isActive()) {
         throw new MethodNotAllowedException();
       }
 
       $this->getTable()->insert($data);
-
-      return $data['id'];
     }
 
     public function patch($data) {
@@ -68,7 +75,23 @@
         throw new MethodNotAllowedException();
       }
 
-      $this->getTable()->where(SuscriptionType::$pk, $data[SuscriptionType::$pk])->update($data);
+      $this->getTable()->where(UserSuscription::$pk, $data[UserSuscription::$pk])->update($data);
+    }
+
+    public function approve($id) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      $this->getTable()->where(UserSuscription::$pk, $id)->update(array("status" => "APROBADO"));
+    }
+
+    public function decline($id) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      $this->getTable()->where(UserSuscription::$pk, $id)->update(array("status" => "RECHAZADO"));
     }
   }
 ?>

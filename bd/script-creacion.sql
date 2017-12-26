@@ -99,11 +99,12 @@ create table Mensaje (
 
 create table Suscripcion (
 	id varchar(36) not null,
-	paciente varchar(36) not null references Usuario(id),
+	usuario varchar(36) not null references Usuario(id),
 	tipo_suscripcion varchar(36) not null references Tipo_Suscripcion(id),
-	empieza date not null,
-	termina date not null,
-	cant_cons_restantes int not null,
+	consultas_restantes int not null,
+	status varchar(20) not null default 'PENDIENTE',
+	costo_de_compra float not null,
+	constraint allowed_statuses check (status in ('PENDIENTE', 'REVISION', 'RECHAZADO', 'APROBADO')),
 	createdAt datetime default current_timestamp,
 	modifiedAt datetime on update current_timestamp,
 	primary key(id)
@@ -115,7 +116,7 @@ create table Tipo_Suscripcion (
 	nombre varchar(128) not null,
 	costo float not null,
 	descripcion text,
-	num_dias int not null,
+	num_dias int,
 	cant_cons int not null,
 	icono varchar(128),
 	estado tinyint(1) default 1,

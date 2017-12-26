@@ -136,5 +136,9 @@
 		public static function getBaseRecordNotFound($message = "Record not found.", $jsonParse = true) {
 			return new Response($message, STATUS_ACCEPTED);
 		}
+
+		public static function getBaseRecordCreated($message = "Record created successfully.", $jsonParse = true) {
+			return new Response($message, STATUS_CREATED);
+		}
   }
 ?>

@@ -6,7 +6,13 @@
     }
 
     $onInit() {
-      
+      this.load();
+    }
+
+    load() {
+      // this.loadingPromise = this.MercadoPago.summary().then((response) => {
+      //   this.summary = response.data;
+      // })
     }
   }
   

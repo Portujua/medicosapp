@@ -16,9 +16,9 @@
       return self::$instance;
     }
 
-    public function listAll($pageable) {
+    public function listAll($pageable, $active) {
       try {
-        return $this->repository->listAll($pageable);
+        return $this->repository->listAll($pageable, $active);
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed();

@@ -30,6 +30,14 @@
       });
     }
 
+    addSuscription(userId, payload) {
+      return this.RESTful.post(`users/${userId}/suscriptions`, payload)
+    }
+
+    listSuscriptions(userId, query) {
+      return !_.isEmpty(userId) ? this.RESTful.get(`users/${userId}/suscriptions`, query) : this.RESTful.get('suscriptions', query);
+    }
+
     openCreateModal(type = 'patient') {
       let modalInstance = this.$uibModal.open({
         ariaLabelledBy: 'modal-title',

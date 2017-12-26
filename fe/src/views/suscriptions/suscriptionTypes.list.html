@@ -12,7 +12,7 @@
 </div>
 <!-- /Main actions -->
 
-<div id="areas-list" class="table-frame" cg-busy="$ctrl.loadingPromise">
+<div id="areas-list" class="table-frame hug borderless" cg-busy="$ctrl.loadingPromise">
   <div class="table-responsive">
     <table class="table table-hover" ng-table="$ctrl.tableParams" show-filter="$ctrl.filters">
       <colgroup>
@@ -40,11 +40,11 @@
             <span editable-number="item.costo" onbeforesave="$ctrl.save($data, 'costo', item)" e-required>{{ item.costo | available }}</span>
           </td>
 
-          <td title="'# días'" filter="{ num_dias: 'number' }" sortable="'num_dias'" class="text-center text-middle">
+          <!-- <td title="'# días'" filter="{ num_dias: 'number' }" sortable="'num_dias'" class="text-center text-middle">
             <span editable-number="item.num_dias" onbeforesave="$ctrl.save($data, 'num_dias', item)" e-required>{{ item.num_dias | available }}</span>
-          </td>
+          </td> -->
 
-          <td title="'# consultas'" filter="{ cant_cons: 'number' }" sortable="'cant_cons'" class="text-center text-middle">
+          <td title="'Consultas'" filter="{ cant_cons: 'number' }" sortable="'cant_cons'" class="text-center text-middle">
             <span editable-number="item.cant_cons" onbeforesave="$ctrl.save($data, 'cant_cons', item)" e-required>{{ item.cant_cons | available }}</span>
           </td>
 

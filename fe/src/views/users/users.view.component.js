@@ -24,26 +24,19 @@
     }
 
     load() {
-      this.loadingPromise = this.loadLocations() && this.loadPhoneTypes() && this.loadPhones();
-    }
-
-    loadLocations() {
-      return this.LocationService.list().then((response) => {
+      this.loadingPromise = this.LocationService.list().then((response) => {
         this.locations = response.data;
-      })
-    }
 
-    loadPhoneTypes() {
-      return this.PhoneService.getTypes().then((response) => {
-        this.phoneTypes = response.data;
-      })
-    }
+        return this.PhoneService.getTypes().then((response) => {
+          this.phoneTypes = response.data;
 
-    loadPhones() {
-      return this.PhoneService.list(this.data.id)
-        .then((response) => {
-          this.data.phones = response.data;
+          return this.PhoneService.list(this.data.id).then((response) => {
+            this.data.phones = response.data;
+
+            return this.UserService.listSuscriptions(this.data.id)
+          })
         })
+      })
     }
 
     save(data, field) {

@@ -10,7 +10,7 @@ angular.module('app')
 
     },
     scope: {
-      
+      data: '='
     },
     bindToController: true,
   }));

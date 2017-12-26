@@ -7,8 +7,9 @@ $app->group('/suscription-types', function() use ($app){
 	/** Get all users */
 	$app->get('/', function() use ($app) {
 		$pageable = new Pageable($app->request->params());
+		$active = isset($app->request->params()['active']);
 
-		$response = new Response(SuscriptionTypeService::getInstance()->listAll($pageable));
+		$response = new Response(SuscriptionTypeService::getInstance()->listAll($pageable, $active));
 		$response->setSlim($app);
 		echo $response->getResponse();
 	});

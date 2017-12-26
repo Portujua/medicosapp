@@ -91,22 +91,26 @@
             <scrollable-tabset auto-recalculate="true">
               <uib-tabset justified="true">
                 <!-- Daily -->
-                <uib-tab index="2" heading="Áreas">
+                <uib-tab index="0" heading="Áreas">
                   <area-list></area-list>
                 </uib-tab>
                 <!-- /Daily -->
   
                 <!-- Rig -->
-                <uib-tab index="0" heading="Médicos">
+                <uib-tab index="1" heading="Médicos">
                   <medics-list></medics-list>
                 </uib-tab>
                 <!-- /Rig -->
   
                 <!-- Well and wellbores -->
-                <uib-tab index="1" heading="Suscripciones">
-                  <suscription-list></suscription-list>
+                <uib-tab index="2" heading="Tipos de Suscripciones">
+                  <suscription-types-list></suscription-types-list>
                 </uib-tab>
                 <!-- /Well and wellbores -->
+
+                <uib-tab index="3" heading="Suscripciones">
+                  <user-suscriptions-list list-only="true"></user-suscriptions-list>
+                </uib-tab>
               </uib-tabset>
             </scrollable-tabset>
   

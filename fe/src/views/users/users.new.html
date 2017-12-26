@@ -173,7 +173,7 @@
     <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.lugar.$invalid && form.lugar.$touched, 'has-success': form.lugar.$valid && form.lugar.$touched }">
       <label class="col-4 col-form-label" for="textinput">Dirección 1</label>
       <div class="col-6">
-        <input type="text" name="lugar" id="lugar" class="form-control" ng-model="$ctrl.data.lugar" required placeholder="" required uib-typeahead="item as item.nombre_completo for item in $ctrl.locations | filter:$viewValue | limitTo:10" typeahead-append-to-body="true" typeahead-editable="false">
+        <input type="text" name="lugar" id="lugar" class="form-control" ng-model="$ctrl.data.lugar" required placeholder="" required uib-typeahead="item as item.nombre_completo for item in $ctrl.locations | filter:$viewValue | limitTo:10" typeahead-append-to-body="true" typeahead-editable="false" typeahead-show-hint="true">
       </div>
     </div>
 

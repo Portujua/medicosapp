@@ -1,60 +1,24 @@
 <?php
-  class UserService implements IUserService {
+  class SuscriptionService implements ISuscriptionService {
     private static $instance = null;
 
     private $repository;
 
     private function __construct() {
-      $this->repository = new UserRepository();
+      $this->repository = new SuscriptionRepository();
     }
 
     public static function getInstance() {
       if (self::$instance == null) {
-        self::$instance = new UserService();
+        self::$instance = new SuscriptionService();
       }
 
       return self::$instance;
     }
 
-    public function listAll($pageable) {
+    public function listAll($pageable, $userId = null) {
       try {
-        return $this->repository->listAll($pageable);
-      }
-      catch (MethodNotAllowedException $ex) {
-        return Response::getBaseMethodNotAllowed();
-      }
-      catch (Exception $ex) {
-        return Response::getBaseInternalError($ex->getMessage());
-      }
-    }
-
-    public function listAllPatients($pageable) {
-      try {
-        return $this->repository->listAllPatients($pageable);
-      }
-      catch (MethodNotAllowedException $ex) {
-        return Response::getBaseMethodNotAllowed();
-      }
-      catch (Exception $ex) {
-        return Response::getBaseInternalError($ex->getMessage());
-      }
-    }
-
-    public function listAllMedics($pageable) {
-      try {
-        return $this->repository->listAllMedics($pageable);
-      }
-      catch (MethodNotAllowedException $ex) {
-        return Response::getBaseMethodNotAllowed();
-      }
-      catch (Exception $ex) {
-        return Response::getBaseInternalError($ex->getMessage());
-      }
-    }
-
-    public function listNotifications($id) {
-      try {
-        return $this->repository->listNotifications($id);
+        return $this->repository->list($pageable, $userId);
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed();
@@ -78,24 +42,9 @@
 
     public function create($data) {
       try {
-        $id = $this->repository->add($data);
+        $this->repository->create($data);
 
-        // Set admin token to allow return the added user
-        $temp = null;
-        if (!Session::isActive()) {
-          $temp = Session::generateId();
-          Session::set($temp);
-        }
-
-        // Get the new user
-        $patient = new User($this->repository->find($id));
-
-        // Unset the temporal token
-        if ($temp != null) {
-          Session::_unset($temp);
-        }
-
-        return $patient->get();
+        return Response::getBaseRecordCreated();
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed($ex->getMessage());
@@ -108,7 +57,7 @@
     public function update($data) {
       try {
         $this->repository->update($data);
-        $patient = new User($this->repository->find($data[User::$pk]));
+        $patient = new UserSuscription($this->repository->find($data[UserSuscription::$pk]));
 
         return $patient->get();
       }
@@ -123,7 +72,7 @@
     public function patch($data) {
       try {
         $this->repository->patch($data);
-        $patient = new User($this->repository->find($data[User::$pk]));
+        $patient = new UserSuscription($this->repository->find($data[UserSuscription::$pk]));
 
         return $patient->get();
       }
@@ -137,7 +86,7 @@
 
     public function delete($data) {
       try {
-        $exists = $this->find($data[User::$pk]);
+        $exists = $this->find($data[UserSuscription::$pk]);
 
         if ($exists instanceof Response) {
           return $exists;
@@ -162,14 +111,64 @@
       }
     }
 
-    public function addSuscription($data) {
+    public function approve($id) {
       try {
-        $this->repository->addSuscription($data);
+        $exists = $this->find($id);
 
-        return Response::getBaseRecordCreated();
+        if ($exists instanceof Response) {
+          return $exists;
+        }
+        else if (is_array($exists) || is_object($exists)) {
+          if ($exists->status == "REVISION") {
+            $this->repository->approve($id);
+            
+            return "Suscripción aprobada con éxito.";
+          }
+          else {
+            return Response::getBaseMethodNotAllowed("Solo se pueden aprobar suscripciones en REVISIÓN.");
+          }
+        }
+        else {
+          throw new RecordNotFoundException();
+        }
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (RecordNotFoundException $ex) {
+        return Response::getBaseRecordNotFound($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
+    public function decline($id) {
+      try {
+        $exists = $this->find($id);
+
+        if ($exists instanceof Response) {
+          return $exists;
+        }
+        else if (is_array($exists) || is_object($exists)) {
+          if ($exists->status == "PENDIENTE" || $exists->status == "REVISION") {
+            $this->repository->decline($id);
+
+            return "Suscripción rechazada con éxito.";
+          }
+          else {
+            return Response::getBaseMethodNotAllowed("No se puede rechazar una suscripción en estado " . $exists->status . ".");
+          }
+        }
+        else {
+          throw new RecordNotFoundException();
+        }
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (RecordNotFoundException $ex) {
+        return Response::getBaseRecordNotFound($ex->getMessage());
       }
       catch (Exception $ex) {
         return Response::getBaseInternalError($ex->getMessage());

@@ -1,9 +1,12 @@
 <div cg-busy="$ctrl.loadingPromise">
   <h3 class="hug-top pull-left">
-    <small style="font-size: 13px">Ventas última semana</small>
+    <small style="font-size: 13px">Ventas este mes</small>
   </h3>
   <h3 class="hug-top pull-right">
     <small style="font-size: 13px">Total: <strong>{{ $ctrl.total | currency:'Bs. ' }}</strong></small>
   </h3>
-  <canvas height="70" id="line" class="chart chart-bar" chart-data="$ctrl.data" chart-labels="$ctrl.labels" chart-series="$ctrl.series" chart-options="$ctrl.options" chart-colors="$ctrl.colors"></canvas>
+
+  <not-found expression="!$ctrl.chartData[0].length" message="No han habido ventas este mes"></not-found>
+
+  <canvas ng-if="$ctrl.chartData[0].length" height="70" id="line" class="chart chart-bar" chart-data="$ctrl.chartData" chart-labels="$ctrl.labels" chart-series="$ctrl.series" chart-options="$ctrl.options" chart-colors="$ctrl.colors"></canvas>
 </div>

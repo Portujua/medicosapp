@@ -26,6 +26,14 @@
       });
     }
 
+    approve(id) {
+      return this.RESTful.post(`suscriptions/${id}/approve`)
+    }
+
+    decline(id) {
+      return this.RESTful.post(`suscriptions/${id}/decline`)
+    }
+
     openCreateModal() {
       let modalInstance = this.$uibModal.open({
         ariaLabelledBy: 'modal-title',

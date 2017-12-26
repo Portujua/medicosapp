@@ -10,7 +10,7 @@ class SoldSuscriptionsController {
 
     this.total = 0;
     this.labels = [];
-    this.data = [[]];
+    this.chartData = [[]];
     this.colors = [{
       backgroundColor: '#0c86a2',
       borderColor: '#085f73',
@@ -41,7 +41,7 @@ class SoldSuscriptionsController {
         xAxes: [{
           scaleLabel: {
             display: false,
-            labelString: 'Days',
+            labelString: 'Días',
           },
           gridLines: {
             display: false,
@@ -68,10 +68,20 @@ class SoldSuscriptionsController {
   }
 
   $onInit() {
-    this.loadingPromise = this.load();
+    this.load();
+    // if (_.isUndefined(this.data)) {
+    //   this.loadingPromise = this.load();
+    // }
+    // else {
+    //   this.processData();
+    // }
   }
 
   load() {
+    // return this.MercadoPago.summary().then((response) => {
+    //   this.data = response.data.thisMonth.results;
+    //   this.processData();
+    // })
     let last = this.TimeUtil.subtractDuration(this.today, 1, 'week');
 
     for (let i = 0; i < 7; i++) {      
@@ -80,9 +90,17 @@ class SoldSuscriptionsController {
 
       this.labels.push(this.$filter('date')(last, 'dd/MMM'));
       this.total += n;
-      this.data[0].push(n);
+      this.chartData[0].push(n);
     }
   }
+
+  // processData() {
+  //   _.each(this.data, (r) => {
+  //     this.labels.push(this.$filter('date')(r.date_created, 'dd/MMM'))
+  //     this.total += r.amount;
+  //     this.chartData[0].push(r.amount);
+  //   })
+  // }
 }
 
 angular.module('app')
