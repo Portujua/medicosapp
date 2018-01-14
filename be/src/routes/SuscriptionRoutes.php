@@ -12,6 +12,16 @@ $app->group('/suscriptions', function() use ($app){
 		$response->setSlim($app);
 		echo $response->getResponse();
 	});
+
+	$app->post('/:id/register-payment', function($id) use ($app) {
+		$data = json_decode($app->request->getBody(), true);
+
+		$response = new Response(
+			SuscriptionService::getInstance()->registerPayment($id, $data)
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+  });
 	
 	$app->post('/:id/approve', function($id) use ($app) {
 		$response = new Response(

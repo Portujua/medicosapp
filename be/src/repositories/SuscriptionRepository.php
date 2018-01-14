@@ -93,5 +93,15 @@
 
       $this->getTable()->where(UserSuscription::$pk, $id)->update(array("status" => "RECHAZADO"));
     }
+
+    public function registerPayment($id, $data) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      $data["status"] = "REVISION";
+
+      $this->getTable()->where(UserSuscription::$pk, $id)->update($data);
+    }
   }
 ?>

@@ -59,14 +59,8 @@
       this.TabManagerService.add({ title: 'Suscripciones', component: 'suscriptionBList', color: 'color-1' })
     }
 
-    approve(item) {
-      this.loadingPromise = this.SuscriptionService.approve(item.id).then((response) => {
-        this.load();
-      })
-    }
-
-    decline(item) {
-      this.loadingPromise = this.SuscriptionService.decline(item.id).then((response) => {
+    openPaymentModal(item) {
+      this.SuscriptionService.openPaymentModal(item).then((response) => {
         this.load();
       })
     }

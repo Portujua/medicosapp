@@ -10,4 +10,6 @@
     public function patch($data);
     public function delete($data);
     public function addSuscription($data);
+    public function assignArea($userId, $areaId);
+    public function unassignArea($userId, $areaId);
   }

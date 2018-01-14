@@ -136,13 +136,15 @@
 
       <div class="col-12 col-lg-7 col-xl-8">
         <div class="panel panel-default" cg-busy="$ctrl.loadingPromise">
-          <div class="panel-heading">
-            {{ $ctrl.self ? 'Mis suscripciones' : 'Suscripciones' }}
-          </div>
-          <!-- Body -->
-          <div class="panel-body expand">
-            <user-suscriptions-list ng-if="$ctrl.data.id" user="$ctrl.data.id"></user-suscriptions-list>
-          </div>
+          <uib-tabset justified="false">
+            <uib-tab index="0" heading="{{ $ctrl.self ? 'Mis suscripciones' : 'Suscripciones' }}">
+              <user-suscriptions-list ng-if="$ctrl.data.id" user="$ctrl.data.id"></user-suscriptions-list>
+            </uib-tab>
+
+            <uib-tab index="1" heading="Áreas" ng-if="$ctrl.data.es_medico && $ctrl.session.isAdmin()">
+              <medics-areas-assign medic="$ctrl.data"></medics-areas-assign>
+            </uib-tab>
+          </uib-tabset>
         </div>
       </div>
     </div>

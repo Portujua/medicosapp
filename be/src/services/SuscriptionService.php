@@ -174,5 +174,37 @@
         return Response::getBaseInternalError($ex->getMessage());
       }
     }
+
+    public function registerPayment($id, $data) {
+      try {
+        $exists = $this->find($id);
+
+        if ($exists instanceof Response) {
+          return $exists;
+        }
+        else if (is_array($exists) || is_object($exists)) {
+          if ($exists->status == "PENDIENTE") {
+            $this->repository->registerPayment($id, $data);
+            
+            return "Pago de suscripción registrado con éxito.";
+          }
+          else {
+            return Response::getBaseMethodNotAllowed("Solo se pueden aprobar suscripciones en PENDIENTE.");
+          }
+        }
+        else {
+          throw new RecordNotFoundException();
+        }
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (RecordNotFoundException $ex) {
+        return Response::getBaseRecordNotFound($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
   }
 ?>

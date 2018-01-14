@@ -1,0 +1,111 @@
+<form name="form" autocomplete="off">
+  <div class="modal-header">
+    <h3 class="modal-title">
+      {{ $ctrl.userSuscription.status == 'PENDIENTE' ? 'Registrar pago' : 'Datos de pago' }}
+    </h3>
+  </div>
+
+  <div ng-if="!$ctrl.session.isAdmin()">
+    <div class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" ng-if="!$ctrl.userSuscription.banco">
+      <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.banco.$invalid && form.banco.$touched, 'has-success': form.banco.$valid && form.banco.$touched }">
+        <label class="col-4 col-form-label" for="textinput">Banco</label>
+        <div class="col-6">
+          <select name="banco" id="banco" class="form-control" ng-model="$ctrl.data.banco" required ng-options="banco as banco for banco in $ctrl.bancos"></select>
+        </div>
+      </div>
+
+      <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.tipo_pago.$invalid && form.tipo_pago.$touched, 'has-success': form.tipo_pago.$valid && form.tipo_pago.$touched }">
+        <label class="col-4 col-form-label" for="textinput">Tipo de pago</label>
+        <div class="col-6">
+          <select name="tipo_pago" id="tipo_pago" class="form-control" ng-model="$ctrl.data.tipo_pago" required ng-change="$ctrl.data.nro_transferencia = null; $ctrl.data.nro_deposito = null;">
+            <option value="TRANSFERENCIA">Transferencia</option>
+            <option value="DEPOSITO">Depósito</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.nro_transferencia.$invalid && form.nro_transferencia.$touched, 'has-success': form.nro_transferencia.$valid && form.nro_transferencia.$touched }" ng-if="$ctrl.data.tipo_pago == 'TRANSFERENCIA'">
+        <label class="col-4 col-form-label" for="textinput">Nro. Transferencia</label>
+        <div class="col-6">
+          <input type="text" name="nro_transferencia" id="nro_transferencia" class="form-control" ng-model="$ctrl.data.nro_transferencia" required placeholder="" maxlength="128">
+          <!-- Errors -->
+          <span class="help-block" ng-messages="form.nro_transferencia.$error" role="alert">
+            <span ng-message="required">Este campo no puede estar vacío.</span>
+            <span ng-message="maxlength">La longitud no puede ser mayor a 128.</span>
+          </span>
+          <!-- /Errors -->
+        </div>
+      </div>
+
+      <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.nro_deposito.$invalid && form.nro_deposito.$touched, 'has-success': form.nro_deposito.$valid && form.nro_deposito.$touched }" ng-if="$ctrl.data.tipo_pago == 'DEPOSITO'">
+        <label class="col-4 col-form-label" for="textinput">Nro. Depósito</label>
+        <div class="col-6">
+          <input type="text" name="nro_deposito" id="nro_deposito" class="form-control" ng-model="$ctrl.data.nro_deposito" required placeholder="" maxlength="128">
+          <!-- Errors -->
+          <span class="help-block" ng-messages="form.nro_deposito.$error" role="alert">
+            <span ng-message="required">Este campo no puede estar vacío.</span>
+            <span ng-message="maxlength">La longitud no puede ser mayor a 128.</span>
+          </span>
+          <!-- /Errors -->
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="modal-body" ng-if="$ctrl.userSuscription.banco || $ctrl.session.isAdmin()">
+    <div class="form-group row">
+      <div class="col-4">
+        <span class="bold">Banco</span>
+      </div>
+      <div class="col-6">
+        {{ $ctrl.userSuscription.banco | available }}
+      </div>
+    </div>
+
+    <div class="form-group row">
+      <div class="col-4">
+        <span class="bold">Tipo de Pago</span>
+      </div>
+      <div class="col-6">
+        {{ $ctrl.userSuscription.nro_transferencia ? 'Transferencia' : ($ctrl.userSuscription.nro_deposito ? 'Depósito' : null) | available }}
+      </div>
+    </div>
+
+    <div class="form-group row" ng-if="$ctrl.userSuscription.nro_transferencia">
+      <div class="col-4">
+        <span class="bold">Nro. Transferencia</span>
+      </div>
+      <div class="col-6">
+        {{ $ctrl.userSuscription.nro_transferencia | available }}
+      </div>
+    </div>
+
+    <div class="form-group row" ng-if="$ctrl.userSuscription.nro_deposito">
+      <div class="col-4">
+        <span class="bold">Nro. Depósito</span>
+      </div>
+      <div class="col-6">
+        {{ $ctrl.userSuscription.nro_deposito | available }}
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button class="btn btn-danger btn-link" type="button" ng-click="$ctrl.close()" ng-disabled="$ctrl.isSaving">Cerrar</button>
+
+    <div class="pull-right" ng-if="!$ctrl.session.isAdmin()">
+      <button class="btn btn-default" type="button" ng-click="$ctrl.save()" ng-disabled="form.$invalid || $ctrl.isSaving" ng-if="$ctrl.userSuscription.status == 'PENDIENTE'"><i class="fa fa-fw fa-save"></i> Registrar</button>
+    </div>
+
+    <div class="pull-right" ng-if="$ctrl.session.isAdmin()">
+      <button class="btn btn-danger" type="button" ng-click="$ctrl.decline()" ng-if="$ctrl.userSuscription.status == 'REVISION'">
+        <i class="fa fa-fw fa-times"></i> Rechazar
+      </button>
+
+      <button class="btn btn-success" type="button" ng-click="$ctrl.approve()" ng-if="$ctrl.userSuscription.status == 'REVISION'">
+        <i class="fa fa-fw fa-check"></i> Aprobar
+      </button>
+    </div>
+  </div>
+</form>  

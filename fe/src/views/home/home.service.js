@@ -18,7 +18,7 @@ class HomeService extends BaseService {
       icon: 'fa-home',
       order: -1,
       tab: {
-        id: 'Inicio',
+        id: 'home',
         title: 'Inicio',
         component: 'home',
         icon: 'fa-home',

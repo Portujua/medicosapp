@@ -7,10 +7,12 @@
 
     getSidebarButton() {
       return {
+        id: 'profile',
         title: 'Perfil',
         order: 0,
         icon: 'fa-user',
         tab: {
+          id: 'profile',
           component: 'usersView',
           color: 'color-4',
           icon: 'fa-user'

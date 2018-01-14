@@ -143,6 +143,11 @@
       
         $user->lugar = $locationRepository->find($user->lugar);
 
+        if ($user->es_medico == '1') {
+          $areaRelationsRepository = new AreaRelationsRepository();
+          $user->areas = $areaRelationsRepository->findByUser($user->id);
+        }
+
         return $user;
       }
       else {
@@ -182,6 +187,28 @@
       }
 
       $this->getTable()->where(User::$pk, $data[User::$pk])->delete();
+    }
+
+    public function assignArea($userId, $areaId) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      $data = array(
+        "id" => Util::uuid(),
+        "usuario" => $userId,
+        "area" => $areaId
+      );
+
+      QB::table("Medico_Area")->insert($data);
+    }
+
+    public function unassignArea($userId, $areaId) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      QB::table("Medico_Area")->where('usuario', $userId)->where('area', $areaId)->delete();
     }
   }
 ?>

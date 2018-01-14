@@ -33,7 +33,7 @@
           cancelButtonText: 'Cancelar',
         }).then(() => {
           this.loadingPromise = this.UserService.addSuscription(this.session.id, item).then((response) => {
-            this.TabManagerService.add({ title: 'Perfil', component: 'usersView', color: 'color-4', icon: 'fa-user' })
+            this.TabManagerService.add({ id: 'profile', title: 'Perfil', component: 'usersView', color: 'color-4', icon: 'fa-user' })
           })
         })
     }

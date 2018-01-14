@@ -28,6 +28,22 @@ $app->group('/users', function() use ($app){
 		$response->setSlim($app);
 		echo $response->getResponse();
 	});
+
+	$app->post('/:userId/areas/:areaId', function($userId, $areaId) use ($app) {
+		$response = new Response(
+			UserService::getInstance()->assignArea($userId, $areaId)
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
+
+	$app->delete('/:userId/areas/:areaId', function($userId, $areaId) use ($app) {
+		$response = new Response(
+			UserService::getInstance()->unassignArea($userId, $areaId)
+		);
+		$response->setSlim($app);
+		echo $response->getResponse();
+	});
 });
 
 ?>

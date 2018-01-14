@@ -1,0 +1,21 @@
+<div class="table-frame hug borderless" cg-busy="$ctrl.loadingPromise">
+  <div class="table-responsive">
+    <table class="table table-hover">
+      <colgroup>
+        <col width="20%">
+        <col width="80%">
+      </colgroup>
+      <tbody>
+        <tr ng-repeat="item in $ctrl.areas">
+          <td>
+            <toggle class="fw" ng-model="item.asignada" ng-change="$ctrl.toggleActivation(item)" on="Asignado" off="No asignado"></toggle>
+          </td>
+
+          <td>
+            {{ item.nombre }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -175,5 +175,68 @@
         return Response::getBaseInternalError($ex->getMessage());
       }
     }
+
+    public function assignArea($userId, $areaId) {
+      try {
+        $user = $this->repository->find($userId);
+
+        $areaRepository = new AreaRepository();
+        $area = $areaRepository->find($areaId);
+
+        $areaRelationsRepository = new AreaRelationsRepository();
+        $userAreas = $areaRelationsRepository->findByUser($userId);
+
+        foreach ($userAreas as $ua) {
+          if ($ua->id == $areaId) {
+            throw new Exception("Este usuario ya tiene asignada el área '" . $ua->nombre . "'");
+          }
+        }
+
+        $this->repository->assignArea($userId, $areaId);
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (RecordNotFoundException $ex) {
+        return Response::getBaseRecordNotFound($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
+
+    public function unassignArea($userId, $areaId) {
+      try {
+        $user = $this->repository->find($userId);
+
+        $areaRepository = new AreaRepository();
+        $area = $areaRepository->find($areaId);
+
+        $areaRelationsRepository = new AreaRelationsRepository();
+        $userAreas = $areaRelationsRepository->findByUser($userId);
+
+        $check = false;
+        foreach ($userAreas as $ua) {
+          if ($ua->id == $areaId) {
+            $check = true;
+          }
+        }
+
+        if (!$check) {
+          throw new Exception("Este usuario no tiene asignada esa área");
+        }
+
+        $this->repository->unassignArea($userId, $areaId);
+      }
+      catch (MethodNotAllowedException $ex) {
+        return Response::getBaseMethodNotAllowed($ex->getMessage());
+      }
+      catch (RecordNotFoundException $ex) {
+        return Response::getBaseRecordNotFound($ex->getMessage());
+      }
+      catch (Exception $ex) {
+        return Response::getBaseInternalError($ex->getMessage());
+      }
+    }
   }
 ?>

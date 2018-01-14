@@ -36,7 +36,10 @@
             <td class="table-numeration">{{ $ctrl.count + $index + 1 }}</td>
 
             <td class="text-center" ng-if="$ctrl.listOnly">
-              <div class="btn-group">
+              <button class="btn btn-primary btn-outline btn-xs" uib-tooltip="Ver datos de pago" tooltip-append-to-body="true" ng-click="$ctrl.openPaymentModal(item)">
+                <i class="fa fa-fw fa-external-link"></i>
+              </button>
+              <!-- <div class="btn-group">
                 <button class="btn btn-success btn-outline btn-xs" ng-if="item.status == 'REVISION'" uib-tooltip="Aprobar" tooltip-append-to-body="true" ng-click="$ctrl.approve(item)">
                   <i class="fa fa-fw fa-check"></i>
                 </button>
@@ -44,7 +47,7 @@
                 <button class="btn btn-danger btn-outline btn-xs" ng-if="item.status == 'PENDIENTE' || item.status == 'REVISION'" uib-tooltip="Rechazar" tooltip-append-to-body="true" ng-click="$ctrl.decline(item)">
                   <i class="fa fa-fw fa-times"></i>
                 </button>
-              </div>
+              </div> -->
             </td>
 
             <td title="'Estado'" class="text-center text-middle">
@@ -52,11 +55,27 @@
             </td>
 
             <td title="$ctrl.listOnly ? 'Usuario' : 'Nombre'" class="text-center text-middle">
-              {{ $ctrl.listOnly ? item.usuario.nombre_completo : item.tipo_suscripcion.nombre | available }}
+              <span title="">{{ $ctrl.listOnly ? item.usuario.nombre_completo : item.tipo_suscripcion.nombre | available }}</span>
             </td>
 
-            <td title="$ctrl.listOnly ? 'Suscripción' : 'Descripción'" class="text-center text-middle">
-              {{ $ctrl.listOnly ? item.tipo_suscripcion.nombre : item.tipo_suscripcion.descripcion | available | s:'truncate':[50] }}
+            <td title="$ctrl.listOnly ? 'Suscripción' : 'Datos de Pago'" class="text-center text-middle">
+              <span ng-if="$ctrl.listOnly" title="">
+                {{ item.tipo_suscripcion.nombre | available | s:'truncate':[50] }}
+              </span>
+
+              <span href="" ng-if="!$ctrl.listOnly" ng-switch="item.nro_transferencia != null || item.nro_deposito != null">
+                <a href="" ng-switch-when="true" title="" ng-click="$ctrl.openPaymentModal(item)">
+                  {{ item.nro_transferencia ? 'Transferencia' : 'Depósito' }}
+                </a>
+
+                <span ng-switch-default>
+                  <span ng-switch="item.status">
+                    <a href="" ng-switch-when="PENDIENTE" title="" ng-click="$ctrl.openPaymentModal(item)">Registrar pago</a>
+
+                    <span ng-switch-default title="">N/A</span>
+                  </span>
+                </span>
+              </span>
             </td>
 
             <td title="'Costo'" filter="{ costo: 'number' }" sortable="'costo'" class="text-center text-middle">

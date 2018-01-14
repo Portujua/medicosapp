@@ -8,4 +8,5 @@
     public function delete($data);
     public function approve($id);
     public function decline($id);
+    public function registerPayment($id, $data);
   }

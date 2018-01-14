@@ -38,6 +38,14 @@
       return !_.isEmpty(userId) ? this.RESTful.get(`users/${userId}/suscriptions`, query) : this.RESTful.get('suscriptions', query);
     }
 
+    assignArea(userId, areaId) {
+      return this.RESTful.post(`users/${userId}/areas/${areaId}`)
+    }
+
+    unassignArea(userId, areaId) {
+      return this.RESTful.delete(`users/${userId}/areas/${areaId}`)
+    }
+
     openCreateModal(type = 'patient') {
       let modalInstance = this.$uibModal.open({
         ariaLabelledBy: 'modal-title',

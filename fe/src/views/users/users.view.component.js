@@ -10,6 +10,7 @@
       this.PhoneService = PhoneService;
       this.UserService = UserService;
       this.TabManagerService = TabManagerService;
+      this.session = Auth.getSession();
     }
 
     $onInit() {

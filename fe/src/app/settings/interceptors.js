@@ -60,7 +60,7 @@ angular.module('app')
           let toastr = $injector.get('toastr'),
               Auth = $injector.get('Auth'),
               type =  'error',
-              textContent = 'Something went wrong. Please, try again.';
+              textContent = 'Algo malo ha ocurrido, por favor intenta de nuevo.';
 
           if (rejection.status === 401) {
             type = 'warning';
@@ -68,7 +68,7 @@ angular.module('app')
             if (_.isEmpty(Auth.getSession())) {
               textContent = 'Usuario o contraseña incorrectos.';
             } else {
-              textContent = 'Your session has expired. Re-enter your credentials.';
+              textContent = 'La sesión ha expirado.';
               // Despues de mostrar el mensaje redirijo
               Auth.goLogin();
             }
@@ -76,12 +76,12 @@ angular.module('app')
 
           if (rejection.status === 403) {
             // Forbiden
-            textContent = 'Your permissions are not sufficient to access this feature.';
+            textContent = 'No posees los permisos para acceder.';
           }
 
           if (rejection.status === 404) {
             // Forbiden
-            textContent = 'Sorry but the service you are looking for has not be found.';
+            textContent = 'Lo sentimos, el recurso al que estás intentando acceder no existe.';
           }
 
           if (rejection.status === 400) {
@@ -127,6 +127,10 @@ angular.module('app')
             //   });
             //   type = 'warning';
             // }
+          }
+
+          if (rejection.status === 500) {
+            textContent = rejection.data.data;
           }
 
           // Message
