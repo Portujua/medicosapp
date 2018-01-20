@@ -8,7 +8,7 @@
       return QB::table(UserSuscription::$tableName);
     }
 
-    public function list($pageable = null, $userId) {
+    public function listAll($pageable = null, $userId) {
       // Base query
       $query = $this->getTable()->orderBy("createdAt", "desc");
 

@@ -18,7 +18,7 @@
 
     public function listAll($pageable, $userId = null) {
       try {
-        return $this->repository->list($pageable, $userId);
+        return $this->repository->listAll($pageable, $userId);
       }
       catch (MethodNotAllowedException $ex) {
         return Response::getBaseMethodNotAllowed();
