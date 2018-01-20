@@ -143,6 +143,12 @@
         })
       }
     }
+
+    isControlMessage(message) {
+      return _.isString(message.html) 
+        ? (/^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/gi).test(message.html)
+        : false;
+    }
   }
   
   angular.module('app')
