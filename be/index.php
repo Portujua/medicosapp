@@ -48,9 +48,9 @@
 		"public_key" => "TEST-1a3e9528-4eea-4942-9d0a-1e8e83e1c360",
 	);
 
-	$mp['app'] = new MP($mp['id'], $mp['secret']);
+	// $mp['app'] = new MP($mp['id'], $mp['secret']);
 
-	$GLOBALS['mp'] = $mp;
+	// $GLOBALS['mp'] = $mp;
 
 	// $me = ($mp->get("/users/me"))['response'];
 

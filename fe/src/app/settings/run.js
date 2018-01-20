@@ -7,7 +7,7 @@ angular.module('app')
     editableOptions.icon_set = 'font-awesome';
     editableOptions.activate = 'select';
 
-    MercadoPago.loadApiInfo();
+    // MercadoPago.loadApiInfo();
 
     // Toggle Config
     toggleConfig.on = 'Yes';
