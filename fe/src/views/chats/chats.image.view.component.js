@@ -2,7 +2,7 @@
   
   class ChatImageViewController {
     constructor($scope) {
-      console.log($scope)
+      
     }
 
     $onInit() {

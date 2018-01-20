@@ -15,9 +15,6 @@
       this.loadingPromise = this.AreaService.list({ simple: true, size: 200000000 }).then((response) => {
         this.areas = response.data;
 
-        console.log(this.medic)
-        console.log(this.areas)
-
         _.each(this.medic.areas, (medicArea) => {
           _.each(this.areas, (area) => {
             area.asignada = medicArea.id === area.id;

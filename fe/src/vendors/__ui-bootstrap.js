@@ -4250,7 +4250,6 @@ angular.module('ui.bootstrap.modal', ['ui.bootstrap.multiMap', 'ui.bootstrap.sta
           'uib-modal-animation-class': 'fade',
           'modal-in-class': 'in'
         }).append(content);
-        console.log(angularDomEl)
         if (modal.windowClass) {
           angularDomEl.addClass(modal.windowClass);
         }
