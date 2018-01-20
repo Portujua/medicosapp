@@ -15,8 +15,6 @@
       this.PromptService = PromptService;
       this.TabManagerService = TabManagerService;
 
-      console.log(this.self)
-
       this.REQUEST_INTERVAL = 5000;
       this.messages = [];
     }
@@ -62,7 +60,7 @@
     send(event) {
       // Check for enter key pressed
       if (event) {
-				if (event.keyCode == 13) {
+				if (event.keyCode === 13) {
           this.send();
         }
 				return;
@@ -112,13 +110,13 @@
     scrollDown() {
 			this.$timeout(() => {
 				//Auto-scroll			
-				var newscrollHeight = 0;
+				let newscrollHeight = 0;
 
-				$(".message").each((i, m) => {
+				$('.message').each((i, m) => {
 					newscrollHeight += parseInt($(m).css('height'));
 				})
 				
-				$(".chat-history").animate({ scrollTop: newscrollHeight }, 0); //Autoscroll to bottom of div
+				$('.chat-history').animate({ scrollTop: newscrollHeight }, 0); //Autoscroll to bottom of div
 			}, 100);
     }
     

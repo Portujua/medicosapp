@@ -9,7 +9,7 @@
 
     get API_INFO() {
       if (_.isUndefined(this._API_INFO)) {
-        throw "API info is not ready.";
+        throw 'API info is not ready.';
         return;
       }
 
