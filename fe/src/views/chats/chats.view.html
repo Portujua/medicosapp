@@ -5,7 +5,7 @@
     </div> -->
 
     <div class="chat-history padding">
-      <div class="message {{ $ctrl.isControlMessage(msg) ? 'flex justify-items-center' : (msg.owner.id == $ctrl.self.id ? 'right' : 'left') }}" ng-repeat="msg in $ctrl.messages">
+      <div class="message {{ $ctrl.isControlMessage(msg) ? 'flex justify-items-center margin-bottom' : (msg.owner.id == $ctrl.self.id ? 'right' : 'left') }}" ng-repeat="msg in $ctrl.messages">
         <div ng-switch="$ctrl.isControlMessage(msg)">
           <!-- Chat Message -->
           <div ng-switch-when="false">
@@ -56,6 +56,10 @@
           <i class="fa fa-fw fa-paperclip" aria-hidden="true"></i>
         </button>
         <button class="btn btn-lg btn-primary" ng-click="$ctrl.send()"><i class="fa fa-fw fa-paper-plane-o" aria-hidden="true"></i></button>
+      </div>
+
+      <div class="pointer label label-danger pull-right margin-sm-top padding-sm" ng-click="$ctrl.closeConsult()" ng-if="$ctrl.self.es_medico">
+        Cerrar consulta
       </div>
     </div>
   </div>

@@ -1,7 +1,7 @@
 (() => {
   
   class ChatViewController {
-    constructor(Auth, AreaService, UserService, ChatService, ChatMessage, $timeout, $interval, Message, API) {
+    constructor(Auth, AreaService, UserService, ChatService, ChatMessage, $timeout, $interval, Message, API, PromptService, TabManagerService) {
       this.Auth = Auth;
       this.AreaService = AreaService;
       this.UserService = UserService;
@@ -12,6 +12,10 @@
       this.$interval = $interval;
       this.Message = Message;
       this.attachmentUrl = `${API.url}chats/attachment`;
+      this.PromptService = PromptService;
+      this.TabManagerService = TabManagerService;
+
+      console.log(this.self)
 
       this.REQUEST_INTERVAL = 5000;
       this.messages = [];
@@ -148,6 +152,34 @@
       return _.isString(message.html) 
         ? (/^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/gi).test(message.html)
         : false;
+    }
+
+    closeConsult() {
+      this.PromptService.open({
+        text: `
+        <div>
+          <p>Se le descontará al paciente una consulta de su suscripción actual.</p>
+          <strong>ATENCIÓN: Esta acción no puede ser reversada</strong>
+        </div>
+        `,
+        title: 'Cerrar consulta',
+        size: 'md',
+        confirmButtonText: 'Entendido, cerrar la consulta',
+        cancelButtonText: 'Cancelar',
+      }).then(() => {
+        let closeMessage = angular.copy(this.data);
+        closeMessage.html = `${closeMessage.owner.id}~${closeMessage.user.id}`
+        closeMessage.index = this.messages.length - 1;
+        
+        this.ChatService.send(closeMessage.postPayload()).then((response) => {
+          this.messages.push(closeMessage);
+
+          this.Message.show('Consulta cerrada con éxito');
+
+          // Close the tab
+          this.TabManagerService._close(null, this.TabManagerService.getTab(this.tabId))
+        })
+      })
     }
   }
   
