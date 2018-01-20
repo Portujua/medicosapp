@@ -35,7 +35,9 @@
     }
 
     create() {
-      this.SuscriptionService.openCreateModal()
+      this.SuscriptionService.openCreateModal().then((response) => {
+        this.load();
+      })
     }
 
     save(data, field, item) { 
