@@ -64,17 +64,34 @@
 				return;
       }
       
-      // Send the message
-      this.messages.push(angular.copy(this.data));
-      this.reset();
+      this.sendMessage();
+    }
 
-      // Save the current added index as local variable to update message status
-      let insertedIndex = this.messages.length - 1;
+    sendMessage(message) {
+      let insertedIndex = -1;
+      let payload = { };
 
-      this.ChatService.send(this.data.postPayload())
+      if (_.isUndefined(message)) {
+        this.messages.push(angular.copy(this.data));
+        this.reset();
+
+        insertedIndex = this.messages.length - 1;
+        payload = this.data.postPayload();
+      }
+      else {
+        message.hasError = false;
+        insertedIndex = message.index;
+        payload = message.postPayload();
+      }
+
+      this.messages[insertedIndex].index = insertedIndex;
+
+      this.ChatService.send(payload)
         .then((response) => {
           this.messages[insertedIndex] = response.data;
-          // do scroll down
+          this.messages[insertedIndex].hasError = false;
+        }, (error) => {
+          this.messages[insertedIndex].hasError = true;
         })
         .finally(() => {
           this.scrollDown();
