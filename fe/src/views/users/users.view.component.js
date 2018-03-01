@@ -43,7 +43,7 @@
     save(data, field) {
       return this.UserService.update(this.data.id, this.data.putPayload(field, data), true)
         .then((response) => {
-          response.data.token = this.data.token;
+          response.data.token = angular.copy(this.session.token);
           this.Auth._setUser(response);
           this.data = new this.User(this.Auth.getSession());
         });

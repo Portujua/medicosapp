@@ -3,7 +3,7 @@
 angular.module('app')
   .directive('collapsablePanel', () => ({
     template: `
-    <button class="btn btn-collapsable btn-link padding-xs" uib-tooltip="Toggle Information Panel" tooltip-placement="right" tooltip-append-to-body="true">
+    <button class="btn btn-collapsable btn-link padding-xs" uib-tooltip="{{ isCollapsed ? 'Mostrar' : 'Ocultar' }} Panel de Información" tooltip-placement="right" tooltip-append-to-body="true">
       <i class="fa" ng-class="{ 'fa-caret-right': isCollapsed, 'fa-caret-left': !isCollapsed }"></i>
     </<button>`,
     restrict: 'E',
