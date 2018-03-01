@@ -14,7 +14,7 @@
     <ul class="dropdown-menu" ng-click="$event.stopPropagation()">
       <not-found expression="!$ctrl.notifications.length" message="Sin notificaciones."></not-found>
 
-      <li ng-repeat="item in $ctrl.notifications" class="notification notification-{{ item.status }}">
+      <li ng-repeat="item in $ctrl.notifications" class="notification" ng-class="{ 'notification-unread': item.unreadCount > 0 }">
         <div class="media">
           <div class="media-left">
             <div class="media-object">
@@ -23,13 +23,16 @@
           </div>
           <div class="media-body">
             <div ng-switch="item.type">
+              <div ng-switch-when="controlMessage">
+                <a href="">{{ item.owner.nombre_completo }}</a> ha cerrado la consulta de {{ item.area.nombre }}
+              </div>
               <div ng-switch-default>
-                <a href="">{{ item.owner.nombre_completo }}</a> te ha enviado un mensaje en {{ item.area.nombre }}: <br>
-                <i class="text-muted" ng-if="!$ctrl.isImage(item)">{{ item.html | s:'truncate':[100] }}</i>
+                <span class="bold">{{ item.owner.nombre_completo }}</span> te ha enviado {{ item.messagesCount }} {{ item.messagesCount > 1 ? 'mensajes' : 'mensaje' }} en {{ item.area.nombre }} <span class="label label-info" ng-if="item.unreadCount > 0">{{ item.unreadCount }} {{ item.unreadCount > 1 ? 'nuevos' : 'nuevo' }}</span><br>
+                <!-- <i class="text-muted" ng-if="!$ctrl.isImage(item)">{{ item.html | s:'truncate':[100] }}</i>
                 <i class="text-muted" ng-if="$ctrl.isImage(item)">
                   <i class="fa fa-fw fa-camera"></i> Imagen
                 </i>
-                <br>
+                <br> -->
                 <p class="text-right hug"><a href="" ng-click="$ctrl.openChat(item)"><small>Ir a la conversación &rarr;</small></a></p>
               </div>
             </div>

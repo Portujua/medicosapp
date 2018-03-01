@@ -89,9 +89,16 @@
       // Base query
       $query = QB::table(Message::$tableName);
 
+      $query->select(array(
+        QB::raw("*"),
+        // QB::raw("(case when html REGEXP '^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$' then 'controlMessage' else 'message' end) as type"),
+        QB::raw("sum((case when html REGEXP '^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$' then 0 else 1 end)) as messagesCount"),
+        QB::raw("sum((case when html REGEXP '^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$' then 0 else leido end)) as readCount")
+      ));
       $query->where('user', $id);
-      $query->where('leido', 0);
-      $query->orderBy('createdAt', 'DESC');
+      //$query->where('leido', 0);
+      $query->groupBy(array("owner", "user", "area"));
+      $query->orderBy(array("leido", "createdAt"), "desc");
 
       // Run the final query
       $result = Db::run($query);
@@ -105,6 +112,7 @@
         $m->user = $userRepository->find($m->user);
         $m->area = $areaRepository->find($m->area);
         $m->leido = $m->leido == '0' ? false : true;
+        $m->unreadCount = intval($m->messagesCount) - intval($m->readCount);
       }
 
       return $result;
