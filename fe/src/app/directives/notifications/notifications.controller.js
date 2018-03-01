@@ -4,17 +4,24 @@ class NotificationsController {
   constructor(NotificationsService, TabManagerService, $interval) {
     this.NotificationsService = NotificationsService;
     this.TabManagerService = TabManagerService;
+    this.$interval = $interval;
 
     this.counter = 0;
     this.prevCounter = 0;
 
-    $interval(() => {
+    this.refreshPromise = $interval(() => {
       this.load()
     }, 20000)
   }
 
   $onInit() {
     this.load();
+  }
+
+  $onDestroy() {
+    if (angular.isDefined(this.refreshPromise)) {
+      this.$interval.cancel(this.refreshPromise);
+    }
   }
 
   load() {

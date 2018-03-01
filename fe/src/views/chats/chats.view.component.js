@@ -17,11 +17,18 @@
 
       this.REQUEST_INTERVAL = 5000;
       this.messages = [];
+      this.refreshPromise = null;
     }
 
     $onInit() {
       this.data = new this.ChatMessage({ });
       this.load();
+    }
+
+    $onDestroy() {
+      if (angular.isDefined(this.refreshPromise)) {
+        this.$interval.cancel(this.refreshPromise);
+      }
     }
 
     load() {
@@ -47,7 +54,7 @@
 
           // If page is 0 then activate the interval
           if (page === 0) {
-            this.$interval(() => {
+            this.refreshPromise = this.$interval(() => {
               this.ChatService.listUnread(this.area, this.user)
                 .then((response) => {
                   this.messages = _.union(this.messages, response.data);
