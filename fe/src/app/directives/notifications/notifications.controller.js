@@ -28,32 +28,45 @@ class NotificationsController {
     this.NotificationsService.get().then((response) => {
       this.prevCounter = this.counter;
 
-      if (!this.notifications) {
-        this.notifications = response.data;
-        this.counter = this.notifications.length;
-      }
-      else {
-        let previousLength = this.notifications.length;
+      this.notifications = response.data;
+        
+      let counters = _.countBy(this.notifications, (item) => {
+        return item.unreadCount ? 'unread' : 'read'
+      })
 
-        for (let i = 0; i < response.data.length; i++) {
-          let isNew = true;
+      this.counter = counters.unread || 0;
 
-          for (let k = 0; k < this.notifications.length; k++) {
-            if (response.data[i].id === this.notifications[k].id) {
-              isNew = false;
-              break;
-            }
-          }
+      // if (!this.notifications) {
+      //   this.notifications = response.data;
 
-          if (isNew) {
-            this.notifications.push(response.data[i]);
-          }
-        }
+      //   let counters = _.countBy(this.notifications, (item) => {
+      //     return item.unreadCount ? 'unread' : 'read'
+      //   })
 
-        if (this.notifications.length - previousLength > this.prevCounter) {
-          this.counter = this.notifications.length - previousLength;
-        }
-      }
+      //   this.counter = counters.unread || 0;
+      // }
+      // else {
+      //   let previousLength = this.notifications.length;
+
+      //   for (let i = 0; i < response.data.length; i++) {
+      //     let isNew = true;
+
+      //     for (let k = 0; k < this.notifications.length; k++) {
+      //       if (response.data[i].id === this.notifications[k].id) {
+      //         isNew = false;
+      //         break;
+      //       }
+      //     }
+
+      //     if (isNew) {
+      //       this.notifications.push(response.data[i]);
+      //     }
+      //   }
+
+      //   if (this.notifications.length - previousLength > this.prevCounter) {
+      //     this.counter = this.notifications.length - previousLength;
+      //   }
+      // }
     });
   }
 
