@@ -54,6 +54,10 @@
 
     public function createMessage($data) {
       try {
+        $suscriptionRepository = new SuscriptionRepository();
+        $userRepository = new UserRepository();
+
+        // Close consult logic
         preg_match("/^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/", $data['html'], $firstRegexResult);
 
         if (count($firstRegexResult) > 0) {
@@ -66,6 +70,20 @@
             if (count($secondRegexResult) > 0) {
               return Response::getBaseInternalError("No se puede cerrar una consulta vacía");
             }
+            else {
+              // Substract the consult from the user
+              $suscriptionRepository->substractConsult($data['user']);
+            }
+          }
+        }
+
+        // Check if user has consults to write
+        $user = $userRepository->find($data['owner']);
+
+        // We only check for the normal users here
+        if (!$user->es_medico) {
+          if (!$suscriptionRepository->hasConsults($user->id)) {
+            return Response::getBaseInternalError("No posee consultas suficientes para comenzar una conversación");
           }
         }
 

@@ -103,5 +103,47 @@
 
       $this->getTable()->where(UserSuscription::$pk, $id)->update($data);
     }
+
+    public function substractConsult($userId) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      $query = $this->getTable()
+        ->where("usuario", $userId)
+        ->where("status", "APROBADO")
+        ->where("consultas_restantes", ">", 0)
+        ->orderBy("createdAt", "asc");
+
+      // Run the final query
+      $result = Db::run($query);
+
+      if (count($result) == 0) {
+        throw new Exception("Este usuario no posee consultas.");
+      }
+      else {
+        // substract 1 from the first
+        $suscription = $this->find($result[0]->id);
+        $suscription->consultas_restantes = intval($suscription->consultas_restantes) - 1;
+        $this->getTable()->where(UserSuscription::$pk, $suscription->id)->update(json_decode(json_encode($suscription), true));
+      }
+    }
+
+    public function hasConsults($userId) {
+      if (!Session::isActive()) {
+        throw new MethodNotAllowedException();
+      }
+
+      $query = $this->getTable()
+        ->where("usuario", $userId)
+        ->where("status", "APROBADO")
+        ->where("consultas_restantes", ">", 0)
+        ->orderBy("createdAt", "asc");
+
+      // Run the final query
+      $result = Db::run($query);
+
+      return count($result) > 0;
+    }
   }
 ?>
