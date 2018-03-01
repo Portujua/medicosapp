@@ -175,6 +175,8 @@
         let closeMessage = angular.copy(this.data);
         closeMessage.html = `${closeMessage.owner.id}~${closeMessage.user.id}`
         closeMessage.index = this.messages.length - 1;
+
+        this.isClosingConsult = true;
         
         this.ChatService.send(closeMessage.postPayload()).then((response) => {
           this.messages.push(closeMessage);
@@ -183,6 +185,8 @@
 
           // Close the tab
           this.TabManagerService._close(null, this.TabManagerService.getTab(this.tabId))
+        }).finally(() => {
+          this.isClosingConsult = false;
         })
       })
     }

@@ -54,6 +54,21 @@
 
     public function createMessage($data) {
       try {
+        preg_match("/^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/", $data['html'], $firstRegexResult);
+
+        if (count($firstRegexResult) > 0) {
+          $allMessages = $this->listMessages($data['area'], $data['owner'], $data['user'], null);
+          $lastMessage = end($allMessages);
+
+          if ($lastMessage) {
+            preg_match("/^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$/", $lastMessage->html, $secondRegexResult);
+
+            if (count($secondRegexResult) > 0) {
+              return Response::getBaseInternalError("No se puede cerrar una consulta vacía");
+            }
+          }
+        }
+
         $id = $this->repository->add($data);
         $message = new Message($this->repository->find($id));
 

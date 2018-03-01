@@ -58,7 +58,7 @@
         <button class="btn btn-lg btn-primary" ng-click="$ctrl.send()"><i class="fa fa-fw fa-paper-plane-o" aria-hidden="true"></i></button>
       </div>
 
-      <div class="pointer label label-danger pull-right margin-sm-top padding-sm" ng-click="$ctrl.closeConsult()" ng-if="$ctrl.self.es_medico">
+      <div class="pointer label label-danger pull-right margin-sm-top padding-sm" ng-click="$ctrl.closeConsult()" ng-if="$ctrl.self.es_medico" ng-disabled="$ctrl.isClosingConsult">
         Cerrar consulta
       </div>
     </div>
