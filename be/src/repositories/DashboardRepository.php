@@ -58,30 +58,6 @@
       $summary->newUsersCountPastWeek = count($result);
 
       // // Incomes this month
-      // $totalIncome = 0.0;
-      // $totalRequested = 0;
-
-      // $queryString = array(
-      //   "limit" => 50,
-      //   "offset" => 0,
-      //   "range" => "date_created", 
-      //   "begin_date" => TimeUtils::getFirstDayOfMonth($today, true), 
-      //   "end_date" => TimeUtils::getLastDayOfMonth($today, true)
-      // );
-
-      // do {
-      //   $monthHistoric = ($this->mp['app']->get("/v1/balance/history", $queryString))['response'];
-
-      //   foreach ($monthHistoric['results'] as $r) {
-      //     $totalIncome += intval($r['amount']);
-      //   }
-
-      //   $queryString['offset']++;
-      //   $totalRequested += $queryString['limit'];
-      // } while ($totalRequested < intval($monthHistoric['paging']['total']));
-
-      // $summary->earningsCurrentMonth = $totalIncome;
-
       $query = $this->getTable('Suscripcion');
       $query
         ->select(array(
@@ -93,34 +69,10 @@
 
       if (count($result) > 0) {
         $summary->earningsCurrentMonth = is_numeric($result[0]->ingresos) ? $result[0]->ingresos : 0;
-        $summary->consultsCountCurrentMonth = is_numeric($result[0]->consultas) ? $result[0]->consultas : 0;
+        //$summary->consultsCountCurrentMonth = is_numeric($result[0]->consultas) ? $result[0]->consultas : 0;
       }
 
       // // Incomes past month
-      // $totalIncome = 0.0;
-      // $totalRequested = 0;
-
-      // $queryString = array(
-      //   "limit" => 50,
-      //   "offset" => 0,
-      //   "range" => "date_created", 
-      //   "begin_date" => TimeUtils::getFirstDayOfPastMonth($today, true), 
-      //   "end_date" => TimeUtils::getLastDayOfPastMonth($today, true)
-      // );
-
-      // do {
-      //   $monthHistoric = ($this->mp['app']->get("/v1/balance/history", $queryString))['response'];
-
-      //   foreach ($monthHistoric['results'] as $r) {
-      //     $totalIncome += intval($r['amount']);
-      //   }
-
-      //   $queryString['offset']++;
-      //   $totalRequested += $queryString['limit'];
-      // } while ($totalRequested < intval($monthHistoric['paging']['total']));
-
-      // $summary->earningsCurrentMonth = $totalIncome;
-
       $query = $this->getTable('Suscripcion');
       $query
         ->select(array(
@@ -132,8 +84,24 @@
 
       if (count($result) > 0) {
         $summary->earningsPastMonth = is_numeric($result[0]->ingresos) ? $result[0]->ingresos : 0;
-        $summary->consultsCountPastMonth = is_numeric($result[0]->consultas) ? $result[0]->consultas : 0;
+        //$summary->consultsCountPastMonth = is_numeric($result[0]->consultas) ? $result[0]->consultas : 0;
       }
+
+      // Consults this month
+      $query = $this->getTable('Mensaje');
+      $query
+        ->where(QB::raw("datediff(now(), createdAt) <= 30 and html REGEXP '^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$'"));
+
+      $result = Db::run($query);
+      $summary->consultsCountCurrentMonth = count($result);
+
+      // Consults past month
+      $query = $this->getTable('Mensaje');
+      $query
+        ->where(QB::raw("datediff(now(), createdAt) <= 60 and datediff(now(), createdAt) > 30 and html REGEXP '^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$'"));
+
+      $result = Db::run($query);
+      $summary->consultsCountPastMonth = count($result);
 
       return $summary;
     }
