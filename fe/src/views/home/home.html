@@ -1,142 +1,32 @@
 <div class="dashboard">
-  <div class="margin-sm">
-    <div class="row">
+  <div>
+    <div class="row panel hug-bottom">
       <!-- Job board -->
-      <div class="col-12 col-lg-12 col-xl-12">
-        <div class="row" cg-busy="$ctrl.loadingSummaryPromise">
-          <div class="col-12 col-lg-3 col-xl-3 summary">
-            <div class="panel panel-default summary-chip margin-sm-bottom">
-              <div class="panel-heading">
-                Visitas
-                <small class="label label-primary pull-right">Hoy</small>
-              </div>
-
-              <div class="panel-body">
-                <p>
-                  <span uib-tooltip="Número de visitas hoy" tooltip-placement="right" tooltip-apprend-to-body="true">
-                    {{ $ctrl.summary.visitsCountToday | numberPrettify }}
-                  </span>
-                </p>
-                <div class="footer">
-                  <!-- <small>
-                    Este mes
-                  </small> -->
-
-                  <small style="visibility: hidden;" class="pull-right text-primary" uib-tooltip="Mes pasado: {{ $ctrl.summary.visitsCountPastMonth }}" tooltip-placement="left" tooltip-apprend-to-body="true">
-                    {{ $ctrl.getPercentageRelation($ctrl.summary.visitsCountCurrentMonth, $ctrl.summary.visitsCountPastMonth) }}%<i class="fa fa-fw fa-{{ $ctrl.getPercentageRelationClass($ctrl.summary.visitsCountCurrentMonth, $ctrl.summary.visitsCountPastMonth) }}"></i>
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-lg-3 col-xl-3 summary">
-            <div class="panel panel-default summary-chip margin-sm-bottom">
-              <div class="panel-heading">
-                Usuarios
-                <small class="label label-danger pull-right">Esta semana</small>
-              </div>
-
-              <div class="panel-body">
-                <p>
-                  <span uib-tooltip="Mes actual: {{ $ctrl.summary.newUsersCountCurrentWeek }}" tooltip-placement="right" tooltip-apprend-to-body="true">
-                    {{ $ctrl.summary.newUsersCountCurrentWeek | numberPrettify }}
-                  </span>
-                </p>
-                <div class="footer">
-                  <!-- <small>
-                    Nuevos
-                  </small> -->
-
-                  <small class="pull-right text-danger" uib-tooltip="Mes pasado: {{ $ctrl.summary.newUsersCountPastWeek }}" tooltip-placement="left" tooltip-apprend-to-body="true">
-                    {{ $ctrl.getPercentageRelation($ctrl.summary.newUsersCountCurrentWeek, $ctrl.summary.newUsersCountPastWeek) }}%<i class="fa fa-fw fa-{{ $ctrl.getPercentageRelationClass($ctrl.summary.newUsersCountCurrentWeek, $ctrl.summary.newUsersCountPastWeek) }}"></i>
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-lg-3 col-xl-3 summary">
-            <div class="panel panel-default summary-chip margin-sm-bottom">
-              <div class="panel-heading">
-                Consultas
-                <small class="label label-warning pull-right">Este mes</small>
-              </div>
-
-              <div class="panel-body">
-                <p>
-                  <span uib-tooltip="Mes actual: {{ $ctrl.summary.consultsCountCurrentMonth }}" tooltip-placement="right" tooltip-apprend-to-body="true">
-                    {{ $ctrl.summary.consultsCountCurrentMonth | numberPrettify }}
-                  </span>
-                </p>
-                <div class="footer">
-                  <!-- <small>
-                    Este mes
-                  </small> -->
-
-                  <small class="pull-right text-warning" uib-tooltip="Mes pasado: {{ $ctrl.summary.consultsCountPastMonth }}" tooltip-placement="left" tooltip-apprend-to-body="true">
-                    {{ $ctrl.getPercentageRelation($ctrl.summary.consultsCountCurrentMonth, $ctrl.summary.consultsCountPastMonth) }}%<i class="fa fa-fw fa-{{ $ctrl.getPercentageRelationClass($ctrl.summary.consultsCountCurrentMonth, $ctrl.summary.consultsCountPastMonth) }}"></i>
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="col-12 col-lg-3 col-xl-3 summary">
-            <div class="panel panel-default summary-chip margin-sm-bottom">
-              <div class="panel-heading">
-                Ingresos
-                <small class="label label-success pull-right">Este mes</small>
-              </div>
-
-              <div class="panel-body">
-                <p>
-                  <span uib-tooltip="Mes actual: {{ $ctrl.summary.earningsCurrentMonth | currency:'Bs. ' }}" tooltip-placement="right" tooltip-apprend-to-body="true">
-                    {{ $ctrl.summary.earningsCurrentMonth | numberPrettify }}
-                  </span>
-                </p>
-                <div class="footer">
-                  <small>
-                    Bs.
-                  </small>
-
-                  <small class="pull-right text-success" uib-tooltip="Mes pasado: {{ $ctrl.summary.earningsPastMonth | currency:'Bs. ' }}" tooltip-placement="left" tooltip-apprend-to-body="true">
-                    {{ $ctrl.getPercentageRelation($ctrl.summary.earningsCurrentMonth, $ctrl.summary.earningsPastMonth) }}%<i class="fa fa-fw fa-{{ $ctrl.getPercentageRelationClass($ctrl.summary.earningsCurrentMonth, $ctrl.summary.earningsPastMonth) }}"></i>
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
+      <div class="padding-sm col-md-6 col-lg-6 col-xl-6">
+        <div ng-if="$ctrl.dailyVisitsChart">
+          <highchart id="chart1" config="$ctrl.dailyVisitsChart"></highchart>
         </div>
+      </div>
 
-        <div class="panel panel-default padding-sm">
-          <highchart id="chart1" config="$ctrl.chart"></highchart>
-
-          <div class="padding-sm" style="height: 35px;">
-            <small class="pull-left">
-              <b>Análisis de ventas: </b> se estima un 20% de incremento en las ventas del próximo año
-            </small>
-
-            <small class="pull-right">
-              <small>Actualizado el 01/10/2017</small>
-            </small>
-          </div>
+      <div class="padding-sm col-md-6 col-lg-6 col-xl-6">
+        <div ng-if="$ctrl.newUsersCountChart">
+          <highchart id="chart2" config="$ctrl.newUsersCountChart"></highchart>
         </div>
-      </div>   
+      </div>
     </div>
 
-    <!-- <div class="row">
-      <div class="col-12 col-lg-6 col-xl-6">
-        <div class="panel panel-default padding-sm">
-          <highchart id="chart2" config="$ctrl.chart2"></highchart>
+    <div class="row panel">
+      <div class="padding-sm col-md-6 col-lg-6 col-xl-6">
+        <div ng-if="$ctrl.consultsCountChart">
+          <highchart id="chart3" config="$ctrl.consultsCountChart"></highchart>
         </div>
       </div>
 
-      <div class="col-12 col-lg-6 col-xl-6">
-        <div class="panel panel-default padding-sm">
-          <highchart id="chart3" config="$ctrl.chart3"></highchart>
+      <div class="padding-sm col-md-6 col-lg-6 col-xl-6">
+        <div ng-if="$ctrl.earningsChart">
+          <highchart id="chart4" config="$ctrl.earningsChart"></highchart>
         </div>
       </div>
-    </div> -->
+    </div>
   </div>
 </div>

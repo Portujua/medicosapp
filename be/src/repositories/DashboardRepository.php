@@ -25,9 +25,64 @@
         "consultsCountPastMonth" => 0,
         "earningsPastMonth" => 0,
         "newUsersCountPastWeek" => 0,
+
+
+        // New Dashboard
+        "visitsCount" => [],
+        "newUsersCount" => [],
+        "consultsCount" => [],
+        "earningsSum" => []
       );
 
       $today = new DateTime;
+
+      // Visits Count per day
+      $query = $this->getTable('Log_Login');
+      $query->select(array(
+        QB::raw("count(*) as count"),
+        QB::raw("date(createdAt) as day"),
+      ));
+      $query->where(QB::raw("datediff(now(), createdAt) < 1"));
+      $query->groupBy(QB::raw("date(createdAt)"));
+      $result = Db::run($query);
+
+      $month = date('m');
+      $year = date('Y');
+
+      $start_date = "01-".$month."-".$year;
+      $start_time = strtotime($start_date);
+
+      $end_time = strtotime("+1 month", $start_time);
+
+      for($i=$start_time; $i<$end_time; $i+=86400)
+      {
+        $dayList[] = date('Y-m-d', $i);
+      }
+
+      $visitsCount = [];
+
+      foreach ($dayList as $day) {
+        $count = 0;
+
+        // check if the day exists
+        foreach ($result as $r) {
+          if ($r->day == $day) {
+            $count = $r->count;
+          }
+        }
+
+        $visitsCount[] = array(
+          "count" => $count,
+          "day" => $day
+        );
+
+        // Stop at today
+        if ($day == date('Y-m-d')) {
+          break;
+        }
+      }
+
+      $summary->visitsCount = $visitsCount;
 
       // Visits Count Today
       $query = $this->getTable('Log_Login');
@@ -56,6 +111,41 @@
       $result = Db::run($query);
 
       $summary->newUsersCountPastWeek = count($result);
+
+      // New users this month
+      $query = $this->getTable('Usuario');
+      $query->select(array(
+        QB::raw("count(*) as count"),
+        QB::raw("date(createdAt) as day"),
+      ));
+      $query->where(QB::raw("datediff(now(), createdAt) < 1"));
+      $query->groupBy(QB::raw("date(createdAt)"));
+      $result = Db::run($query);
+
+      $newUsersCount = [];
+
+      foreach ($dayList as $day) {
+        $count = 0;
+
+        // check if the day exists
+        foreach ($result as $r) {
+          if ($r->day == $day) {
+            $count = $r->count;
+          }
+        }
+
+        $newUsersCount[] = array(
+          "count" => $count,
+          "day" => $day
+        );
+
+        // Stop at today
+        if ($day == date('Y-m-d')) {
+          break;
+        }
+      }
+
+      $summary->newUsersCount = $newUsersCount;
 
       // // Incomes this month
       $query = $this->getTable('Suscripcion');
@@ -87,6 +177,41 @@
         //$summary->consultsCountPastMonth = is_numeric($result[0]->consultas) ? $result[0]->consultas : 0;
       }
 
+      // Incomes summary
+      $query = $this->getTable('Suscripcion');
+      $query->select(array(
+        QB::raw("sum(costo_de_compra) as count"),
+        QB::raw("date(createdAt) as day"),
+      ));
+      $query->where(QB::raw("datediff(now(), createdAt) < 1 and status='APROBADO'"));
+      $query->groupBy(QB::raw("date(createdAt)"));
+      $result = Db::run($query);
+
+      $earningsSum = [];
+
+      foreach ($dayList as $day) {
+        $count = 0;
+
+        // check if the day exists
+        foreach ($result as $r) {
+          if ($r->day == $day) {
+            $count = $r->count;
+          }
+        }
+
+        $earningsSum[] = array(
+          "count" => $count,
+          "day" => $day
+        );
+
+        // Stop at today
+        if ($day == date('Y-m-d')) {
+          break;
+        }
+      }
+
+      $summary->earningsSum = $earningsSum;
+
       // Consults this month
       $query = $this->getTable('Mensaje');
       $query
@@ -102,6 +227,41 @@
 
       $result = Db::run($query);
       $summary->consultsCountPastMonth = count($result);
+
+      // Consults this month
+      $query = $this->getTable('Mensaje');
+      $query->select(array(
+        QB::raw("count(*) as count"),
+        QB::raw("date(createdAt) as day"),
+      ));
+      $query->where(QB::raw("datediff(now(), createdAt) < 1 and html REGEXP '^[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}\~[a-f0-9]{8}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{4}\-[a-f0-9]{12}$'"));
+      $query->groupBy(QB::raw("date(createdAt)"));
+      $result = Db::run($query);
+
+      $consultsCount = [];
+
+      foreach ($dayList as $day) {
+        $count = 0;
+
+        // check if the day exists
+        foreach ($result as $r) {
+          if ($r->day == $day) {
+            $count = $r->count;
+          }
+        }
+
+        $consultsCount[] = array(
+          "count" => $count,
+          "day" => $day
+        );
+
+        // Stop at today
+        if ($day == date('Y-m-d')) {
+          break;
+        }
+      }
+
+      $summary->consultsCount = $consultsCount;
 
       return $summary;
     }

@@ -267,7 +267,7 @@ angular.module('app')
       },
     },
     tooltip: {
-      pointFormat: 'Bs. {point.y:,.0f}'
+      pointFormat: '{point.y:,.0f}'
     },
     plotOptions: {
       area: {
