@@ -57,8 +57,8 @@ angular.module('app')
       version  : '',
       port     : '',
       protocol : 'http',
-      host     : 'mgsc.com.ve/medicos/be',
-      prefix   : '',
+      host     : 'medicosprueba.sytes.net',
+      prefix   : 'be',
     },
 
     local: {
