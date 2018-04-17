@@ -63,6 +63,24 @@
   
       return modalInstance.result;
     }
+
+    openChangePasswordModal(user) {
+      let modalInstance = this.$uibModal.open({
+        ariaLabelledBy: 'modal-title',
+        ariaDescribedBy: 'modal-body',
+        component: 'usersChangePasswordModal',
+        keyboard: true,
+        // Indicates whether the dialog should be closable by hitting the ESC key.
+        backdrop: 'static',
+        // Allowed values: true (default), false (no backdrop), 'static' (disables modal closing by click on the backdrop)
+        size: 'sm',
+        resolve: {
+          user: () => user
+        }
+      });
+  
+      return modalInstance.result;
+    }
   };
   
   angular.module('app')

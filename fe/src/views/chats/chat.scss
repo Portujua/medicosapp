@@ -11,6 +11,12 @@
   }
 }
 
+.pin-alert {
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+}
+
 .chat-window {
   width: 100%;
   height: $chat-window-height;

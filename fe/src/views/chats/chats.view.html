@@ -1,10 +1,14 @@
+<div class="alert alert-warning hug-bottom pin-alert" ng-if="!$ctrl.self.es_medico && ($ctrl.messages.length && $ctrl.isControlMessage($ctrl.messages[$ctrl.messages.length - 1]))">
+  Recuerda que al momento de escribir un mensaje se te descontará una consulta.
+</div>
+
 <div class="panel" cg-busy="$ctrl.loadingPromise">
   <div class="chat-window">
     <!-- <div class="chat-header padding">
       <h3>{{ $ctrl.user.nombre_completo }} <small class="text-muted">{{ $ctrl.area.nombre }}</small></h3>
     </div> -->
 
-    <div class="chat-history padding">
+    <div class="chat-history padding">      
       <div class="message {{ $ctrl.isControlMessage(msg) ? 'flex justify-items-center margin-bottom' : (msg.owner.id == $ctrl.self.id ? 'right' : 'left') }}" ng-repeat="msg in $ctrl.messages">
         <div ng-switch="$ctrl.isControlMessage(msg)">
           <!-- Chat Message -->

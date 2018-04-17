@@ -4,9 +4,9 @@
       <colgroup>
         <col>
         <col width="32.5%">
+        <!-- <col width="16.25%"> -->
         <col width="16.25%">
-        <col width="16.25%">
-        <col width="35%">
+        <col width="51.25%">
       </colgroup>
       <tbody>
         <tr ng-repeat="item in $data" ng-if="$ctrl.session.isAdmin() ? true : (item.es_medico ? (item.id == $ctrl.session.id ? false : true) : false)">
@@ -17,9 +17,9 @@
             <span ng-if="!$ctrl.session.isAdmin()">{{ item.nombre_completo | available }}</span>
           </td>
 
-          <td title="'Email'" filter="{ email: 'text' }" sortable="'email'" class="text-center text-middle">
+          <!-- <td title="'Email'" filter="{ email: 'text' }" sortable="'email'" class="text-center text-middle">
             {{ item.email | available }}
-          </td>
+          </td> -->
 
           <td title="'Sexo'" filter="{ sexo: 'text' }" sortable="'sexo'" class="text-center text-middle">
             {{ item.sexo | available }}

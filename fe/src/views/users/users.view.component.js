@@ -92,6 +92,17 @@
     openSuscriptions() {
       this.TabManagerService.add({ title: 'Suscripciones', component: 'suscriptionBList', color: 'color-1' })
     }
+
+    openChangePassword() {
+      this.UserService.openChangePasswordModal(this.data).then((response) => {
+        if (response) {
+          console.log('Password changed!!!')
+        }
+        else {
+          console.log('Something wrong happened')
+        }
+      })
+    }
   }
   
   angular.module('app')

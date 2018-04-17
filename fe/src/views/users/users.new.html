@@ -1,6 +1,6 @@
 <form name="form" autocomplete="off" cg-busy="$ctrl.loadingPromise">
   <div class="modal-header" ng-click="isCollapsed = !isCollapsed">
-    <h3 class="modal-title">Crear {{ this.type == 'medic' ? 'médico' : 'paciente' }}</h3>
+    <h3 class="modal-title">Crear {{ $ctrl.data.es_medico ? 'médico' : 'paciente' }}</h3>
   </div>
   <div uib-collapse="isCollapsed" class="modal-body" cg-busy="{ promise: $ctrl.loadingPromise, message: $ctrl.isSaving ? 'Saving...' : 'Loading...' }" >
 
@@ -126,7 +126,7 @@
     </div>
 
     <div class="form-group row has-feedback"  ng-class="{ 'has-error': form.sexo.$invalid && form.sexo.$touched, 'has-success': form.sexo.$valid && form.sexo.$touched }">
-      <label class="col-4 col-form-label" for="textinput">Tipo cédula</label>
+      <label class="col-4 col-form-label" for="textinput">Sexo</label>
       <div class="col-6">
         <select name="sexo" id="sexo" class="form-control" ng-model="$ctrl.data.sexo" required ng-init="$ctrl.data.sexo = 'Masculino'">
           <option value="Masculino">Masculino</option>
@@ -161,6 +161,7 @@
           <option value="Soltero/a">Soltero/a</option>
           <option value="Casado/a">Casado/a</option>
           <option value="Viudo/a">Viudo/a</option>
+          <option value="Divorciado/a">Divorciado/a</option>
         </select>
         <!-- Errors -->
         <span class="help-block" ng-messages="form.estado_civil.$error" role="alert">
